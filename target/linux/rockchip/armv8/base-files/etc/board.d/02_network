@@ -49,8 +49,8 @@ rockchip_setup_macs()
 	embedfire,lubancat-rk3568|\
 	friendlyarm,nanopi-r2c|\
 	friendlyarm,nanopi-r2s|\
-	rockchip,rk3568-roc-pc|\
-	rockchip,rk3566-roc-pc|\
+	rockchip,rk3568-firefly-roc-pc|\
+	rockchip,rk3566-firefly-roc-pc|\
 	sharevdi,guangmiao-g4c)
 		wan_mac=$(nanopi_r2s_generate_mac)
 		lan_mac=$(macaddr_add "$wan_mac" +1)
