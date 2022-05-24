@@ -14,13 +14,13 @@ rockchip_setup_interfaces()
 	friendlyarm,nanopi-r2c|\
 	friendlyarm,nanopi-r2s|\
 	friendlyarm,nanopi-r4s|\
-	rockchip,rk3568-roc-pc|\
+	rockchip,rk3568-firefly-roc-pc|\
 	sharevdi,guangmiao-g4c|\
 	xunlong,orangepi-r1-plus|\
 	xunlong,orangepi-r1-plus-lts)
 		ucidef_set_interfaces_lan_wan 'eth1' 'eth0'
 		;;
-	rockchip,rk3566-roc-pc)
+	rockchip,rk3566-firefly-roc-pc)
 		ucidef_set_interfaces_lan_wan 'wlan0' 'eth0'
 		;;
 	*)
