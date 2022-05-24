@@ -42,5 +42,11 @@ sharevdi,guangmiao-g4c)
 	set_interface_core 10 "eth0"
 	set_interface_core 20 "eth1"
 	;;
+embedfire,lubancat-rk3568|\
+rockchip,rk3568-firefly-roc-pc|\
+rockchip,rk3566-firefly-roc-pc)
+	set_interface_core 2 "eth0"
+	set_interface_core 4 "eth1"
+	;;
 esac
 
