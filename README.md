@@ -53,3 +53,4 @@ make -j$(($(nproc) + 1)) V=s
 ```
 
 编译完成后输出路径：bin/targets
+来自上游源代码 https://github.com/coolsnowwolf/lede
