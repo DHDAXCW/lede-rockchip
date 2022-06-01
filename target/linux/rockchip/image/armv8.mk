@@ -18,7 +18,7 @@ define Device/embedfire_doornet2
   SOC := rk3399
   UBOOT_DEVICE_NAME := doornet2-rk3399
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r4s | pine64-bin | gzip | append-metadata
-  DEVICE_PACKAGES := kmod-r8168 kmod-rtl8821cu -urngd
+  DEVICE_PACKAGES := kmod-r8168 -urngd
 endef
 TARGET_DEVICES += embedfire_doornet2
 
@@ -37,7 +37,7 @@ define Device/friendlyarm_nanopi-r2c
   SOC := rk3328
   UBOOT_DEVICE_NAME := nanopi-r2c-rk3328
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r2s | pine64-bin | gzip | append-metadata
-  DEVICE_PACKAGES := kmod-usb-net-rtl8152
+  DEVICE_PACKAGES := kmod-usb-net-rtl8152  kmod-rtl8821cu
 endef
 TARGET_DEVICES += friendlyarm_nanopi-r2c
 
@@ -57,9 +57,9 @@ define Device/friendlyarm_nanopi-r4s
   SOC := rk3399
   UBOOT_DEVICE_NAME := nanopi-r4s-rk3399
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r4s | pine64-bin | gzip | append-metadata
-  DEVICE_PACKAGES := kmod-r8168 -urngd
+  DEVICE_PACKAGES := kmod-r8168  kmod-rtl8821cu -urngd
 endef
-TARGET_DEVICES += friendlyarm_nanopi-r4s
+TARGET_DEVICES += friendlyarm_nanopi-r4s 
 
 define Device/pine64_rockpro64
   DEVICE_VENDOR := Pine64
@@ -108,6 +108,6 @@ define Device/xunlong_orangepi-r1-plus-lts
   SOC := rk3328
   UBOOT_DEVICE_NAME := orangepi-r1-plus-lts-rk3328
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r2s | pine64-bin | gzip | append-metadata
-  DEVICE_PACKAGES := kmod-usb-net-rtl8152
+  DEVICE_PACKAGES := kmod-usb-net-rtl8152  kmod-rtl8821cu
 endef
 TARGET_DEVICES += xunlong_orangepi-r1-plus-lts
