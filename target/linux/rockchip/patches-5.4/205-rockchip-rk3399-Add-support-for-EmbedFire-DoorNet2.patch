@@ -86,7 +86,7 @@
 +			compatible = "realtek,r8168";
 +			reg = <0x000000 0 0 0 0>;
 +
-+			realtek,led-data = <0x870>;
++			realtek,led-data = <0x7f0>;
 +		};
 +	};
 +};
