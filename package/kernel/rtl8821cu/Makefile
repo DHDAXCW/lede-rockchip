@@ -1,25 +1,21 @@
+# SPDX-License-Identifier: GPL-3.0-only
 #
-# Copyright (C) 2021 ImmortalWrt
-# <https://immortalwrt.org>
-#
-# This is free software, licensed under the GNU General Public License v3.
-# See /LICENSE for more information.
-#
+# Copyright (C) 2021-2022 ImmortalWrt.org
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rtl8821cu
-PKG_RELEASE:=1
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE_URL:=https://github.com/brektrou/rtl8821CU.git
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2022-04-09
-PKG_SOURCE_VERSION:=8c2226a74ae718439d56248bd2e44ccf717086d5
-PKG_MIRROR_HASH:=3353a3bc4c73652eceaab95809aab27c3ae8bbf7e915b73488361a061ba91b84
+PKG_SOURCE_DATE:=2020-12-19
+PKG_SOURCE_VERSION:=428a0820487418ec69c0edb91726d1cf19763b1e
+PKG_MIRROR_HASH:=77958d3bff8b0145504a10959765be0e3743b9c4880a5173d156238c2c569a56
 
 PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=LICENSE
-PKG_MAINTAINTER:=CN_SZTL <cnsztl@immortalwrt.org>
+PKG_MAINTAINTER:=Tianling Shen <cnsztl@immortalwrt.org>
 
 PKG_BUILD_PARALLEL:=1
 
@@ -61,6 +57,10 @@ EXTRA_CFLAGS:= \
 	-DCONFIG_IOCTL_CFG80211 \
 	-DCONFIG_CONCURRENT_MODE \
 	-DBUILD_OPENWRT
+
+ifeq ($(ARCH),arm)
+	EXTRA_CFLAGS += -mfloat-abi=softfp
+endif
 
 ifeq ($(BOARD),x86)
 	EXTRA_CFLAGS += -mhard-float

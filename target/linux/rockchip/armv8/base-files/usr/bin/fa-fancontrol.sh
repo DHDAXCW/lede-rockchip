@@ -33,3 +33,4 @@ else
         nohup /usr/bin/fa-fancontrol-direct.sh&
     fi
 fi
+
