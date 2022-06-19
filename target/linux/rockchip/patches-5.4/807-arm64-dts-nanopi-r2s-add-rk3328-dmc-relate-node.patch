@@ -40,7 +40,7 @@ Signed-off-by: hmz007 <hmz007@gmail.com>
 +		upthreshold = <40>;
 +		downdifferential = <20>;
 +		auto-min-freq = <786000>;
-+		auto-freq-en = <0>;
++		auto-freq-en = <1>;
 +		#cooling-cells = <2>;
 +		status = "okay";
 +
