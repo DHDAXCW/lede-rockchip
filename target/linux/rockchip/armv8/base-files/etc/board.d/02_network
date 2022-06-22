@@ -85,4 +85,19 @@ rockchip_setup_interfaces $board
 rockchip_setup_macs $board
 board_config_flush
 
+a=$(ip address | grep ^[0-9] | awk -F: '{print $2}' | sed "s/ //g" | grep '^[e]' | grep -v "@" | grep -v "\.")
+b=$(echo "$a" | wc -l)
+for i in $(seq 1 $b)
+do
+        c=$(echo "$a" | sed -n ${i}p)
+        ethtool -K $c rx-checksum on >/dev/null 2>&1
+        ethtool -K $c tx-checksum-ip-generic on >/dev/null 2>&1 || (
+        ethtool -K $c tx-checksum-ipv4 on >/dev/null 2>&1
+        ethtool -K $c tx-checksum-ipv6 on >/dev/null 2>&1)
+        ethtool -K $c tx-scatter-gather on >/dev/null 2>&1
+        ethtool -K $c gso on >/dev/null 2>&1
+        ethtool -K $c tso on >/dev/null 2>&1
+        ethtool -K $c ufo on >/dev/null 2>&1
+done
+
 exit 0
