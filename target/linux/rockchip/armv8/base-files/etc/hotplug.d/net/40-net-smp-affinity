@@ -39,6 +39,7 @@ xunlong,orangepi-r1-plus-lts)
 	;;
 embedfire,doornet2|\
 friendlyarm,nanopi-r4s|\
+friendlyarm,nanopi-r4se|\
 rockchip,rk3588-evb1-lp4-v10|\
 rockchip,rk3588-nvr-demo1-v21|\
 sharevdi,guangmiao-g4c)
