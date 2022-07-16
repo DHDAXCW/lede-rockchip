@@ -14,8 +14,6 @@ Subject: [PATCH] drv: net: phy: add JLSemi jl2xxx driver
  create mode 100644 drivers/net/phy/jl2xxx-core.h
  create mode 100644 drivers/net/phy/jl2xxx.c
 
-diff --git a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
-index 1ab7d6301..ba77b7f45 100644
 --- a/drivers/net/phy/Kconfig
 +++ b/drivers/net/phy/Kconfig
 @@ -473,6 +473,11 @@ config INTEL_XWAY_PHY
@@ -30,8 +28,6 @@ index 1ab7d6301..ba77b7f45 100644
  config LSI_ET1011C_PHY
  	tristate "LSI ET1011C PHY"
  	---help---
-diff --git a/drivers/net/phy/Makefile b/drivers/net/phy/Makefile
-index 9e4c2f43b..75ef2a50f 100644
 --- a/drivers/net/phy/Makefile
 +++ b/drivers/net/phy/Makefile
 @@ -88,6 +88,8 @@ obj-$(CONFIG_DP83867_PHY)	+= dp83867.o
@@ -43,9 +39,6 @@ index 9e4c2f43b..75ef2a50f 100644
  obj-$(CONFIG_LSI_ET1011C_PHY)	+= et1011c.o
  obj-$(CONFIG_LXT_PHY)		+= lxt.o
  obj-$(CONFIG_MARVELL_PHY)	+= marvell.o
-diff --git a/drivers/net/phy/jl2xxx-core.c b/drivers/net/phy/jl2xxx-core.c
-new file mode 100644
-index 000000000..8ab7a7b3d
 --- /dev/null
 +++ b/drivers/net/phy/jl2xxx-core.c
 @@ -0,0 +1,438 @@
@@ -487,9 +480,6 @@ index 000000000..8ab7a7b3d
 +
 +	return __jlsemi_restore_page(phydev, oldpage, ret);
 +}
-diff --git a/drivers/net/phy/jl2xxx-core.h b/drivers/net/phy/jl2xxx-core.h
-new file mode 100644
-index 000000000..ef657de39
 --- /dev/null
 +++ b/drivers/net/phy/jl2xxx-core.h
 @@ -0,0 +1,104 @@
@@ -597,9 +587,6 @@ index 000000000..ef657de39
 +
 +#endif /* _JLSEMI_CORE_H */
 +
-diff --git a/drivers/net/phy/jl2xxx.c b/drivers/net/phy/jl2xxx.c
-new file mode 100644
-index 000000000..1b34d29a7
 --- /dev/null
 +++ b/drivers/net/phy/jl2xxx.c
 @@ -0,0 +1,126 @@
@@ -729,6 +716,3 @@ index 000000000..1b34d29a7
 +};
 +
 +MODULE_DEVICE_TABLE(mdio, jlsemi_tbl);
--- 
-2.34.1
-
