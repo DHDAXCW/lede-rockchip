@@ -64,10 +64,6 @@
 	};
 };
 
-&emmc_phy {
-	status = "disabled";
-};
-
 &i2c2 {
 	eeprom@51 {
 		compatible = "microchip,24c02", "atmel,24c02";
