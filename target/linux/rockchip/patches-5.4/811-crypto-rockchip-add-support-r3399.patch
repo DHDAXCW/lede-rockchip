@@ -16,9 +16,6 @@ Subject: [PATCH] crypto: rockchip: add support r3399
  create mode 100644 Documentation/devicetree/bindings/crypto/rockchip,rk3288-crypto.yaml
  delete mode 100644 Documentation/devicetree/bindings/crypto/rockchip-crypto.txt
 
-diff --git a/Documentation/devicetree/bindings/crypto/rockchip,rk3288-crypto.yaml b/Documentation/devicetree/bindings/crypto/rockchip,rk3288-crypto.yaml
-new file mode 100644
-index 000000000..cdfa8aa5f
 --- /dev/null
 +++ b/Documentation/devicetree/bindings/crypto/rockchip,rk3288-crypto.yaml
 @@ -0,0 +1,64 @@
@@ -87,9 +84,6 @@ index 000000000..cdfa8aa5f
 +      reset-names = "crypto-rst";
 +    };
 \ No newline at end of file
-diff --git a/Documentation/devicetree/bindings/crypto/rockchip-crypto.txt b/Documentation/devicetree/bindings/crypto/rockchip-crypto.txt
-deleted file mode 100644
-index 5e2ba385b..000000000
 --- a/Documentation/devicetree/bindings/crypto/rockchip-crypto.txt
 +++ /dev/null
 @@ -1,28 +0,0 @@
@@ -121,8 +115,6 @@ index 5e2ba385b..000000000
 -		resets = <&cru SRST_CRYPTO>;
 -		reset-names = "crypto-rst";
 -	};
-diff --git a/drivers/crypto/Kconfig b/drivers/crypto/Kconfig
-index 1f6308cdf..df8e24c00 100644
 --- a/drivers/crypto/Kconfig
 +++ b/drivers/crypto/Kconfig
 @@ -688,6 +688,7 @@ config CRYPTO_DEV_SUN4I_SS_PRNG
@@ -157,8 +149,6 @@ index 1f6308cdf..df8e24c00 100644
  config CRYPTO_DEV_CCREE
  	tristate "Support for ARM TrustZone CryptoCell family of security processors"
  	depends on CRYPTO && CRYPTO_HW && OF && HAS_DMA
-diff --git a/drivers/crypto/rockchip/rk3288_crypto.c b/drivers/crypto/rockchip/rk3288_crypto.c
-index e5714ef24..0e16f7358 100644
 --- a/drivers/crypto/rockchip/rk3288_crypto.c
 +++ b/drivers/crypto/rockchip/rk3288_crypto.c
 @@ -10,238 +10,107 @@
@@ -231,21 +221,14 @@ index e5714ef24..0e16f7358 100644
 -	clk_disable_unprepare(dev->hclk);
 -	clk_disable_unprepare(dev->aclk);
 -	clk_disable_unprepare(dev->sclk);
-+	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
- }
- 
+-}
+-
 -static int check_alignment(struct scatterlist *sg_src,
 -			   struct scatterlist *sg_dst,
 -			   int align_mask)
-+/*
-+ * Power management strategy: The device is suspended unless a TFM exists for
-+ * one of the algorithms proposed by this driver.
-+ */
-+static int rk_crypto_pm_suspend(struct device *dev)
- {
+-{
 -	int in, out, align;
-+	struct rk_crypto_info *rkdev = dev_get_drvdata(dev);
- 
+-
 -	in = IS_ALIGNED((uint32_t)sg_src->offset, 4) &&
 -	     IS_ALIGNED((uint32_t)sg_src->length, align_mask);
 -	if (!sg_dst)
@@ -253,8 +236,7 @@ index e5714ef24..0e16f7358 100644
 -	out = IS_ALIGNED((uint32_t)sg_dst->offset, 4) &&
 -	      IS_ALIGNED((uint32_t)sg_dst->length, align_mask);
 -	align = in && out;
-+	reset_control_assert(rkdev->rst);
- 
+-
 -	return (align && (sg_src->length == sg_dst->length));
 -}
 -
@@ -323,36 +305,44 @@ index e5714ef24..0e16f7358 100644
 -		}
 -	}
 -	dev->count = count;
-+	rk_crypto_disable_clk(rkdev);
- 	return 0;
+-	return 0;
++	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
  }
  
 -static void rk_unload_data(struct rk_crypto_info *dev)
-+static int rk_crypto_pm_resume(struct device *dev)
++/*
++ * Power management strategy: The device is suspended unless a TFM exists for
++ * one of the algorithms proposed by this driver.
++ */
++static int rk_crypto_pm_suspend(struct device *dev)
  {
 -	struct scatterlist *sg_in, *sg_out;
 +	struct rk_crypto_info *rkdev = dev_get_drvdata(dev);
  
 -	sg_in = dev->aligned ? dev->sg_src : &dev->sg_tmp;
 -	dma_unmap_sg(dev->dev, sg_in, 1, DMA_TO_DEVICE);
-+	reset_control_deassert(rkdev->rst);
++	reset_control_assert(rkdev->rst);
  
 -	if (dev->sg_dst) {
 -		sg_out = dev->aligned ? dev->sg_dst : &dev->sg_tmp;
 -		dma_unmap_sg(dev->dev, sg_out, 1, DMA_FROM_DEVICE);
 -	}
-+	return rk_crypto_enable_clk(rkdev);
++	rk_crypto_disable_clk(rkdev);
++	return 0;
  }
  
 -static irqreturn_t rk_crypto_irq_handle(int irq, void *dev_id)
--{
++static int rk_crypto_pm_resume(struct device *dev)
+ {
 -	struct rk_crypto_info *dev  = platform_get_drvdata(dev_id);
 -	u32 interrupt_status;
--
++	struct rk_crypto_info *rkdev = dev_get_drvdata(dev);
+ 
 -	spin_lock(&dev->lock);
 -	interrupt_status = CRYPTO_READ(dev, RK_CRYPTO_INTSTS);
 -	CRYPTO_WRITE(dev, RK_CRYPTO_INTSTS, interrupt_status);
--
++	reset_control_deassert(rkdev->rst);
+ 
 -	if (interrupt_status & 0x0a) {
 -		dev_warn(dev->dev, "DMA Error\n");
 -		dev->err = -EFAULT;
@@ -361,14 +351,21 @@ index e5714ef24..0e16f7358 100644
 -
 -	spin_unlock(&dev->lock);
 -	return IRQ_HANDLED;
--}
--
++	return rk_crypto_enable_clk(rkdev);
+ }
+ 
 -static int rk_crypto_enqueue(struct rk_crypto_info *dev,
 -			      struct crypto_async_request *async_req)
--{
++static const struct dev_pm_ops rk_crypto_pm_ops = {
++	SET_RUNTIME_PM_OPS(rk_crypto_pm_suspend, rk_crypto_pm_resume, NULL)
++};
++
++static int rk_crypto_pm_init(struct rk_crypto_info *rkdev)
+ {
 -	unsigned long flags;
 -	int ret;
--
++	int err;
+ 
 -	spin_lock_irqsave(&dev->lock, flags);
 -	ret = crypto_enqueue_request(&dev->queue, async_req);
 -	if (dev->busy) {
@@ -378,15 +375,19 @@ index e5714ef24..0e16f7358 100644
 -	dev->busy = true;
 -	spin_unlock_irqrestore(&dev->lock, flags);
 -	tasklet_schedule(&dev->queue_task);
--
++	pm_runtime_use_autosuspend(rkdev->dev);
++	pm_runtime_set_autosuspend_delay(rkdev->dev, 2000);
+ 
 -	return ret;
--}
-+static const struct dev_pm_ops rk_crypto_pm_ops = {
-+	SET_RUNTIME_PM_OPS(rk_crypto_pm_suspend, rk_crypto_pm_resume, NULL)
-+};
++	err = pm_runtime_set_suspended(rkdev->dev);
++	if (err)
++		return err;
++	pm_runtime_enable(rkdev->dev);
++	return err;
+ }
  
 -static void rk_crypto_queue_task_cb(unsigned long data)
-+static int rk_crypto_pm_init(struct rk_crypto_info *rkdev)
++static void rk_crypto_pm_exit(struct rk_crypto_info *rkdev)
  {
 -	struct rk_crypto_info *dev = (struct rk_crypto_info *)data;
 -	struct crypto_async_request *async_req, *backlog;
@@ -404,42 +405,31 @@ index e5714ef24..0e16f7358 100644
 -		return;
 -	}
 -	spin_unlock_irqrestore(&dev->lock, flags);
-+	int err;
- 
+-
 -	if (backlog) {
 -		backlog->complete(backlog, -EINPROGRESS);
 -		backlog = NULL;
 -	}
-+	pm_runtime_use_autosuspend(rkdev->dev);
-+	pm_runtime_set_autosuspend_delay(rkdev->dev, 2000);
- 
+-
 -	dev->async_req = async_req;
 -	err = dev->start(dev);
-+	err = pm_runtime_set_suspended(rkdev->dev);
- 	if (err)
+-	if (err)
 -		dev->complete(dev->async_req, err);
-+		return err;
-+	pm_runtime_enable(rkdev->dev);
-+	return err;
++	pm_runtime_disable(rkdev->dev);
  }
  
 -static void rk_crypto_done_task_cb(unsigned long data)
-+static void rk_crypto_pm_exit(struct rk_crypto_info *rkdev)
++static irqreturn_t rk_crypto_irq_handle(int irq, void *dev_id)
  {
 -	struct rk_crypto_info *dev = (struct rk_crypto_info *)data;
-+	pm_runtime_disable(rkdev->dev);
-+}
- 
--	if (dev->err) {
--		dev->complete(dev->async_req, dev->err);
--		return;
-+static irqreturn_t rk_crypto_irq_handle(int irq, void *dev_id)
-+{
 +	struct rk_crypto_info *dev = platform_get_drvdata(dev_id);
 +	void __iomem *reg;
 +	u32 interrupt_status;
 +	int i;
-+
+ 
+-	if (dev->err) {
+-		dev->complete(dev->async_req, dev->err);
+-		return;
 +	for (i = 0; i < dev->variant->num_instance; i++) {
 +		if (dev->rki[i].irq != irq)
 +			continue;
@@ -462,7 +452,7 @@ index e5714ef24..0e16f7358 100644
  }
  
  static struct rk_crypto_tmp *rk_cipher_algs[] = {
-@@ -256,6 +125,41 @@ static struct rk_crypto_tmp *rk_cipher_algs[] = {
+@@ -256,6 +125,41 @@ static struct rk_crypto_tmp *rk_cipher_a
  	&rk_ahash_md5,
  };
  
@@ -504,7 +494,7 @@ index e5714ef24..0e16f7358 100644
  static int rk_crypto_register(struct rk_crypto_info *crypto_info)
  {
  	unsigned int i, k;
-@@ -263,12 +167,24 @@ static int rk_crypto_register(struct rk_crypto_info *crypto_info)
+@@ -263,12 +167,24 @@ static int rk_crypto_register(struct rk_
  
  	for (i = 0; i < ARRAY_SIZE(rk_cipher_algs); i++) {
  		rk_cipher_algs[i]->dev = crypto_info;
@@ -535,7 +525,7 @@ index e5714ef24..0e16f7358 100644
  		if (err)
  			goto err_cipher_algs;
  	}
-@@ -276,8 +192,8 @@ static int rk_crypto_register(struct rk_crypto_info *crypto_info)
+@@ -276,8 +192,8 @@ static int rk_crypto_register(struct rk_
  
  err_cipher_algs:
  	for (k = 0; k < i; k++) {
@@ -577,7 +567,7 @@ index e5714ef24..0e16f7358 100644
  	{}
  };
  MODULE_DEVICE_TABLE(of, crypto_of_id_table);
-@@ -314,6 +228,7 @@ static int rk_crypto_probe(struct platform_device *pdev)
+@@ -314,6 +228,7 @@ static int rk_crypto_probe(struct platfo
  	struct device *dev = &pdev->dev;
  	struct rk_crypto_info *crypto_info;
  	int err = 0;
@@ -585,7 +575,7 @@ index e5714ef24..0e16f7358 100644
  
  	crypto_info = devm_kzalloc(&pdev->dev,
  				   sizeof(*crypto_info), GFP_KERNEL);
-@@ -322,84 +237,58 @@ static int rk_crypto_probe(struct platform_device *pdev)
+@@ -322,84 +237,58 @@ static int rk_crypto_probe(struct platfo
  		goto err_crypto;
  	}
  
@@ -593,8 +583,12 @@ index e5714ef24..0e16f7358 100644
 -	if (IS_ERR(crypto_info->rst)) {
 -		err = PTR_ERR(crypto_info->rst);
 -		goto err_crypto;
--	}
--
++	crypto_info->variant = of_device_get_match_data(&pdev->dev);
++	if (!crypto_info->variant) {
++		dev_err(&pdev->dev, "Missing variant\n");
++		return -EINVAL;
+ 	}
+ 
 -	reset_control_assert(crypto_info->rst);
 -	usleep_range(10, 20);
 -	reset_control_deassert(crypto_info->rst);
@@ -609,15 +603,17 @@ index e5714ef24..0e16f7358 100644
 -	if (IS_ERR(crypto_info->reg)) {
 -		err = PTR_ERR(crypto_info->reg);
 -		goto err_crypto;
-+	crypto_info->variant = of_device_get_match_data(&pdev->dev);
-+	if (!crypto_info->variant) {
-+		dev_err(&pdev->dev, "Missing variant\n");
-+		return -EINVAL;
- 	}
- 
+-	}
+-
 -	crypto_info->aclk = devm_clk_get(&pdev->dev, "aclk");
 -	if (IS_ERR(crypto_info->aclk)) {
 -		err = PTR_ERR(crypto_info->aclk);
+-		goto err_crypto;
+-	}
+-
+-	crypto_info->hclk = devm_clk_get(&pdev->dev, "hclk");
+-	if (IS_ERR(crypto_info->hclk)) {
+-		err = PTR_ERR(crypto_info->hclk);
 -		goto err_crypto;
 -	}
 +	for (i = 0; i < crypto_info->variant->num_instance; i++) {
@@ -633,20 +629,15 @@ index e5714ef24..0e16f7358 100644
 +			goto err_crypto;
 +		}
  
--	crypto_info->hclk = devm_clk_get(&pdev->dev, "hclk");
--	if (IS_ERR(crypto_info->hclk)) {
--		err = PTR_ERR(crypto_info->hclk);
--		goto err_crypto;
--	}
-+		err = devm_request_irq(&pdev->dev, crypto_info->rki[i].irq,
-+				rk_crypto_irq_handle, IRQF_SHARED,
-+				"rk-crypto", pdev);
- 
 -	crypto_info->sclk = devm_clk_get(&pdev->dev, "sclk");
 -	if (IS_ERR(crypto_info->sclk)) {
 -		err = PTR_ERR(crypto_info->sclk);
 -		goto err_crypto;
 -	}
++		err = devm_request_irq(&pdev->dev, crypto_info->rki[i].irq,
++				rk_crypto_irq_handle, IRQF_SHARED,
++				"rk-crypto", pdev);
++
 +		if (err) {
 +			dev_err(&pdev->dev, "irq request failed.\n");
 +			goto err_crypto;
@@ -706,7 +697,7 @@ index e5714ef24..0e16f7358 100644
  
  	err = rk_crypto_register(crypto_info);
  	if (err) {
-@@ -407,23 +296,40 @@ static int rk_crypto_probe(struct platform_device *pdev)
+@@ -407,23 +296,40 @@ static int rk_crypto_probe(struct platfo
  		goto err_register_alg;
  	}
  
@@ -751,7 +742,7 @@ index e5714ef24..0e16f7358 100644
  	return 0;
  }
  
-@@ -432,6 +338,7 @@ static struct platform_driver crypto_driver = {
+@@ -432,6 +338,7 @@ static struct platform_driver crypto_dri
  	.remove		= rk_crypto_remove,
  	.driver		= {
  		.name	= "rk3288-crypto",
@@ -766,8 +757,6 @@ index e5714ef24..0e16f7358 100644
 -MODULE_LICENSE("GPL");
 +MODULE_LICENSE("GPL");
 \ No newline at end of file
-diff --git a/drivers/crypto/rockchip/rk3288_crypto.h b/drivers/crypto/rockchip/rk3288_crypto.h
-index 18e2b3f29..52bfb9b19 100644
 --- a/drivers/crypto/rockchip/rk3288_crypto.h
 +++ b/drivers/crypto/rockchip/rk3288_crypto.h
 @@ -5,12 +5,19 @@
@@ -928,15 +917,13 @@ index 18e2b3f29..52bfb9b19 100644
  };
  
  extern struct rk_crypto_tmp rk_ecb_aes_alg;
-@@ -273,4 +274,4 @@ extern struct rk_crypto_tmp rk_ahash_sha1;
+@@ -273,4 +274,4 @@ extern struct rk_crypto_tmp rk_ahash_sha
  extern struct rk_crypto_tmp rk_ahash_sha256;
  extern struct rk_crypto_tmp rk_ahash_md5;
  
 -#endif
 +#endif
 \ No newline at end of file
-diff --git a/drivers/crypto/rockchip/rk3288_crypto_ablkcipher.c b/drivers/crypto/rockchip/rk3288_crypto_ablkcipher.c
-index d0f4b2d18..6baca32f8 100644
 --- a/drivers/crypto/rockchip/rk3288_crypto_ablkcipher.c
 +++ b/drivers/crypto/rockchip/rk3288_crypto_ablkcipher.c
 @@ -8,549 +8,642 @@
@@ -1346,25 +1333,26 @@ index d0f4b2d18..6baca32f8 100644
 -	CRYPTO_WRITE(dev, RK_CRYPTO_CONF, conf_reg);
 -	CRYPTO_WRITE(dev, RK_CRYPTO_INTENA,
 -		     RK_CRYPTO_BCDMA_ERR_ENA | RK_CRYPTO_BCDMA_DONE_ENA);
--}
--
--static void crypto_dma_start(struct rk_crypto_info *dev)
--{
--	CRYPTO_WRITE(dev, RK_CRYPTO_BRDMAS, dev->addr_in);
--	CRYPTO_WRITE(dev, RK_CRYPTO_BRDMAL, dev->count / 4);
--	CRYPTO_WRITE(dev, RK_CRYPTO_BTDMAS, dev->addr_out);
--	CRYPTO_WRITE(dev, RK_CRYPTO_CTRL, RK_CRYPTO_BLOCK_START |
--		     _SBF(RK_CRYPTO_BLOCK_START, 16));
 +	writel(conf_reg, reg + RK_CRYPTO_CONF);
 +	writel(RK_CRYPTO_BCDMA_ERR_ENA | RK_CRYPTO_BCDMA_DONE_ENA,
 +	       reg + RK_CRYPTO_INTENA);
  }
  
--static int rk_set_data_start(struct rk_crypto_info *dev)
+-static void crypto_dma_start(struct rk_crypto_info *dev)
 +static void crypto_dma_start(struct rk_crypto_info *dev, int ninst,
 +			     struct scatterlist *sgs,
 +			     struct scatterlist *sgd, unsigned int todo)
  {
+-	CRYPTO_WRITE(dev, RK_CRYPTO_BRDMAS, dev->addr_in);
+-	CRYPTO_WRITE(dev, RK_CRYPTO_BRDMAL, dev->count / 4);
+-	CRYPTO_WRITE(dev, RK_CRYPTO_BTDMAS, dev->addr_out);
+-	CRYPTO_WRITE(dev, RK_CRYPTO_CTRL, RK_CRYPTO_BLOCK_START |
+-		     _SBF(RK_CRYPTO_BLOCK_START, 16));
+-}
++	void __iomem *reg = dev->rki[ninst].reg;
+ 
+-static int rk_set_data_start(struct rk_crypto_info *dev)
+-{
 -	int err;
 -	struct ablkcipher_request *req =
 -		ablkcipher_request_cast(dev->async_req);
@@ -1382,8 +1370,7 @@ index d0f4b2d18..6baca32f8 100644
 -		sg_pcopy_to_buffer(dev->first, dev->src_nents, req->info,
 -				   ivsize, dev->total - ivsize);
 -	}
-+	void __iomem *reg = dev->rki[ninst].reg;
- 
+-
 -	err = dev->load_data(dev, dev->sg_src, dev->sg_dst);
 -	if (!err)
 -		crypto_dma_start(dev);
@@ -1479,7 +1466,9 @@ index d0f4b2d18..6baca32f8 100644
 +				err = -EINVAL;
 +				goto theend_iv;
 +			}
-+		} else {
+ 		} else {
+-			memcpy(req->info, dev->addr_vir +
+-				dev->count - ivsize, ivsize);
 +			err = dma_map_sg(ctx->dev->dev, sgs, 1, DMA_TO_DEVICE);
 +			if (err <= 0) {
 +				err = -EINVAL;
@@ -1490,7 +1479,18 @@ index d0f4b2d18..6baca32f8 100644
 +				err = -EINVAL;
 +				goto theend_sgs;
 +			}
-+		}
+ 		}
+-	}
+-}
+-
+-static void rk_update_iv(struct rk_crypto_info *dev)
+-{
+-	struct ablkcipher_request *req =
+-		ablkcipher_request_cast(dev->async_req);
+-	struct crypto_ablkcipher *tfm = crypto_ablkcipher_reqtfm(req);
+-	struct rk_cipher_ctx *ctx = crypto_ablkcipher_ctx(tfm);
+-	u32 ivsize = crypto_ablkcipher_ivsize(tfm);
+-	u8 *new_iv = NULL;
 +		err = 0;
 +		rk_ablk_hw_init(ctx->dev, areq);
 +		if (ivsize) {
@@ -1501,7 +1501,12 @@ index d0f4b2d18..6baca32f8 100644
 +		}
 +		reinit_completion(&rki->complete);
 +		rki->status = 0;
-+
+ 
+-	if (ctx->mode & RK_CRYPTO_DEC) {
+-		new_iv = ctx->iv;
+-	} else {
+-		new_iv = page_address(sg_page(dev->sg_dst)) +
+-			 dev->sg_dst->offset + dev->sg_dst->length - ivsize;
 +		todo = min(sg_dma_len(sgs), len);
 +		len -= todo;
 +		crypto_dma_start(ctx->dev, 0, sgs, sgd, todo / 4);
@@ -1514,12 +1519,10 @@ index d0f4b2d18..6baca32f8 100644
 +		}
 +		if (sgs == sgd) {
 +			dma_unmap_sg(ctx->dev->dev, sgs, 1, DMA_BIDIRECTIONAL);
- 		} else {
--			memcpy(req->info, dev->addr_vir +
--				dev->count - ivsize, ivsize);
++		} else {
 +			dma_unmap_sg(ctx->dev->dev, sgs, 1, DMA_TO_DEVICE);
 +			dma_unmap_sg(ctx->dev->dev, sgd, 1, DMA_FROM_DEVICE);
- 		}
++		}
 +		if (rctx->mode & RK_CRYPTO_DEC) {
 +			memcpy(iv, biv, ivsize);
 +			ivtouse = iv;
@@ -1532,22 +1535,12 @@ index d0f4b2d18..6baca32f8 100644
 +		sgd = sg_next(sgd);
 +		n++;
  	}
--}
  
--static void rk_update_iv(struct rk_crypto_info *dev)
--{
--	struct ablkcipher_request *req =
--		ablkcipher_request_cast(dev->async_req);
--	struct crypto_ablkcipher *tfm = crypto_ablkcipher_reqtfm(req);
--	struct rk_cipher_ctx *ctx = crypto_ablkcipher_ctx(tfm);
--	u32 ivsize = crypto_ablkcipher_ivsize(tfm);
--	u8 *new_iv = NULL;
--
--	if (ctx->mode & RK_CRYPTO_DEC) {
--		new_iv = ctx->iv;
--	} else {
--		new_iv = page_address(sg_page(dev->sg_dst)) +
--			 dev->sg_dst->offset + dev->sg_dst->length - ivsize;
+-	if (ivsize == DES_BLOCK_SIZE)
+-		memcpy_toio(dev->reg + RK_CRYPTO_TDES_IV_0, new_iv, ivsize);
+-	else if (ivsize == AES_BLOCK_SIZE)
+-		memcpy_toio(dev->reg + RK_CRYPTO_AES_IV_0, new_iv, ivsize);
+-}
 +	if (areq->iv && ivsize > 0) {
 +		offset = areq->cryptlen - ivsize;
 +		if (rctx->mode & RK_CRYPTO_DEC) {
@@ -1557,18 +1550,7 @@ index d0f4b2d18..6baca32f8 100644
 +			scatterwalk_map_and_copy(areq->iv, areq->dst, offset,
 +						 ivsize, 0);
 +		}
- 	}
- 
--	if (ivsize == DES_BLOCK_SIZE)
--		memcpy_toio(dev->reg + RK_CRYPTO_TDES_IV_0, new_iv, ivsize);
--	else if (ivsize == AES_BLOCK_SIZE)
--		memcpy_toio(dev->reg + RK_CRYPTO_AES_IV_0, new_iv, ivsize);
--}
-+theend:
-+	local_bh_disable();
-+	crypto_finalize_skcipher_request(engine, areq, err);
-+	local_bh_enable();
-+	return 0;
++	}
  
 -/* return:
 - *	true	some err was occurred
@@ -1579,7 +1561,12 @@ index d0f4b2d18..6baca32f8 100644
 -	int err = 0;
 -	struct ablkcipher_request *req =
 -		ablkcipher_request_cast(dev->async_req);
--
++theend:
++	local_bh_disable();
++	crypto_finalize_skcipher_request(engine, areq, err);
++	local_bh_enable();
++	return 0;
+ 
 -	dev->unload_data(dev);
 -	if (!dev->aligned) {
 -		if (!sg_pcopy_from_buffer(req->dst, dev->dst_nents,
@@ -1943,8 +1930,6 @@ index d0f4b2d18..6baca32f8 100644
 -};
 +};
 \ No newline at end of file
-diff --git a/drivers/crypto/rockchip/rk3288_crypto_ahash.c b/drivers/crypto/rockchip/rk3288_crypto_ahash.c
-index 6b7ecbec0..5ab588c00 100644
 --- a/drivers/crypto/rockchip/rk3288_crypto_ahash.c
 +++ b/drivers/crypto/rockchip/rk3288_crypto_ahash.c
 @@ -8,6 +8,8 @@
@@ -2001,7 +1986,7 @@ index 6b7ecbec0..5ab588c00 100644
  static int zero_message_process(struct ahash_request *req)
  {
  	struct crypto_ahash *tfm = crypto_ahash_reqtfm(req);
-@@ -37,43 +77,39 @@ static int zero_message_process(struct ahash_request *req)
+@@ -37,43 +77,39 @@ static int zero_message_process(struct a
  	return 0;
  }
  
@@ -2065,7 +2050,7 @@ index 6b7ecbec0..5ab588c00 100644
  }
  
  static int rk_ahash_init(struct ahash_request *req)
-@@ -164,50 +200,79 @@ static int rk_ahash_export(struct ahash_request *req, void *out)
+@@ -164,50 +200,79 @@ static int rk_ahash_export(struct ahash_
  static int rk_ahash_digest(struct ahash_request *req)
  {
  	struct rk_ahash_ctx *tctx = crypto_tfm_ctx(req->base.tfm);
@@ -2111,15 +2096,15 @@ index 6b7ecbec0..5ab588c00 100644
 +	struct rk_ahash_rctx *rctx = ahash_request_ctx(areq);
 +	struct rk_ahash_ctx *tctx = crypto_ahash_ctx(tfm);
 +	int ret;
-+
-+	ret = dma_map_sg(tctx->dev->dev, areq->src, sg_nents(areq->src), DMA_TO_DEVICE);
-+	if (ret <= 0)
-+		return -EINVAL;
  
 -	err = dev->load_data(dev, dev->sg_src, NULL);
 -	if (!err)
 -		crypto_ahash_dma_start(dev);
 -	return err;
++	ret = dma_map_sg(tctx->dev->dev, areq->src, sg_nents(areq->src), DMA_TO_DEVICE);
++	if (ret <= 0)
++		return -EINVAL;
++
 +	rctx->nrsg = ret;
 +
 +	return 0;
@@ -2173,7 +2158,7 @@ index 6b7ecbec0..5ab588c00 100644
  	switch (crypto_ahash_digestsize(tfm)) {
  	case SHA1_DIGEST_SIZE:
  		rctx->mode = RK_CRYPTO_HASH_SHA1;
-@@ -219,32 +284,26 @@ static int rk_ahash_start(struct rk_crypto_info *dev)
+@@ -219,32 +284,26 @@ static int rk_ahash_start(struct rk_cryp
  		rctx->mode = RK_CRYPTO_HASH_MD5;
  		break;
  	default:
@@ -2191,7 +2176,8 @@ index 6b7ecbec0..5ab588c00 100644
 -	int err = 0;
 -	struct ahash_request *req = ahash_request_cast(dev->async_req);
 -	struct crypto_ahash *tfm;
--
++	rk_ahash_reg_init(areq);
+ 
 -	dev->unload_data(dev);
 -	if (dev->left_bytes) {
 -		if (dev->aligned) {
@@ -2202,8 +2188,6 @@ index 6b7ecbec0..5ab588c00 100644
 -				goto out_rx;
 -			}
 -			dev->sg_src = sg_next(dev->sg_src);
-+	rk_ahash_reg_init(areq);
-+
 +	while (sg) {
 +		reinit_completion(&rki->complete);
 +		rki->status = 0;
@@ -2223,21 +2207,20 @@ index 6b7ecbec0..5ab588c00 100644
  		/*
  		 * it will take some time to process date after last dma
  		 * transmission.
-@@ -255,18 +314,20 @@ static int rk_ahash_crypto_rx(struct rk_crypto_info *dev)
+@@ -255,18 +314,20 @@ static int rk_ahash_crypto_rx(struct rk_
  		 * efficiency, and make it response quickly when dma
  		 * complete.
  		 */
 -		while (!CRYPTO_READ(dev, RK_CRYPTO_HASH_STS))
 -			udelay(10);
--
++	while (!readl(reg + RK_CRYPTO_HASH_STS))
++		udelay(10);
+ 
 -		tfm = crypto_ahash_reqtfm(req);
 -		memcpy_fromio(req->result, dev->reg + RK_CRYPTO_HASH_DOUT_0,
 -			      crypto_ahash_digestsize(tfm));
 -		dev->complete(dev->async_req, 0);
 -		tasklet_schedule(&dev->queue_task);
-+	while (!readl(reg + RK_CRYPTO_HASH_STS))
-+		udelay(10);
-+
 +	for (i = 0; i < crypto_ahash_digestsize(tfm) / 4; i++) {
 +		v = readl(reg + RK_CRYPTO_HASH_DOUT_0 + i * 4);
 +		put_unaligned_le32(v, areq->result + i * 4);
@@ -2254,7 +2237,7 @@ index 6b7ecbec0..5ab588c00 100644
  }
  
  static int rk_cra_hash_init(struct crypto_tfm *tfm)
-@@ -276,18 +337,11 @@ static int rk_cra_hash_init(struct crypto_tfm *tfm)
+@@ -276,18 +337,11 @@ static int rk_cra_hash_init(struct crypt
  	struct ahash_alg *alg = __crypto_ahash_alg(tfm->__crt_alg);
  
  	const char *alg_name = crypto_tfm_alg_name(tfm);
@@ -2274,7 +2257,7 @@ index 6b7ecbec0..5ab588c00 100644
  
  	/* for fallback */
  	tctx->fallback_tfm = crypto_alloc_ahash(alg_name, 0,
-@@ -296,23 +350,36 @@ static int rk_cra_hash_init(struct crypto_tfm *tfm)
+@@ -296,23 +350,36 @@ static int rk_cra_hash_init(struct crypt
  		dev_err(tctx->dev->dev, "Could not load fallback driver.\n");
  		return PTR_ERR(tctx->fallback_tfm);
  	}
@@ -2340,8 +2323,6 @@ index 6b7ecbec0..5ab588c00 100644
 -};
 +};
 \ No newline at end of file
-diff --git a/include/dt-bindings/clock/rk3399-cru.h b/include/dt-bindings/clock/rk3399-cru.h
-index 44e0a319f..39169d94a 100644
 --- a/include/dt-bindings/clock/rk3399-cru.h
 +++ b/include/dt-bindings/clock/rk3399-cru.h
 @@ -547,8 +547,8 @@
@@ -2364,6 +2345,3 @@ index 44e0a319f..39169d94a 100644
  #define SRST_P_PERILP1_SGRF		182
  #define SRST_P_PERILP1_GRF		183
  #define SRST_CRYPTO1_S			184
--- 
-2.32.0
-
