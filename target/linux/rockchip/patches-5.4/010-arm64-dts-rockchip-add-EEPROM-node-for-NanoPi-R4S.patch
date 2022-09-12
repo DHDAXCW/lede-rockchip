@@ -1,4 +1,5 @@
 From 43f3999d1836117ab2e601aec9a9e6f292ce4958 Mon Sep 17 00:00:00 2001
+From af20b3384e8723077cc6484160b0cf4e9be321de Mon Sep 17 00:00:00 2001
 From: Tianling Shen <cnsztl@gmail.com>
 Date: Mon, 7 Jun 2021 15:45:37 +0800
 Subject: [PATCH] arm64: dts: rockchip: add EEPROM node for NanoPi R4S
@@ -8,12 +9,12 @@ stores the MAC address.
 
 Signed-off-by: Tianling Shen <cnsztl@gmail.com>
 ---
- .../boot/dts/rockchip/rk3399-nanopi-r4s.dts    | 13 +++++++++++++
-1 file changed, 13 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s.dts | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 --- a/arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s.dts
 +++ b/arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s.dts
-@@ -68,6 +68,19 @@
+@@ -68,6 +68,15 @@
  	status = "disabled";
  };
  
@@ -23,10 +24,6 @@ Signed-off-by: Tianling Shen <cnsztl@gmail.com>
 +		reg = <0x51>;
 +		pagesize = <16>;
 +		size = <256>;
-+
-+		mac_address: mac-address@fa {
-+			reg = <0xfa 0x06>;
-+		};
 +	};
 +};
 +
