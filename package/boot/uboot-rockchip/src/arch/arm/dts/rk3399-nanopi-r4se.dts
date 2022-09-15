@@ -111,7 +111,7 @@
 };
 
 &sdmmc {
-	pinctrl-0 = <&sdmmc_bus4 &sdmmc_clk &sdmmc_cmd &sdmmc_cd>;
+	pinctrl-0 = <&sdmmc_cd>;
 };
 
 &sdio0 {
