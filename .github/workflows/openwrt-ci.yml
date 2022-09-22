@@ -48,7 +48,11 @@ jobs:
         run: |
           ./scripts/feeds update -a
           ./scripts/feeds install -a -f
-
+          echo '
+          CONFIG_TARGET_rockchip=y
+          CONFIG_TARGET_rockchip_armv8=y
+          CONFIG_TARGET_MULTI_PROFILE=y
+          ' >> .config
       - name: Generate configuration file
         run: make defconfig
 
