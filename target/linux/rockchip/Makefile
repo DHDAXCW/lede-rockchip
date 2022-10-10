@@ -18,7 +18,7 @@ include $(INCLUDE_DIR)/target.mk
 
 DEFAULT_PACKAGES += uboot-envtools partx-utils resize2fs e2fsprogs mkf2fs kmod-gpio-button-hotplug kmod-usb-dwc2 kmod-usb3 kmod-usb-dwc3 \
 		    automount autocore-arm autosamba fdisk luci-app-cpufreq cfdisk e2fsprogs ethtool haveged htop luci-app-diskman kmod-usb2-pci \
-		    wpad-wolfssl libwolfssl-benchmark usb-modeswitch usbutils luci-app-zerotier luci-app-ttyd usb-modeswitch pciutils procd-ujail
+		    wpad-wolfssl libwolfssl-benchmark usb-modeswitch usbutils luci-app-zerotier luci-app-ttyd usb-modeswitch pciutils
 
 KERNELNAME:=Image dtbs
 
