@@ -10,10 +10,10 @@ include $(INCLUDE_DIR)/kernel.mk
 
 PKG_NAME:=mac80211
 
-PKG_VERSION:=5.10.85-1
-PKG_RELEASE:=1
-PKG_SOURCE_URL:=@KERNEL/linux/kernel/projects/backports/stable/v5.10.85/
-PKG_HASH:=0b5f2d5acf572c448f102a186aaccd8b77bda182ac5166c7b2e3217870162784
+PKG_VERSION:=5.15.8-1
+PKG_RELEASE:=2
+PKG_SOURCE_URL:=@KERNEL/linux/kernel/projects/backports/stable/v5.15.8/
+PKG_HASH:=9f71b659c034f19d156532ec780fcb606cee3c4ccc42e2f8ef18dd3e9f1b6820
 
 PKG_SOURCE:=backports-$(PKG_VERSION).tar.xz
 PKG_BUILD_DIR:=$(KERNEL_BUILD_DIR)/backports-$(PKG_VERSION)
@@ -23,7 +23,6 @@ PKG_MAINTAINER:=Felix Fietkau <nbd@nbd.name>
 
 PKG_DRIVERS = \
 	adm8211 \
-	airo \
 	hermes hermes-pci hermes-pcmcia hermes-plx\
 	lib80211 \
 	mac80211-hwsim \
@@ -98,7 +97,7 @@ PKG_CONFIG_DEPENDS += \
 define KernelPackage/cfg80211
   $(call KernelPackage/mac80211/Default)
   TITLE:=cfg80211 - wireless configuration API
-  DEPENDS+= +iw +wireless-regdb
+  DEPENDS+= +iw +iwinfo +wireless-regdb +USE_RFKILL:kmod-rfkill
   ABI_VERSION:=$(PKG_VERSION)-$(PKG_RELEASE)
   FILES:= \
 	$(PKG_BUILD_DIR)/compat/compat.ko \
@@ -127,7 +126,7 @@ define KernelPackage/mac80211
   $(call KernelPackage/mac80211/Default)
   TITLE:=Linux 802.11 Wireless Networking Stack
   # +kmod-crypto-cmac is a runtime only dependency of net/mac80211/aes_cmac.c
-  DEPENDS+= +kmod-cfg80211 +hostapd-common
+  DEPENDS+= +kmod-cfg80211 +kmod-crypto-cmac +kmod-crypto-ccm +kmod-crypto-gcm +hostapd-common
   KCONFIG:=\
 	CONFIG_AVERAGE=y
   FILES:= $(PKG_BUILD_DIR)/net/mac80211/mac80211.ko
@@ -172,18 +171,6 @@ define KernelPackage/adm8211
   DEPENDS+=@PCI_SUPPORT +kmod-mac80211 +kmod-eeprom-93cx6
   FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/admtek/adm8211.ko
   AUTOLOAD:=$(call AutoProbe,adm8211)
-endef
-
-define KernelPackage/airo
-  $(call KernelPackage/mac80211/Default)
-  TITLE:=Cisco Aironet driver
-  DEPENDS+=@PCI_SUPPORT +@DRIVER_WEXT_SUPPORT +kmod-cfg80211 @TARGET_x86 @BROKEN
-  FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/cisco/airo.ko
-  AUTOLOAD:=$(call AutoProbe,airo)
-endef
-
-define KernelPackage/airo/description
- Kernel support for Cisco Aironet cards
 endef
 
 define KernelPackage/hermes
@@ -406,8 +393,6 @@ endif
 
 config-$(call config_package,lib80211) += LIB80211 LIB80211_CRYPT_WEP LIB80211_CRYPT_CCMP LIB80211_CRYPT_TKIP
 
-config-$(call config_package,airo) += AIRO
-
 config-$(call config_package,mac80211-hwsim) += MAC80211_HWSIM
 config-$(call config_package,mt7601u) += MT7601U
 config-y += WL_MEDIATEK
@@ -507,9 +492,14 @@ define Build/Patch
 	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/build,build/)
 	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/subsys,subsys/)
 	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/ath,ath/)
+	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/ath5k,ath5k/)
+	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/ath9k,ath9k/)
+	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/ath10k,ath10k/)
+	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/ath11k,ath11k/)
 	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/rt2x00,rt2x00/)
 	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/mwl,mwl/)
 	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/brcm,brcm/)
+	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/rtl,rtl/)
 	$(if $(QUILT),touch $(PKG_BUILD_DIR)/.quilt_used)
 endef
 
@@ -517,9 +507,14 @@ define Quilt/Refresh/Package
 	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/build,build/)
 	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/subsys,subsys/)
 	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/ath,ath/)
+	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/ath5k,ath5k/)
+	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/ath9k,ath9k/)
+	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/ath10k,ath10k/)
+	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/ath11k,ath11k/)
 	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/rt2x00,rt2x00/)
 	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/mwl,mwl/)
 	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/brcm,brcm/)
+	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/rtl,rtl/)
 endef
 
 define Build/Compile
@@ -545,7 +540,6 @@ endef
 define KernelPackage/cfg80211/install
 	$(INSTALL_DIR) $(1)/lib/wifi $(1)/lib/netifd/wireless
 	$(INSTALL_DATA) ./files/lib/wifi/mac80211.sh $(1)/lib/wifi
-	$(INSTALL_DATA) ./files/lib/netifd/mac80211.sh $(1)/lib/netifd
 	$(INSTALL_BIN) ./files/lib/netifd/wireless/mac80211.sh $(1)/lib/netifd/wireless
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/ieee80211
 	$(INSTALL_DATA) ./files/mac80211.hotplug $(1)/etc/hotplug.d/ieee80211/10-wifi-detect

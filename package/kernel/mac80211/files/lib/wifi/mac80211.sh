@@ -1,5 +1,4 @@
 #!/bin/sh
-. /lib/netifd/mac80211.sh
 
 append DRIVERS "mac80211"
 
@@ -11,7 +10,7 @@ lookup_phy() {
 	local devpath
 	config_get devpath "$device" path
 	[ -n "$devpath" ] && {
-		phy="$(mac80211_path_to_phy "$devpath")"
+		phy="$(iwinfo nl80211 phyname "path=$devpath")"
 		[ -n "$phy" ] && return
 	}
 
@@ -161,38 +160,12 @@ detect_mac80211() {
 
 		get_band_defaults "$dev"
 
-		path="$(mac80211_phy_to_path "$dev")"
+		path="$(iwinfo nl80211 path "$dev")"
 		if [ -n "$path" ]; then
 			dev_id="set wireless.radio${devidx}.path='$path'"
 		else
 			dev_id="set wireless.radio${devidx}.macaddr=$(cat /sys/class/ieee80211/${dev}/macaddress)"
 		fi
-
-		if [ -x /usr/bin/readlink -a -h /sys/class/ieee80211/${dev} ]; then
-			product=`cat $(readlink -f /sys/class/ieee80211/${dev}/device)/uevent | grep PRODUCT= | cut -d= -f 2`
-		else
-			product=""
-		fi
-
-		case "${product}" in
-		"bda/c811/200" | \
-		"bda/c820/200")
-			# 80211ac 5Ghz 433Mb
-			mode_band='5g'
-			htmode='VHT80'
-			channel='44'
-			# 80211n 2.4Ghz 150Mb
-			# mode_band='2g'
-			# htmode='HT40'
-			# channel='6'
-			;;
-
-		*)
-			country=""
-			;;
-
-		esac
-
 
 		uci -q batch <<-EOF
 			set wireless.radio${devidx}=wifi-device
@@ -200,15 +173,15 @@ detect_mac80211() {
 			${dev_id}
 			set wireless.radio${devidx}.channel=${channel}
 			set wireless.radio${devidx}.band=${mode_band}
-			set wireless.radio${devidx}.htmode=${htmode}
-			set wireless.radio${devidx}.country='RU'
+			set wireless.radio${devidx}.htmode=$htmode
 			set wireless.radio${devidx}.disabled=0
+			set wireless.radio${devidx}.country=US
 
 			set wireless.default_radio${devidx}=wifi-iface
 			set wireless.default_radio${devidx}.device=radio${devidx}
 			set wireless.default_radio${devidx}.network=lan
 			set wireless.default_radio${devidx}.mode=ap
-			set wireless.default_radio${devidx}.ssid=OpenWrt${devidx}
+			set wireless.default_radio${devidx}.ssid=OpenWrt
 			set wireless.default_radio${devidx}.encryption=none
 EOF
 		uci -q commit wireless

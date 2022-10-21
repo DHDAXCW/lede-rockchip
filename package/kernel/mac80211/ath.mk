@@ -1,6 +1,6 @@
 PKG_DRIVERS += \
 	ath ath5k ath6kl ath6kl-sdio ath6kl-usb ath9k ath9k-common ath9k-htc ath10k ath10k-smallbuffers \
-	carl9170 owl-loader ar5523 wil6210
+	ath11k ath11k-ahb ath11k-pci carl9170 owl-loader ar5523 wil6210
 
 PKG_CONFIG_DEPENDS += \
 	CONFIG_PACKAGE_ATH_DEBUG \
@@ -19,6 +19,7 @@ ifdef CONFIG_PACKAGE_MAC80211_DEBUGFS
 	ATH9K_DEBUGFS \
 	ATH9K_HTC_DEBUGFS \
 	ATH10K_DEBUGFS \
+	ATH11K_DEBUGFS \
 	CARL9170_DEBUGFS \
 	ATH5K_DEBUG \
 	ATH6KL_DEBUG \
@@ -28,16 +29,17 @@ endif
 ifdef CONFIG_PACKAGE_MAC80211_TRACING
   config-y += \
 	ATH10K_TRACING \
+	ATH11K_TRACING \
 	ATH6KL_TRACING \
 	ATH_TRACEPOINTS \
 	ATH5K_TRACER \
 	WIL6210_TRACING
 endif
 
-config-$(call config_package,ath) += ATH_CARDS ATH_COMMON ATH_REG_DYNAMIC_USER_REG_HINTS
-config-$(CONFIG_PACKAGE_ATH_DEBUG) += ATH_DEBUG ATH10K_DEBUG ATH9K_STATION_STATISTICS
+config-$(call config_package,ath) += ATH_CARDS ATH_COMMON
+config-$(CONFIG_PACKAGE_ATH_DEBUG) += ATH_DEBUG ATH10K_DEBUG ATH11K_DEBUG ATH9K_STATION_STATISTICS
 config-$(CONFIG_PACKAGE_ATH_DFS) += ATH9K_DFS_CERTIFIED ATH10K_DFS_CERTIFIED
-config-$(CONFIG_PACKAGE_ATH_SPECTRAL) += ATH9K_COMMON_SPECTRAL ATH10K_SPECTRAL
+config-$(CONFIG_PACKAGE_ATH_SPECTRAL) += ATH9K_COMMON_SPECTRAL ATH10K_SPECTRAL ATH11K_SPECTRAL
 config-$(CONFIG_PACKAGE_ATH_DYNACK) += ATH9K_DYNACK
 config-$(call config_package,ath9k) += ATH9K
 config-$(call config_package,ath9k-common) += ATH9K_COMMON
@@ -45,7 +47,7 @@ config-$(call config_package,owl-loader) += ATH9K_PCI_NO_EEPROM
 config-$(CONFIG_TARGET_ath79) += ATH9K_AHB
 config-$(CONFIG_TARGET_ipq40xx) += ATH10K_AHB
 config-$(CONFIG_PCI) += ATH9K_PCI
-config-$(CONFIG_ATH_USER_REGD) += ATH_USER_REGD
+config-$(CONFIG_ATH_USER_REGD) += ATH_USER_REGD ATH_REG_DYNAMIC_USER_REG_HINTS
 config-$(CONFIG_ATH9K_HWRNG) += ATH9K_HWRNG
 config-$(CONFIG_ATH9K_SUPPORT_PCOEM) += ATH9K_PCOEM
 config-$(CONFIG_ATH9K_TX99) += ATH9K_TX99
@@ -56,6 +58,9 @@ config-$(CONFIG_ATH10K_THERMAL) += ATH10K_THERMAL
 config-$(call config_package,ath9k-htc) += ATH9K_HTC
 config-$(call config_package,ath10k) += ATH10K ATH10K_PCI
 config-$(call config_package,ath10k-smallbuffers) += ATH10K ATH10K_PCI ATH10K_SMALLBUFFERS
+config-$(call config_package,ath11k) += ATH11K
+config-$(call config_package,ath11k-ahb) += ATH11K_AHB
+config-$(call config_package,ath11k-pci) += ATH11K_PCI
 
 config-$(call config_package,ath5k) += ATH5K
 ifdef CONFIG_TARGET_ath25
@@ -279,6 +284,7 @@ define KernelPackage/ath10k/config
 
        config ATH10K_THERMAL
                bool "Enable thermal sensors and throttling support"
+               default y
                depends on PACKAGE_kmod-ath10k || PACKAGE_kmod-ath10k-smallbuffers
 
 endef
@@ -287,6 +293,58 @@ define KernelPackage/ath10k-smallbuffers
   $(call KernelPackage/ath10k)
   TITLE+= (small buffers for low-RAM devices)
   VARIANT:=smallbuffers
+endef
+
+define KernelPackage/ath11k
+  $(call KernelPackage/mac80211/Default)
+  TITLE:=Qualcomm 802.11ax wireless chipset support (common code)
+  URL:=https://wireless.wiki.kernel.org/en/users/drivers/ath11k
+  DEPENDS+= +kmod-ath +@DRIVER_11N_SUPPORT +@DRIVER_11AC_SUPPORT +@DRIVER_11AX_SUPPORT \
+	+kmod-crypto-michael-mic +ATH11K_THERMAL:kmod-hwmon-core +ATH11K_THERMAL:kmod-thermal
+  FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/ath/ath11k/ath11k.ko
+  AUTOLOAD:=$(call AutoProbe,ath11k)
+endef
+
+define KernelPackage/ath11k/description
+This module adds support for Qualcomm Technologies 802.11ax family of
+chipsets.
+endef
+
+define KernelPackage/ath11k/config
+
+       config ATH11K_THERMAL
+               bool "Enable thermal sensors and throttling support"
+               depends on PACKAGE_kmod-ath11k
+               default y if TARGET_ipq807x
+
+endef
+
+define KernelPackage/ath11k-ahb
+  $(call KernelPackage/mac80211/Default)
+  TITLE:=Qualcomm 802.11ax AHB wireless chipset support
+  URL:=https://wireless.wiki.kernel.org/en/users/drivers/ath11k
+  DEPENDS+= @TARGET_ipq807x +kmod-ath11k
+  FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/ath/ath11k/ath11k_ahb.ko
+  AUTOLOAD:=$(call AutoProbe,ath11k_ahb)
+endef
+
+define KernelPackage/ath11k-ahb/description
+This module adds support for Qualcomm Technologies 802.11ax family of
+chipsets with AHB bus.
+endef
+
+define KernelPackage/ath11k-pci
+  $(call KernelPackage/mac80211/Default)
+  TITLE:=Qualcomm 802.11ax PCI wireless chipset support
+  URL:=https://wireless.wiki.kernel.org/en/users/drivers/ath11k
+  DEPENDS+= @PCI_SUPPORT @TARGET_ipq807x +kmod-ath11k
+  FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/ath/ath11k/ath11k_pci.ko
+  AUTOLOAD:=$(call AutoProbe,ath11k_pci)
+endef
+
+define KernelPackage/ath11k-pci/description
+This module adds support for Qualcomm Technologies 802.11ax family of
+chipsets with PCI bus.
 endef
 
 define KernelPackage/carl9170
