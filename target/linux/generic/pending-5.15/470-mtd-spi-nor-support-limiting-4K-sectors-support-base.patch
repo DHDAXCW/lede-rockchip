@@ -39,7 +39,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
  endif # MTD_SPI_NOR
 --- a/drivers/mtd/spi-nor/core.c
 +++ b/drivers/mtd/spi-nor/core.c
-@@ -2625,6 +2625,21 @@ static void spi_nor_info_init_params(str
+@@ -2634,6 +2634,21 @@ static void spi_nor_info_init_params(str
  	 */
  	erase_mask = 0;
  	i = 0;
@@ -61,7 +61,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
  	if (info->flags & SECT_4K_PMC) {
  		erase_mask |= BIT(i);
  		spi_nor_set_erase_type(&map->erase_type[i], 4096u,
-@@ -2636,6 +2651,7 @@ static void spi_nor_info_init_params(str
+@@ -2645,6 +2660,7 @@ static void spi_nor_info_init_params(str
  				       SPINOR_OP_BE_4K);
  		i++;
  	}
