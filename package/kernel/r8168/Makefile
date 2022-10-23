@@ -7,8 +7,13 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/kernel.mk
 
 PKG_NAME:=r8168
-PKG_VERSION:=8.050.02
-PKG_RELEASE:=1
+PKG_VERSION:=8.050.03
+PKG_RELEASE:=$(AUTORELEASE)
+
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_URL:=https://github.com/BROBIRD/openwrt-r8168.git
+PKG_SOURCE_VERSION:=ddfaceacd1b7ed2857fb995642a8ffb1fc37e989
+PKG_MIRROR_HASH:=5428f60dc33e9503c6cfdf690c00077149dce24cbb0591129d905b9f1aad9202
 
 PKG_BUILD_DIR:=$(KERNEL_BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
@@ -18,8 +23,7 @@ define KernelPackage/r8168
   TITLE:=Driver for Realtek r8168 chipsets
   SUBMENU:=Network Devices
   VERSION:=$(LINUX_VERSION)+$(PKG_VERSION)-$(BOARD)-$(PKG_RELEASE)
-  DEPENDS:=@PCI_SUPPORT
-  FILES:= $(PKG_BUILD_DIR)/r8168.ko
+  FILES:= $(PKG_BUILD_DIR)/src/r8168.ko
   AUTOLOAD:=$(call AutoProbe,r8168)
   CONFLICTS:=kmod-r8169
 endef
@@ -28,20 +32,8 @@ define Package/r8168/description
   This package contains a driver for Realtek r8168 chipsets.
 endef
 
-R8168_MAKEOPTS= -C $(PKG_BUILD_DIR) \
-	PATH="$(TARGET_PATH)" \
-	ARCH="$(LINUX_KARCH)" \
-	CROSS_COMPILE="$(TARGET_CROSS)" \
-	TARGET="$(HAL_TARGET)" \
-	TOOLPREFIX="$(KERNEL_CROSS)" \
-	TOOLPATH="$(KERNEL_CROSS)" \
-	KERNELPATH="$(LINUX_DIR)" \
-	KERNELDIR="$(LINUX_DIR)" \
-	LDOPTS=" " \
-	DOMULTI=1
-
 define Build/Compile
-	$(MAKE) $(R8168_MAKEOPTS) modules
+	+$(KERNEL_MAKE) M=$(PKG_BUILD_DIR)/src modules
 endef
 
 $(eval $(call KernelPackage,r8168))
