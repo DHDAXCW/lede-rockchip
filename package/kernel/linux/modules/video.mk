@@ -243,7 +243,7 @@ define KernelPackage/drm
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=Direct Rendering Manager (DRM) support
   HIDDEN:=1
-  DEPENDS:=+kmod-dma-buf +kmod-i2c-core +kmod-i2c-algo-bit  +PACKAGE_kmod-backlight:kmod-backlight \
+  DEPENDS:=+kmod-dma-buf +kmod-i2c-core +kmod-i2c-algo-bit +PACKAGE_kmod-backlight:kmod-backlight \
 	+(LINUX_5_15||LINUX_6_0):kmod-fb
   KCONFIG:=	\
 	CONFIG_DRM	\
@@ -266,7 +266,7 @@ $(eval $(call KernelPackage,drm))
 define KernelPackage/drm-buddy
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=A page based buddy allocator
-  DEPENDS:=@TARGET_x86 @DISPLAY_SUPPORT +kmod-drm @(LINUX_5_19||LINUX_6_0)
+  DEPENDS:=@TARGET_x86 @DISPLAY_SUPPORT +kmod-drm @(LINUX_6_0)
   KCONFIG:=CONFIG_DRM_BUDDY
   FILES:= $(LINUX_DIR)/drivers/gpu/drm/drm_buddy.ko
   AUTOLOAD:=$(call AutoProbe,drm_buddy)
@@ -327,7 +327,7 @@ define KernelPackage/drm-amdgpu
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=AMDGPU DRM support
   DEPENDS:=@TARGET_x86 @DISPLAY_SUPPORT +kmod-backlight +kmod-drm-ttm \
-  +kmod-drm-kms-helper +kmod-i2c-algo-bit +amdgpu-firmware \
+	+kmod-drm-kms-helper +kmod-i2c-algo-bit +amdgpu-firmware \
 	+(LINUX_6_0):kmod-drm-display-helper
   KCONFIG:=CONFIG_DRM_AMDGPU \
 	CONFIG_DRM_AMDGPU_SI=y \
@@ -1121,7 +1121,8 @@ define KernelPackage/drm-i915
 	CONFIG_DRM_I915_SW_FENCE_DEBUG_OBJECTS=n \
 	CONFIG_DRM_I915_USERPTR=y \
 	CONFIG_DRM_I915_WERROR=n
-  FILES:=$(LINUX_DIR)/drivers/gpu/drm/i915/i915.ko
+  FILES:= \
+      $(LINUX_DIR)/drivers/gpu/drm/i915/i915.ko
   AUTOLOAD:=$(call AutoProbe,i915)
 endef
 
