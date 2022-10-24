@@ -1,5 +1,19 @@
 ## 此源码适用于瑞芯微OpenWrt SDK
+### 只支持设备：
+```
+embedfire_doornet1
+embedfire_doornet2
+friendlyarm_nanopi-r2c
+friendlyarm_nanopi-r2s
+friendlyarm_nanopi-r4s
+friendlyarm_nanopi-r4se
+```
 
+### 下个计划添加设备：
+```
+friendlyarm_nanopi-r5s
+hinlink_opc-h68k
+```
 如何编译自己需要的 OpenWrt 固件
 -
 注意：
