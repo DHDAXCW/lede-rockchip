@@ -5,13 +5,12 @@
 get_device_irq() {
 	local device="$1"
 	local line
-	local seconds="0"
+	local seconds
 
 	# wait up to 10 seconds for the irq/device to appear
-	while [ "${seconds}" -le 10 ]; do
+	for seconds in $(seq 0 9); do
 		line=$(grep -m 1 "${device}\$" /proc/interrupts) && break
-		seconds="$(( seconds + 2 ))"
-		sleep 2
+		sleep 1
 	done
 	echo ${line} | sed 's/:.*//'
 }
@@ -31,26 +30,15 @@ set_interface_core() {
 case "$(board_name)" in
 embedfire,doornet1|\
 friendlyarm,nanopi-r2c|\
-friendlyarm,nanopi-r2s|\
-xunlong,orangepi-r1-plus|\
-xunlong,orangepi-r1-plus-lts)
+friendlyarm,nanopi-r2s)
 	set_interface_core 2 "eth0"
 	set_interface_core 4 "eth1" "xhci-hcd:usb3"
 	;;
 embedfire,doornet2|\
 friendlyarm,nanopi-r4s|\
-friendlyarm,nanopi-r4se|\
-rockchip,rk3588-evb1-lp4-v10|\
-rockchip,rk3588-nvr-demo1-v21|\
-sharevdi,guangmiao-g4c)
+friendlyarm,nanopi-r4se)
 	set_interface_core 10 "eth0"
 	set_interface_core 20 "eth1"
-	;;
-embedfire,lubancat-rk3568|\
-rockchip,rk3568-firefly-roc-pc|\
-rockchip,rk3566-firefly-roc-pc)
-	set_interface_core 2 "eth0"
-	set_interface_core 4 "eth1"
 	;;
 friendlyarm,nanopi-r5s)
 	set_interface_core 0 "eth0"
@@ -58,4 +46,3 @@ friendlyarm,nanopi-r5s)
 	set_interface_core 4 "eth2"
 	;;
 esac
-
