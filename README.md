@@ -12,11 +12,11 @@ friendlyarm_nanopi-r2s
 friendlyarm_nanopi-r4s
 friendlyarm_nanopi-r4se
 friendlyarm_nanopi-r5s
-
 ```
 
 ### 下个计划添加设备：
 ```
+embedfire_lubancat-zero-n
 hinlink_opc-h68k
 firefly_station-p2
 ```
