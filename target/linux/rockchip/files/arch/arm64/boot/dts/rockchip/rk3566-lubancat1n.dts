@@ -8,7 +8,9 @@
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/leds/common.h>
 #include <dt-bindings/pinctrl/rockchip.h>
+#ifdef DTS_NO_LEGACY
 #include <dt-bindings/soc/rockchip,vop2.h>
+#endif
 #include "rk3566.dtsi"
 
 / {
@@ -114,10 +116,12 @@
 	cpu-supply = <&vdd_cpu>;
 };
 
+#ifdef DTS_NO_LEGACY
 &gpu {
 	mali-supply = <&vdd_gpu>;
 	status = "okay";
 };
+#endif
 
 &i2c0 {
 	status = "okay";
@@ -367,10 +371,12 @@
 	};
 };
 
+#ifdef DTS_NO_LEGACY
 &i2s1_8ch {
 	rockchip,trcm-sync-tx-only;
 	status = "okay";
 };
+#endif
 
 &gmac1 {
     phy-mode = "rgmii";

@@ -22,6 +22,7 @@ rockchip_setup_interfaces()
 	friendlyarm,nanopi-r5s)
 		ucidef_set_interfaces_lan_wan "eth1 eth2" "eth0"
 		;;
+	hinlink,opc-h68k|\
 	embedfire,lubancat2n)
 		ucidef_set_interfaces_lan_wan "eth1 eth2 eth3" "eth0"
 		;;
@@ -73,6 +74,7 @@ rockchip_setup_macs()
 	embedfire,lubancat1n|\
 	embedfire,lubancat2|\
 	embedfire,lubancat2n|\
+	hinlink,opc-h68k|\
 	friendlyarm,nanopi-r2c|\
 	friendlyarm,nanopi-r2s|\
 	friendlyarm,nanopi-r5s)

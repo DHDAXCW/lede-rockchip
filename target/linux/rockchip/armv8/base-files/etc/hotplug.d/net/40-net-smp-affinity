@@ -49,6 +49,7 @@ friendlyarm,nanopi-r5s)
 	set_interface_core 2 "eth1"
 	set_interface_core 4 "eth2"
 	;;
+hinlink,opc-h68k|\
 embedfire,lubancat2n)
 	set_interface_core 0 "eth0"
 	set_interface_core 2 "eth1"
