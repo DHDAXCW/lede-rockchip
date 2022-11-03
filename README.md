@@ -12,6 +12,7 @@ friendlyarm_nanopi-r2s
 friendlyarm_nanopi-r4s
 friendlyarm_nanopi-r4se
 friendlyarm_nanopi-r5s
+hinlink_opc-h68k
 ```
 
 ### 下个计划添加设备：
