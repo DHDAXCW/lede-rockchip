@@ -50,10 +50,11 @@ Signed-off-by: wevsty <ty@wevs.org>
  		reg = <0x0 0xff9a0000 0x0 0x10000>;
 --- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-@@ -901,6 +901,16 @@ pcie_intc: legacy-interrupt-controller {
- 		};
+@@ -914,6 +914,16 @@ crypto: crypto@fe380000 {
+ 		reset-names = "core", "a", "h", "rng,", "pka";
+ 		status = "okay";
  	};
- 
++
 +	rng: rng@fe388000 {
 +		compatible = "rockchip,cryptov2-rng";
 +		reg = <0x0 0xfe388000 0x0 0x2000>;
@@ -63,7 +64,6 @@ Signed-off-by: wevsty <ty@wevs.org>
 +		reset-names = "reset";
 +		status = "disabled";
 +	};
-+	
+ 	
  	sdmmc0: mmc@fe2b0000 {
  		compatible = "rockchip,rk3568-dw-mshc", "rockchip,rk3288-dw-mshc";
- 		reg = <0x0 0xfe2b0000 0x0 0x4000>;

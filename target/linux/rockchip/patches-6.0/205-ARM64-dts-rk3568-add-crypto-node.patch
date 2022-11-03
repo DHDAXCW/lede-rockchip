@@ -1,19 +1,19 @@
 From 5055f9e39713f9e5303bbcdc3712909a462dd3c2 Mon Sep 17 00:00:00 2001
 From: Corentin Labbe <clabbe@baylibre.com>
 Date: Tue, 27 Sep 2022 08:00:48 +0000
-Subject: [PATCH 5/5] ARM64: dts: rk3568: add crypto node
+Subject: [PATCH 5/5] ARM64: dts: rk356x: add crypto node
 
-The rk3568 has a crypto IP handled by the rk3588 crypto driver so adds a
+The rk356x has a crypto IP handled by the rk3588 crypto driver so adds a
 node for it.
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- arch/arm64/boot/dts/rockchip/rk3568.dtsi | 14 ++++++++++++++
+ arch/arm64/boot/dts/rockchip/rk356x.dtsi | 14 ++++++++++++++
  1 file changed, 14 insertions(+)
 
---- a/arch/arm64/boot/dts/rockchip/rk3568.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3568.dtsi
-@@ -211,6 +211,20 @@
+--- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+@@ -901,6 +901,20 @@ pcie_intc: legacy-interrupt-controller {
  		};
  	};
  
@@ -30,7 +30,7 @@ Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 +		reset-names = "core", "a", "h", "rng,", "pka";
 +		status = "okay";
 +	};
-+
- 	combphy0: phy@fe820000 {
- 		compatible = "rockchip,rk3568-naneng-combphy";
- 		reg = <0x0 0xfe820000 0x0 0x100>;
++	
+ 	sdmmc0: mmc@fe2b0000 {
+ 		compatible = "rockchip,rk3568-dw-mshc", "rockchip,rk3288-dw-mshc";
+ 		reg = <0x0 0xfe2b0000 0x0 0x4000>;
