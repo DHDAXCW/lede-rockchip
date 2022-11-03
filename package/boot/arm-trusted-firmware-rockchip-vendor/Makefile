@@ -37,6 +37,12 @@ define Package/arm-trusted-firmware-rk3399
     VARIANT:=rk3399
 endef
 
+define Package/arm-trusted-firmware-rk3566
+    $(Package/arm-trusted-firmware-rockchip-vendor)
+    DEPENDS:=@TARGET_rockchip_armv8
+    VARIANT:=rk3566
+endef
+
 define Package/arm-trusted-firmware-rk3568
     $(Package/arm-trusted-firmware-rockchip-vendor)
     DEPENDS:=@TARGET_rockchip_armv8
@@ -69,6 +75,9 @@ endef
 define Package/arm-trusted-firmware-rk3399/install
 endef
 
+define Package/arm-trusted-firmware-rk3566/install
+endef
+
 define Package/arm-trusted-firmware-rk3568/install
 endef
 
@@ -77,5 +86,6 @@ endef
 
 $(eval $(call BuildPackage,arm-trusted-firmware-rk3328))
 $(eval $(call BuildPackage,arm-trusted-firmware-rk3399))
+$(eval $(call BuildPackage,arm-trusted-firmware-rk3566))
 $(eval $(call BuildPackage,arm-trusted-firmware-rk3568))
 $(eval $(call BuildPackage,arm-trusted-firmware-rk3588))

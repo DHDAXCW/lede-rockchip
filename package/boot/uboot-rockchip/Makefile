@@ -92,7 +92,53 @@ define U-Boot/doornet2-rk3399
   ATF:=rk3399_bl31_v1.35.elf
 endef
 
+# RK3566 boards
+
+define U-Boot/lubancat1n-rk3566
+  BUILD_SUBTARGET:=armv8
+  NAME:=LubanCan1N
+  BUILD_DEVICES:= \
+    embedfire_lubancat1n
+  DEPENDS:=+PACKAGE_u-boot-lubancat1n-rk3566:arm-trusted-firmware-rk3566
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip-vendor
+  ATF:=rk3568_bl31_v1.28.elf
+  DDR:=rk3566_ddr_1056MHz_v1.13.bin
+endef
+
+define U-Boot/lubancat1-rk3566
+  BUILD_SUBTARGET:=armv8
+  NAME:=LubanCat1
+  BUILD_DEVICES:= \
+    embedfire_lubancat1
+  DEPENDS:=+PACKAGE_u-boot-lubancat1-rk3566:arm-trusted-firmware-rk3566
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip-vendor
+  ATF:=rk3568_bl31_v1.28.elf
+  DDR:=rk3566_ddr_1056MHz_v1.13.bin
+endef
+
 # RK3568 boards
+
+define U-Boot/lubancat2-rk3568
+  BUILD_SUBTARGET:=armv8
+  NAME:=LubanCat2
+  BUILD_DEVICES:= \
+    embedfire_lubancat2
+  DEPENDS:=+PACKAGE_u-boot-lubancat2-rk3568:arm-trusted-firmware-rk3568
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip-vendor
+  ATF:=rk3568_bl31_v1.28.elf
+  DDR:=rk3568_ddr_1560MHz_v1.13.bin
+endef
+
+define U-Boot/lubancat2n-rk3568
+  BUILD_SUBTARGET:=armv8
+  NAME:=LubanCan2N
+  BUILD_DEVICES:= \
+    embedfire_lubancat2n
+  DEPENDS:=+PACKAGE_u-boot-lubancat2n-rk3568:arm-trusted-firmware-rk3568
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip-vendor
+  ATF:=rk3568_bl31_v1.28.elf
+  DDR:=rk3568_ddr_1560MHz_v1.13.bin
+endef
 
 define U-Boot/nanopi-r5s-rk3568
   BUILD_SUBTARGET:=armv8
@@ -147,7 +193,11 @@ UBOOT_TARGETS := \
   doornet2-rk3399 \
   nanopi-r5s-rk3568 \
   opc-h68k-rk3568 \
-  station-p2-rk3568
+  station-p2-rk3568 \
+  lubancat1-rk3566 \
+  lubancat2-rk3568 \
+  lubancat1n-rk3566 \
+  lubancat2n-rk3568
 
 UBOOT_CONFIGURE_VARS += USE_PRIVATE_LIBGCC=yes
 

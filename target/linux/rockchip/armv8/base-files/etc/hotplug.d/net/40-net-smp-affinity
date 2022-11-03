@@ -7,7 +7,6 @@ get_device_irq() {
 	local line
 	local seconds
 
-	# wait up to 10 seconds for the irq/device to appear
 	for seconds in $(seq 0 9); do
 		line=$(grep -m 1 "${device}\$" /proc/interrupts) && break
 		sleep 1
@@ -40,9 +39,20 @@ friendlyarm,nanopi-r4se)
 	set_interface_core 10 "eth0"
 	set_interface_core 20 "eth1"
 	;;
+embedfire,lubancat1n|\
+embedfire,lubancat2)
+	set_interface_core 2 "eth0"
+	set_interface_core 4 "eth1"
+	;;
 friendlyarm,nanopi-r5s)
 	set_interface_core 0 "eth0"
 	set_interface_core 2 "eth1"
 	set_interface_core 4 "eth2"
+	;;
+embedfire,lubancat2n)
+	set_interface_core 0 "eth0"
+	set_interface_core 2 "eth1"
+	set_interface_core 4 "eth2"
+	set_interface_core 6 "eth3"
 	;;
 esac

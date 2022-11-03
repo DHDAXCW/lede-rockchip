@@ -22,6 +22,47 @@ define Device/embedfire_doornet2
 endef
 TARGET_DEVICES += embedfire_doornet2
 
+define Device/embedfire_lubancat1
+  DEVICE_VENDOR := EmbedFire
+  DEVICE_MODEL := LubanCat1
+  SOC := rk3566
+  UBOOT_DEVICE_NAME := lubancat1-rk3566
+  IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
+  DEVICE_PACKAGES := kmod-r8125
+endef
+#TARGET_DEVICES += embedfire_lubancat1
+
+define Device/embedfire_lubancat1n
+  DEVICE_VENDOR := EmbedFire
+  DEVICE_MODEL := LubanCat1N
+  SOC := rk3566
+  UBOOT_DEVICE_NAME := lubancat1n-rk3566
+  IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
+  DEVICE_PACKAGES := kmod-r8169 -urngd kmod-ata-ahci
+endef
+#TARGET_DEVICES += embedfire_lubancat1n
+
+define Device/embedfire_lubancat2
+  DEVICE_VENDOR := EmbedFire
+  DEVICE_MODEL := LubanCat2
+  SOC := rk3568
+  UBOOT_DEVICE_NAME := lubancat2-rk3568
+  IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core
+endef
+#TARGET_DEVICES += embedfire_lubancat2
+
+
+define Device/embedfire_lubancat2n
+  DEVICE_VENDOR := EmbedFire
+  DEVICE_MODEL := LubanCat2N
+  SOC := rk3568
+  UBOOT_DEVICE_NAME := lubancat2n-rk3568
+  IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
+  DEVICE_PACKAGES := kmod-r8125 kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core
+endef
+#TARGET_DEVICES += embedfire_lubancat2n
+
 define Device/friendlyarm_nanopi-r2c
   DEVICE_VENDOR := FriendlyARM
   DEVICE_MODEL := NanoPi R2C
@@ -71,3 +112,4 @@ define Device/friendlyarm_nanopi-r5s
   DEVICE_PACKAGES := kmod-r8125 kmod-nvme kmod-scsi-core
 endef
 #TARGET_DEVICES += friendlyarm_nanopi-r5s
+

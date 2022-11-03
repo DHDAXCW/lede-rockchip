@@ -48,10 +48,10 @@ Signed-off-by: wevsty <ty@wevs.org>
  	gpu: gpu@ff9a0000 {
  		compatible = "rockchip,rk3399-mali", "arm,mali-t860";
  		reg = <0x0 0xff9a0000 0x0 0x10000>;
---- a/arch/arm64/boot/dts/rockchip/rk3568.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3568.dtsi
-@@ -225,6 +225,16 @@
- 		status = "okay";
+--- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+@@ -901,6 +901,16 @@ pcie_intc: legacy-interrupt-controller {
+ 		};
  	};
  
 +	rng: rng@fe388000 {
@@ -63,7 +63,7 @@ Signed-off-by: wevsty <ty@wevs.org>
 +		reset-names = "reset";
 +		status = "disabled";
 +	};
-+
- 	combphy0: phy@fe820000 {
- 		compatible = "rockchip,rk3568-naneng-combphy";
- 		reg = <0x0 0xfe820000 0x0 0x100>;
++	
+ 	sdmmc0: mmc@fe2b0000 {
+ 		compatible = "rockchip,rk3568-dw-mshc", "rockchip,rk3288-dw-mshc";
+ 		reg = <0x0 0xfe2b0000 0x0 0x4000>;
