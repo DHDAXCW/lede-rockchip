@@ -18,6 +18,7 @@ friendlyarm_nanopi-r5s
 ### 下个计划添加设备：
 ```
 hinlink_opc-h68k
+firefly_station-p2
 ```
 如何编译自己需要的 OpenWrt 固件
 -
