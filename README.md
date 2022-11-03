@@ -3,15 +3,20 @@
 ```
 embedfire_doornet1
 embedfire_doornet2
+embedfire_lubancat1
+embedfire_lubancat1n
+embedfire_lubancat2
+embedfire_lubancat2n
 friendlyarm_nanopi-r2c
 friendlyarm_nanopi-r2s
 friendlyarm_nanopi-r4s
 friendlyarm_nanopi-r4se
+friendlyarm_nanopi-r5s
+
 ```
 
 ### 下个计划添加设备：
 ```
-friendlyarm_nanopi-r5s
 hinlink_opc-h68k
 ```
 如何编译自己需要的 OpenWrt 固件
