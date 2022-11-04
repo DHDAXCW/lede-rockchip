@@ -12,13 +12,13 @@ friendlyarm_nanopi-r2s
 friendlyarm_nanopi-r4s
 friendlyarm_nanopi-r4se
 friendlyarm_nanopi-r5s
+firefly_station-p2
 hinlink_opc-h68k
 ```
 
 ### 下个计划添加设备：
 ```
 embedfire_lubancat-zero-n
-firefly_station-p2
 ```
 如何编译自己需要的 OpenWrt 固件
 -
