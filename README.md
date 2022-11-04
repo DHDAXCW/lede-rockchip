@@ -18,7 +18,6 @@ hinlink_opc-h68k
 ### 下个计划添加设备：
 ```
 embedfire_lubancat-zero-n
-hinlink_opc-h68k
 firefly_station-p2
 ```
 如何编译自己需要的 OpenWrt 固件
@@ -29,9 +28,7 @@ firefly_station-p2
 2. 国内用户编译前最好准备好梯子
 3. 默认登陆IP 192.168.1.1 密码 password
 4. **需要无线请使用5.4内核，5.15内核开无线会卡内核，建议编译5.15的时候不要启用无线即可**
-5. **想上6.0内核，切换的时候顺便把相关package里面的mac80211，rtl8812cu删掉即可，主要是用在5.4上，暂时没撤~**
-
-**切换6.0内核：执行**`sed -i 's/5.4/6.0/g' ./target/linux/rockchip/Makefile`
+5. [切换6.0内核编译rk356x方法](https://github.com/DHDAXCW/lede-rockchip/blob/stable/linux6.x.md)
 
 2. 安装编译依赖
 
