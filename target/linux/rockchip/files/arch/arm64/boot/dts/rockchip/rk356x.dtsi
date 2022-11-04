@@ -2,7 +2,6 @@
 /*
  * Copyright (c) 2021 Rockchip Electronics Co., Ltd.
  */
-#ifdef DTS_NO_LEGACY
 #include <dt-bindings/clock/rk3568-cru.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include <dt-bindings/interrupt-controller/irq.h>
@@ -1705,4 +1704,3 @@
 
 
 #include "rk3568-pinctrl.dtsi"
-#endif
