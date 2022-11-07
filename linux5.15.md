@@ -13,6 +13,9 @@ rm -rf target/linux/rockchip/files/arch/arm64/boot/dts/rockchip/rk3568.dtsi
 ### 第二方法：
 1. 从5.4编译产生后，切换5.15需要清理编译留下的文件:
 ```bash
+rm -rf package/kernel/rtl8821cu
+rm -rf target/linux/rockchip/files/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+rm -rf target/linux/rockchip/files/arch/arm64/boot/dts/rockchip/rk3568.dtsi
 rm -rf ./tmp && rm -rf .config
 make clean
 ```
