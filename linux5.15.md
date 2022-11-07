@@ -15,7 +15,9 @@ rm -rf target/linux/rockchip/files/arch/arm64/boot/dts/rockchip/rk3568.dtsi
 ```bash
 rm -rf ./tmp && rm -rf .config
 make clean
-make menuconfig
-make -j$(($(nproc) + 1)) V=s
 ```
-4. 然后参考下载源代码，更新 feeds 并选择配置等等，即可编译你需要的固件了
+4. 然后参考选择配置等等，即可编译你需要的固件了
+```bash
+make menuconfig
+make -j$(($(nproc) + 1))
+```
