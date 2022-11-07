@@ -28,7 +28,8 @@ embedfire_lubancat-zero-n
 2. 国内用户编译前最好准备好梯子
 3. 默认登陆IP 192.168.1.1 密码 password
 4. **需要无线请使用5.4内核，5.15内核开无线会卡内核，建议编译5.15的时候不要启用无线即可**
-5. [切换6.0内核编译rk356x方法](https://github.com/DHDAXCW/lede-rockchip/blob/stable/linux6.x.md)
+5. [切换5.15编译rk33xx](https://github.com/DHDAXCW/lede-rockchip/blob/stable/linux5.15.md)
+6. [切换6.0内核编译rk356x方法](https://github.com/DHDAXCW/lede-rockchip/blob/stable/linux6.x.md)
 
 2. 安装编译依赖
 
