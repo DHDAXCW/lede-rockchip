@@ -13,7 +13,7 @@ Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 
 --- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-@@ -901,6 +901,20 @@
+@@ -900,6 +900,20 @@
  		};
  	};
  
