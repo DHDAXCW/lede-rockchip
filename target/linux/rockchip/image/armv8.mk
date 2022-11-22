@@ -131,3 +131,14 @@ define Device/firefly_station-p2
   DEVICE_PACKAGES := kmod-ikconfig kmod-ata-ahci-platform
 endef
 #TARGET_DEVICES += firefly_station-p2
+
+define Device/emb-3531
+  DEVICE_VENDOR := EMB
+  DEVICE_MODEL := EMB-3531
+  SOC := rk3399
+  UBOOT_DEVICE_NAME := rk3399-emb-3531
+  IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r4s | pine64-bin | gzip | append-metadata
+  DEVICE_PACKAGES := kmod-r8168 -urngd
+endef
+TARGET_DEVICES += emb-3531
+
