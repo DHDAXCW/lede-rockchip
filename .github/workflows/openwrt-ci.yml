@@ -118,13 +118,13 @@ jobs:
         with:
           name: OpenWrt_firmware
           path: ./bin/targets/
-  
 
-      - name: Upload release asset
-        if: github.event == 'release'
-        uses: svenstaro/upload-release-action@v2
+      - name: Upload firmware to release
+        uses: softprops/action-gh-release@v1
+        if: steps.tag.outputs.status == 'success' && !cancelled()
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          repo_token: ${{ secrets.YOURTOKEN }}
-          file: ./artifact/firmware/*
-          tag: ${{ github.ref }}
-          file_glob: true
+            name: ${{ steps.tag.outputs.release_date }} 纯净固件下载
+            tag_name: ${{ steps.tag.outputs.release_tag }}
+            files: ${{ env.FIRMWARE }}/*
