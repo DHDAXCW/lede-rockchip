@@ -18,7 +18,7 @@ hinlink_opc-h68k
 
 ### 下个计划添加设备：
 ```
-embedfire_lubancat-zero-n
+friendlyarm_nanopi-r6s 通过二进制闭源u-boot启动
 ```
 如何编译自己需要的 OpenWrt 固件
 -
