@@ -111,7 +111,7 @@
 		};
 	};
 
-	pcie3x2: pcie@fe280000 {
+	pcie3x2: pci@fe280000 {
 		compatible = "rockchip,rk3568-pcie";
 		#address-cells = <3>;
 		#size-cells = <2>;
@@ -163,7 +163,7 @@
 		};
 	};
 
-	pcie3x1: pcie@fe270000 {
+	pcie3x1: pci@fe270000 {
 		compatible = "rockchip,rk3568-pcie";
 		#address-cells = <3>;
 		#size-cells = <2>;
