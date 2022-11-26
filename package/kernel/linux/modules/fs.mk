@@ -378,7 +378,7 @@ $(eval $(call KernelPackage,fs-msdos))
 define KernelPackage/fs-nfs
   SUBMENU:=$(FS_MENU)
   TITLE:=NFS filesystem client support
-  DEPENDS:=+kmod-fs-nfs-common +kmod-dnsresolver
+  DEPENDS:=+kmod-fs-nfs-common +kmod-dnsresolver +!LINUX_5_4:kmod-fs-nfs-ssc
   KCONFIG:= \
 	CONFIG_NFS_FS \
 	CONFIG_NFS_USE_LEGACY_DNS=n \
@@ -530,7 +530,7 @@ $(eval $(call KernelPackage,fs-ntfs))
 define KernelPackage/fs-ntfs3
   SUBMENU:=$(FS_MENU)
   TITLE:=NTFS3 Read-Write file system support
-  DEPENDS:=@(LINUX_5_4||LINUX_5_15||LINUX_6_0) +kmod-nls-base
+  DEPENDS:=@(LINUX_5_4||LINUX_5_10||LINUX_5_15||LINUX_6_0) +kmod-nls-base
   KCONFIG:= \
 	CONFIG_NTFS3_FS \
 	CONFIG_NTFS3_64BIT_CLUSTER=y \
