@@ -157,6 +157,7 @@
 		gpio = <&gpio0 RK_PA6 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 		regulator-boot-on;
+		regulator-always-on; 
 		pinctrl-names = "default";
 		pinctrl-0 = <&sata_pwr_en>;
 	};
