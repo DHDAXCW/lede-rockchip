@@ -1296,6 +1296,7 @@ define KernelPackage/wireguard
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
   TITLE:=WireGuard secure network tunnel
   DEPENDS:= \
+	  +kmod-crypto-lib-blake2s \
 	  +kmod-crypto-lib-chacha20poly1305 \
 	  +kmod-crypto-lib-curve25519 \
 	  +kmod-udptunnel4 \
