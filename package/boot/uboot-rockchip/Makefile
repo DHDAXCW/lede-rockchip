@@ -182,6 +182,7 @@ define U-Boot/station-p2-rk3568
   PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip-vendor
   ATF:=rk3568_bl31_v1.28.elf
   DDR:=rk3568_ddr_1560MHz_v1.13.bin
+  OF_PRE_BUILD:=$(1)
 endef
 
 UBOOT_TARGETS := \
@@ -223,6 +224,12 @@ ifneq ($(USE_RKBIN),)
 else
 	$(CP) $(PKG_BUILD_DIR)/idbloader.img $(STAGING_DIR_IMAGE)/$(BUILD_VARIANT)-idbloader.img
 	$(CP) $(PKG_BUILD_DIR)/u-boot.itb $(STAGING_DIR_IMAGE)/$(BUILD_VARIANT)-u-boot.itb
+endif
+
+ifneq ($(OF_PRE_BUILD),)
+	$(CP) $(PKG_BUILD_DIR)/of-pre-build/$(OF_PRE_BUILD)/idbloader.img $(STAGING_DIR_IMAGE)/$(BUILD_VARIANT)-idbloader.img
+	$(CP) $(PKG_BUILD_DIR)/of-pre-build/$(OF_PRE_BUILD)/uboot.img $(STAGING_DIR_IMAGE)/$(BUILD_VARIANT)-u-boot.itb
+	$(CP) $(PKG_BUILD_DIR)/of-pre-build/$(OF_PRE_BUILD)/boot.scr $(STAGING_DIR_IMAGE)/$(BUILD_VARIANT)-boot.scr
 endif
 endef
 
