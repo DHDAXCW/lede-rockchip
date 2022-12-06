@@ -559,7 +559,7 @@ Commit-Queue: Yu Zhao <yuzhao@chromium.org>
  		"Section %d Node %d Zone %d Lastcpupid %d\n",
 --- a/mm/mmzone.c
 +++ b/mm/mmzone.c
-@@ -80,6 +80,8 @@ void lruvec_init(struct lruvec *lruvec)
+@@ -94,6 +94,8 @@ void lruvec_init(struct lruvec *lruvec)
  
  	for_each_lru(lru)
  		INIT_LIST_HEAD(&lruvec->lists[lru]);
