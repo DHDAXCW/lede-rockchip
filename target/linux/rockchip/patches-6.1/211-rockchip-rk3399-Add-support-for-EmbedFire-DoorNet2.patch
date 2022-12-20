@@ -1,6 +1,6 @@
 --- a/arch/arm64/boot/dts/rockchip/Makefile
 +++ b/arch/arm64/boot/dts/rockchip/Makefile
-@@ -55,6 +55,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-ro
+@@ -61,6 +61,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-ro
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-rock-pi-4b.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-rock-pi-4b-plus.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-rock-pi-4c.dtb
@@ -782,7 +782,7 @@
  
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -2901,6 +2901,8 @@ static int stmmac_init_dma_engine(struct
+@@ -2909,6 +2909,8 @@ static int stmmac_init_dma_engine(struct
  	if (priv->extend_desc && (priv->mode == STMMAC_RING_MODE))
  		atds = 1;
  
