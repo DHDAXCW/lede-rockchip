@@ -30,7 +30,7 @@ define Device/embedfire_lubancat1
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8125
 endef
-#TARGET_DEVICES += embedfire_lubancat1
+TARGET_DEVICES += embedfire_lubancat1
 
 define Device/embedfire_lubancat1n
   DEVICE_VENDOR := EmbedFire
@@ -40,7 +40,7 @@ define Device/embedfire_lubancat1n
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8169 -urngd kmod-ata-ahci
 endef
-#TARGET_DEVICES += embedfire_lubancat1n
+TARGET_DEVICES += embedfire_lubancat1n
 
 define Device/embedfire_lubancat2
   DEVICE_VENDOR := EmbedFire
@@ -50,7 +50,7 @@ define Device/embedfire_lubancat2
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core
 endef
-#TARGET_DEVICES += embedfire_lubancat2
+TARGET_DEVICES += embedfire_lubancat2
 
 define Device/embedfire_lubancat2n
   DEVICE_VENDOR := EmbedFire
@@ -60,7 +60,7 @@ define Device/embedfire_lubancat2n
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8125 kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core
 endef
-#TARGET_DEVICES += embedfire_lubancat2n
+TARGET_DEVICES += embedfire_lubancat2n
 
 define Device/hinlink_opc-h68k
   DEVICE_VENDOR := HINLINK
@@ -70,7 +70,7 @@ define Device/hinlink_opc-h68k
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8125
 endef
-#TARGET_DEVICES += hinlink_opc-h68k
+TARGET_DEVICES += hinlink_opc-h68k
 
 define Device/friendlyarm_nanopi-r2c
   DEVICE_VENDOR := FriendlyARM
@@ -120,7 +120,7 @@ define Device/friendlyarm_nanopi-r5s
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8125 kmod-nvme kmod-scsi-core
 endef
-#TARGET_DEVICES += friendlyarm_nanopi-r5s
+TARGET_DEVICES += friendlyarm_nanopi-r5s
 
 define Device/firefly_station-p2
   DEVICE_VENDOR := Firefly
@@ -130,4 +130,4 @@ define Device/firefly_station-p2
   IMAGE/sysupgrade.img.gz := boot-common | boot-script-bin | rockchip-gpt-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-ikconfig kmod-ata-ahci-platform
 endef
-#TARGET_DEVICES += firefly_station-p2
+TARGET_DEVICES += firefly_station-p2
