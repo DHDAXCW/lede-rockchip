@@ -565,6 +565,23 @@ endef
 $(eval $(call KernelPackage,veth))
 
 
+define KernelPackage/vrf
+  SUBMENU:=$(NETWORK_SUPPORT_MENU)
+  TITLE:=Virtual Routing and Forwarding (Lite)
+  DEPENDS:=@KERNEL_NET_L3_MASTER_DEV
+  KCONFIG:=CONFIG_NET_VRF
+  FILES:=$(LINUX_DIR)/drivers/net/vrf.ko
+  AUTOLOAD:=$(call AutoLoad,30,vrf)
+endef
+
+define KernelPackage/vrf/description
+ This option enables the support for mapping interfaces into VRF's. The
+ support enables VRF devices.
+endef
+
+$(eval $(call KernelPackage,vrf))
+
+
 define KernelPackage/slhc
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
   HIDDEN:=1
@@ -1296,7 +1313,6 @@ define KernelPackage/wireguard
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
   TITLE:=WireGuard secure network tunnel
   DEPENDS:= \
-	  +kmod-crypto-lib-blake2s \
 	  +kmod-crypto-lib-chacha20poly1305 \
 	  +kmod-crypto-lib-curve25519 \
 	  +kmod-udptunnel4 \
@@ -1340,11 +1356,11 @@ define KernelPackage/qrtr
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
   TITLE:=Qualcomm IPC Router support
   HIDDEN:=1
-  DEPENDS:=@(LINUX_5_15||LINUX_6_0)
+  DEPENDS:=@(LINUX_5_15||LINUX_6_1)
   KCONFIG:=CONFIG_QRTR
   FILES:= \
   $(LINUX_DIR)/net/qrtr/qrtr.ko \
-  $(LINUX_DIR)/net/qrtr/ns.ko
+  $(LINUX_DIR)/net/qrtr/ns.ko@lt6.0
   AUTOLOAD:=$(call AutoProbe,qrtr)
 endef
 
