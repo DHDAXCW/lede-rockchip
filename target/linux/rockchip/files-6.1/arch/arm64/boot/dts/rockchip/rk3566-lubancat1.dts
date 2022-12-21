@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 /*
 * Copyright (c) 2021 Rockchip Electronics Co., Ltd.
-* Copyright (c) 2022 EmbedFire <embedfire@embedfire.com>
 */
 
 /dts-v1/;
@@ -12,7 +11,7 @@
 #include "rk3566.dtsi"
 
 / {
-	model = "EmbedFire LubanCat1";
+	model = "EmbedFire LubanCat 1";
 	compatible = "embedfire,lubancat1", "rockchip,rk3566";
 
 	aliases {
@@ -32,6 +31,17 @@
 		#clock-cells = <0>;
 	};
 	
+	hdmi-con {
+		compatible = "hdmi-connector";
+		type = "a";
+
+		port {
+			hdmi_con_in: endpoint {
+				remote-endpoint = <&hdmi_out_con>;
+			};
+		};
+	};
+
 	gpio-leds {
 		compatible = "gpio-leds";
 
@@ -45,13 +55,23 @@
 		};
 	};
 
-	dc_5v: dc-5v {
+	usb_5v: usb-5v-regulator {
 		compatible = "regulator-fixed";
-		regulator-name = "dc_5v";
+		regulator-name = "usb_5v";
 		regulator-always-on;
 		regulator-boot-on;
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
+	};
+
+	vcc5v0_sys: vcc5v0-sys-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc5v0_sys";
+		regulator-always-on;
+		regulator-boot-on;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&usb_5v>;
 	};
 
 	vcc3v3_sys: vcc3v3-sys {
@@ -64,19 +84,9 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc5v0_sys: vcc5v0-sys {
+	vcc3v3_pcie: vcc3v3-pcie-regulator {
 		compatible = "regulator-fixed";
-		regulator-name = "vcc5v0_sys";
-		regulator-always-on;
-		regulator-boot-on;
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
-		vin-supply = <&dc_5v>;
-	};
-
-	pcie_3v3: pcie2-3v3-regulator {
-		compatible = "regulator-fixed";
-		regulator-name = "pcie_3v3";
+		regulator-name = "vcc3v3_pcie";
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		enable-active-high;
@@ -134,12 +144,32 @@
 	cpu-supply = <&vdd_cpu>;
 };
 
-#ifdef DTS_NO_LEGACY
 &gpu {
 	mali-supply = <&vdd_gpu>;
 	status = "okay";
 };
-#endif
+
+&hdmi {
+	avdd-0v9-supply = <&vdda0v9_image>;
+	avdd-1v8-supply = <&vcca1v8_image>;
+	status = "okay";
+};
+
+&hdmi_in {
+	hdmi_in_vp0: endpoint {
+		remote-endpoint = <&vp0_out_hdmi>;
+	};
+};
+
+&hdmi_out {
+	hdmi_out_con: endpoint {
+		remote-endpoint = <&hdmi_con_in>;
+	};
+};
+
+&hdmi_sound {
+	status = "okay";
+};
 
 &i2c0 {
 	status = "okay";
@@ -166,15 +196,14 @@
 		reg = <0x20>;
 		interrupt-parent = <&gpio0>;
 		interrupts = <RK_PA3 IRQ_TYPE_LEVEL_LOW>;
-		assigned-clocks = <&cru I2S1_MCLKOUT_TX>;
-		assigned-clock-parents = <&cru CLK_I2S1_8CH_TX>;
-		#clock-cells = <1>;
-		clock-names = "mclk";
-		clocks = <&cru I2S1_MCLKOUT_TX>;
+		clock-output-names = "rk808-clkout1", "rk808-clkout2";
+
 		pinctrl-names = "default";
 		pinctrl-0 = <&pmic_int>;
 		rockchip,system-power-controller;
-		#sound-dai-cells = <0>;
+		wakeup-source;
+		#clock-cells = <1>;
+
 		vcc1-supply = <&vcc3v3_sys>;
 		vcc2-supply = <&vcc3v3_sys>;
 		vcc3-supply = <&vcc3v3_sys>;
@@ -184,7 +213,6 @@
 		vcc7-supply = <&vcc3v3_sys>;
 		vcc8-supply = <&vcc3v3_sys>;
 		vcc9-supply = <&vcc3v3_sys>;
-		wakeup-source;
 
 		regulators {
 			vdd_logic: DCDC_REG1 {
@@ -389,36 +417,29 @@
 	};
 };
 
-#ifdef DTS_NO_LEGACY
 &i2s1_8ch {
 	rockchip,trcm-sync-tx-only;
 	status = "okay";
 };
-#endif
 
 &gmac1 {
     phy-mode = "rgmii";
     clock_in_out = "output";
-
     snps,reset-gpio = <&gpio2 RK_PB0 GPIO_ACTIVE_LOW>;
     snps,reset-active-low;
     /* Reset time is 100ms, 100ms */
     snps,reset-delays-us = <0 75000 100000>;
-
     assigned-clocks = <&cru SCLK_GMAC1_RX_TX>, <&cru SCLK_GMAC1>;
     assigned-clock-parents = <&cru SCLK_GMAC1_RGMII_SPEED>, <&cru CLK_MAC1_2TOP>;
     assigned-clock-rates = <0>, <125000000>;
-
     pinctrl-names = "default";
     pinctrl-0 = <&gmac1m1_miim
              &gmac1m1_tx_bus2_level3
              &gmac1m1_rx_bus2
              &gmac1m1_rgmii_clk_level2
              &gmac1m1_rgmii_bus_level3>;
-
     tx_delay = <0x1a>;
     rx_delay = <0x0c>; 
-
     phy-handle = <&rgmii_phy1>;
     status = "okay";
 };
@@ -433,8 +454,33 @@
 &pcie2x1 {
     reset-gpios = <&gpio0 RK_PB6 GPIO_ACTIVE_HIGH>;
     disable-gpios = <&gpio0 RK_PA6 GPIO_ACTIVE_HIGH>;
-    vpcie3v3-supply = <&pcie_3v3>;
+    vpcie3v3-supply = <&vcc3v3_pcie>;
     status = "okay";
+};
+
+&pinctrl {
+	leds {
+		sys_led_pin: sys-status-led-pin {
+			rockchip,pins = <0 RK_PC7 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+
+    usb {
+        vcc5v0_usb20_host_en: vcc5v0-usb20-host-en {
+            rockchip,pins = <2 RK_PB6 RK_FUNC_GPIO &pcfg_pull_none>;
+        };
+
+        vcc5v0_usb30_host_en: vcc5v0-usb30-host-en {
+            rockchip,pins = <2 RK_PB5 RK_FUNC_GPIO &pcfg_pull_none>;
+        };
+    };
+
+	pmic {
+		pmic_int: pmic_int {
+			rockchip,pins =
+				<0 RK_PA3 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+	};
 };
 
 &pmu_io_domains {
@@ -445,10 +491,6 @@
 	vccio5-supply = <&vcc_3v3>;
 	vccio6-supply = <&vcc_1v8>;
 	vccio7-supply = <&vcc_3v3>;
-	status = "okay";
-};
-
-&rng {
 	status = "okay";
 };
 
@@ -538,27 +580,19 @@
 	status = "okay";
 };
 
-&pinctrl {
-	leds {
-		sys_led_pin: sys-status-led-pin {
-			rockchip,pins = <0 RK_PC7 RK_FUNC_GPIO &pcfg_pull_none>;
-		};
-	};
+&vop {
+	assigned-clocks = <&cru DCLK_VOP0>, <&cru DCLK_VOP1>;
+	assigned-clock-parents = <&pmucru PLL_HPLL>, <&cru PLL_VPLL>;
+	status = "okay";
+};
 
-    usb {
-        vcc5v0_usb20_host_en: vcc5v0-usb20-host-en {
-            rockchip,pins = <2 RK_PB6 RK_FUNC_GPIO &pcfg_pull_none>;
-        };
+&vop_mmu {
+	status = "okay";
+};
 
-        vcc5v0_usb30_host_en: vcc5v0-usb30-host-en {
-            rockchip,pins = <2 RK_PB5 RK_FUNC_GPIO &pcfg_pull_none>;
-        };
-    };
-
-	pmic {
-		pmic_int: pmic_int {
-			rockchip,pins =
-				<0 RK_PA3 RK_FUNC_GPIO &pcfg_pull_up>;
-		};
+&vp0 {
+	vp0_out_hdmi: endpoint@ROCKCHIP_VOP2_EP_HDMI0 {
+		reg = <ROCKCHIP_VOP2_EP_HDMI0>;
+		remote-endpoint = <&hdmi_in_vp0>;
 	};
 };
