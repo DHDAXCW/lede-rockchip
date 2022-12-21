@@ -24,7 +24,7 @@ TARGET_DEVICES += embedfire_doornet2
 
 define Device/embedfire_lubancat1
   DEVICE_VENDOR := EmbedFire
-  DEVICE_MODEL := LubanCat1
+  DEVICE_MODEL := LubanCat 1
   SOC := rk3566
   UBOOT_DEVICE_NAME := lubancat1-rk3566
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
