@@ -12,7 +12,7 @@
 
 / {
 	model = "EmbedFire LubanCat 1";
-	compatible = "embedfire,lubancat1", "rockchip,rk3566";
+	compatible = "embedfire,lubancat-1", "rockchip,rk3566";
 
 	aliases {
 		ethernet0 = &gmac1;
@@ -74,7 +74,7 @@
 		vin-supply = <&usb_5v>;
 	};
 
-	vcc3v3_sys: vcc3v3-sys {
+	vcc3v3_sys: vcc3v3-sys-regulator {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v3_sys";
 		regulator-always-on;
@@ -423,39 +423,39 @@
 };
 
 &gmac1 {
-    phy-mode = "rgmii";
-    clock_in_out = "output";
-    snps,reset-gpio = <&gpio2 RK_PB0 GPIO_ACTIVE_LOW>;
-    snps,reset-active-low;
-    /* Reset time is 100ms, 100ms */
-    snps,reset-delays-us = <0 75000 100000>;
-    assigned-clocks = <&cru SCLK_GMAC1_RX_TX>, <&cru SCLK_GMAC1>;
-    assigned-clock-parents = <&cru SCLK_GMAC1_RGMII_SPEED>, <&cru CLK_MAC1_2TOP>;
-    assigned-clock-rates = <0>, <125000000>;
-    pinctrl-names = "default";
-    pinctrl-0 = <&gmac1m1_miim
-             &gmac1m1_tx_bus2_level3
-             &gmac1m1_rx_bus2
-             &gmac1m1_rgmii_clk_level2
-             &gmac1m1_rgmii_bus_level3>;
-    tx_delay = <0x1a>;
-    rx_delay = <0x0c>; 
-    phy-handle = <&rgmii_phy1>;
-    status = "okay";
+	phy-mode = "rgmii";
+	clock_in_out = "output";
+	snps,reset-gpio = <&gpio2 RK_PB0 GPIO_ACTIVE_LOW>;
+	snps,reset-active-low;
+	/* Reset time is 75ms, 100ms */
+	snps,reset-delays-us = <0 75000 100000>;
+	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>, <&cru SCLK_GMAC1>;
+	assigned-clock-parents = <&cru SCLK_GMAC1_RGMII_SPEED>, <&cru CLK_MAC1_2TOP>;
+	assigned-clock-rates = <0>, <125000000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&gmac1m1_miim
+			&gmac1m1_tx_bus2_level3
+			&gmac1m1_rx_bus2
+			&gmac1m1_rgmii_clk_level2
+			&gmac1m1_rgmii_bus_level3>;
+	tx_delay = <0x1a>;
+	rx_delay = <0x0c>; 
+	phy-handle = <&rgmii_phy1>;
+	status = "okay";
 };
 
 &mdio1 {
-    rgmii_phy1: phy@0 {
-        compatible = "ethernet-phy-ieee802.3-c22";
-        reg = <0x0>;
-    };
+	rgmii_phy1: phy@0 {
+		compatible = "ethernet-phy-ieee802.3-c22";
+		reg = <0x0>;
+	};
 };
 
 &pcie2x1 {
-    reset-gpios = <&gpio0 RK_PB6 GPIO_ACTIVE_HIGH>;
-    disable-gpios = <&gpio0 RK_PA6 GPIO_ACTIVE_HIGH>;
-    vpcie3v3-supply = <&vcc3v3_pcie>;
-    status = "okay";
+	reset-gpios = <&gpio0 RK_PB6 GPIO_ACTIVE_HIGH>;
+	disable-gpios = <&gpio0 RK_PA6 GPIO_ACTIVE_HIGH>;
+	vpcie3v3-supply = <&vcc3v3_pcie>;
+	status = "okay";
 };
 
 &pinctrl {
@@ -465,15 +465,15 @@
 		};
 	};
 
-    usb {
-        vcc5v0_usb20_host_en: vcc5v0-usb20-host-en {
-            rockchip,pins = <2 RK_PB6 RK_FUNC_GPIO &pcfg_pull_none>;
-        };
+	usb {
+		vcc5v0_usb20_host_en: vcc5v0-usb20-host-en {
+			rockchip,pins = <2 RK_PB6 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
 
-        vcc5v0_usb30_host_en: vcc5v0-usb30-host-en {
-            rockchip,pins = <2 RK_PB5 RK_FUNC_GPIO &pcfg_pull_none>;
-        };
-    };
+		vcc5v0_usb30_host_en: vcc5v0-usb30-host-en {
+			rockchip,pins = <2 RK_PB5 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
 
 	pmic {
 		pmic_int: pmic_int {
@@ -519,18 +519,18 @@
 };
 
 &sdmmc0 {
-    max-frequency = <150000000>;
-    supports-sd;
-    bus-width = <4>;
-    cap-mmc-highspeed;
-    cap-sd-highspeed;
-    disable-wp;
-    sd-uhs-sdr104;
-    vmmc-supply = <&vcc3v3_sd>;
-    vqmmc-supply = <&vccio_sd>;
-    pinctrl-names = "default";
-    pinctrl-0 = <&sdmmc0_bus4 &sdmmc0_clk &sdmmc0_cmd &sdmmc0_det>;
-    status = "okay";
+	max-frequency = <150000000>;
+	supports-sd;
+	bus-width = <4>;
+	cap-mmc-highspeed;
+	cap-sd-highspeed;
+	disable-wp;
+	sd-uhs-sdr104;
+	vmmc-supply = <&vcc3v3_sd>;
+	vqmmc-supply = <&vccio_sd>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&sdmmc0_bus4 &sdmmc0_clk &sdmmc0_cmd &sdmmc0_det>;
+	status = "okay";
 };
 
 /* USB OTG/USB Host_1 USB 2.0 Comb */
