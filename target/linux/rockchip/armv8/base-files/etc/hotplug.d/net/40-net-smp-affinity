@@ -47,12 +47,12 @@ embedfire,lubancat2)
 	;;
 friendlyarm,nanopi-r5s)
 	set_interface_core 0 "eth0"
-	set_interface_core 4 "eth1-0"
-	set_interface_core 4 "eth1-16"
+	set_interface_core 1 "eth1-0"
+	set_interface_core 2 "eth1-16"
 	set_interface_core 2 "eth1-18"
-	set_interface_core 6 "eth2-0"
-	set_interface_core 6 "eth2-18"
-	set_interface_core 2 "eth2-16"
+	set_interface_core 3 "eth2-0"
+	set_interface_core 3 "eth2-18"
+	set_interface_core 1 "eth2-16"
 	echo e > /sys/class/net/br-lan/queues/rx-0/rps_cpus
 	sysctl net.core.rps_sock_flow_entries=32768
 	echo 32768 > /sys/class/net/br-lan/queues/rx-0/rps_flow_cnt
@@ -68,13 +68,13 @@ friendlyarm,nanopi-r5s)
 hinlink,opc-h68k|\
 embedfire,lubancat2n)
 	set_interface_core 0 "eth0"
-	set_interface_core 2 "eth1"
-	set_interface_core 4 "eth2-0"
-	set_interface_core 4 "eth2-16"
-	set_interface_core 2 "eth2-18"
-	set_interface_core 6 "eth3-0"
-	set_interface_core 6 "eth3-18"
-	set_interface_core 2 "eth3-16"
+	set_interface_core 1 "eth1"
+	set_interface_core 2 "eth2-0"
+	set_interface_core 2 "eth2-16"
+	set_interface_core 1 "eth2-18"
+	set_interface_core 3 "eth3-0"
+	set_interface_core 3 "eth3-18"
+	set_interface_core 1 "eth3-16"
 	echo e > /sys/class/net/br-lan/queues/rx-0/rps_cpus
 	sysctl net.core.rps_sock_flow_entries=32768
 	echo 32768 > /sys/class/net/br-lan/queues/rx-0/rps_flow_cnt
