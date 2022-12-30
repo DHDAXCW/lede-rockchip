@@ -53,7 +53,6 @@
 		};
 	};
 
-#ifdef DTS_NO_LEGACY
 	hdmi-con {
 		compatible = "hdmi-connector";
 		type = "a";
@@ -64,7 +63,6 @@
 			};
 		};
 	};
-#endif
 
 	dc_5v: dc-5v {
 		compatible = "regulator-fixed";
@@ -177,7 +175,6 @@
 	cpu-supply = <&vdd_cpu>;
 };
 
-#ifdef DTS_NO_LEGACY
 &gpu {
 	mali-supply = <&vdd_gpu>;
 	status = "okay";
@@ -204,7 +201,6 @@
 &hdmi_sound {
 	status = "okay";
 };
-#endif
 
 &i2c0 {
 	status = "okay";
@@ -454,12 +450,10 @@
 	};
 };
 
-#ifdef DTS_NO_LEGACY
 &i2s1_8ch {
 	rockchip,trcm-sync-tx-only;
 	status = "okay";
 };
-#endif
 
 &gmac0 {
     phy-mode = "rgmii";
@@ -525,10 +519,6 @@
         compatible = "ethernet-phy-ieee802.3-c22";
         reg = <0x0>;
     };
-};
-
-&gic {
-	mbi-ranges = <94 31>, <229 31>, <289 31>;
 };
 
 &pcie30phy {
@@ -698,7 +688,6 @@
 	status = "okay";
 };
 
-#ifdef DTS_NO_LEGACY
 &vop {
 	assigned-clocks = <&cru DCLK_VOP0>, <&cru DCLK_VOP1>;
 	assigned-clock-parents = <&pmucru PLL_HPLL>, <&cru PLL_VPLL>;
@@ -715,7 +704,6 @@
 		remote-endpoint = <&hdmi_in_vp0>;
 	};
 };
-#endif
 
 &pinctrl {
 	leds {
