@@ -9,7 +9,7 @@
 #include <dt-bindings/leds/common.h>
 #include <dt-bindings/pinctrl/rockchip.h>
 #include <dt-bindings/soc/rockchip,vop2.h>
-#include "rk3568-lubancat2.dtsi"
+#include "rk3568-lubancat.dtsi"
 
 / {
     model = "EmbedFire LubanCat 2";
