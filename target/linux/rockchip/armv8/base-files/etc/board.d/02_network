@@ -16,10 +16,10 @@ rockchip_setup_interfaces()
 	friendlyarm,nanopi-r2c|\
 	friendlyarm,nanopi-r2s|\
 	friendlyarm,nanopi-r4s|\
+	friendlyarm,nanopi-r5c|\
 	friendlyarm,nanopi-r4se)
 		ucidef_set_interfaces_lan_wan 'eth1' 'eth0'
 		;;
-	friendlyarm,nanopi-r5c|\
 	firefly,rk3568-roc-pc)
 		ucidef_set_interfaces_lan_wan 'eth0' 'eth1'
 		;;

@@ -3,6 +3,8 @@
  * Copyright (c) 2021 FriendlyElec Computer Tech. Co., Ltd.
  * (http://www.friendlyarm.com)
  *
+ * Copyright (c) 2022 Marty Jones <mj8263788@gmail.com>
+ * Copyright (c) 2022 Tianling Shen <cnsztl@gmail.com>
  */
 
 /dts-v1/;
@@ -11,13 +13,15 @@
 #include <dt-bindings/leds/common.h>
 #include <dt-bindings/pinctrl/rockchip.h>
 #include <dt-bindings/soc/rockchip,vop2.h>
-#include "rk3568.dtsi"
+#include "rk3568-lubancat.dtsi"
 
 / {
 	model = "FriendlyElec NanoPi R5C";
 	compatible = "friendlyarm,nanopi-r5c","rockchip,rk3568";
 
 	aliases {
+		ethernet0 = &rtl8125_2;
+		ethernet1 = &rtl8125_1;
 		mmc0 = &sdmmc0;
 		mmc1 = &sdhci;
 
@@ -53,17 +57,18 @@
 			label = "red:power";
 		};
 
-		lan_led: led-1 {
+		wan_led: led-1 {
 			gpios = <&gpio3 RK_PA3 GPIO_ACTIVE_HIGH>;
+			label = "green:wan";
+		};
+
+		lan_led: led-2 {
+			gpios = <&gpio3 RK_PA4 GPIO_ACTIVE_HIGH>;
 			label = "green:lan";
 		};
 
-		wan_led: led-2 {
-			gpios = <&gpio3 RK_PA4 GPIO_ACTIVE_HIGH>;
-			label = "green:wan";
-		};
 		wlan_led: led-3 {
-			gpios = <&gpio2 RK_PD2 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio3 RK_PA5 GPIO_ACTIVE_HIGH>;
 			label = "green:wlan";
 		};
 	};
@@ -447,7 +452,6 @@
 	status = "okay";
 };
 
-/* M.2 Key E 2230*/
 &pcie2x1 {
 	num-viewport = <4>;
 	pinctrl-names = "default";
@@ -460,13 +464,11 @@
 	data-lanes = <1 2>;
 	status = "okay";
 };
-/* ETH0 2.5G*/
+
 &pcie3x1 {
+	num-lanes = <1>;
 	num-viewport = <4>;
-	rockchip,bifurcation;
-	rockchip,init-delay-ms = <100>;
 	reset-gpios = <&gpio0 RK_PA0 GPIO_ACTIVE_HIGH>;
-    vpcie3v3-supply = <&vcc3v3_pcie>;
 	status = "okay";
 
 	pcie@10 {
@@ -474,19 +476,21 @@
 		#address-cells = <3>;
 		#size-cells = <2>;
 
-		r8125_2: pcie@10,0 {
+		rtl8125_1: pcie-eth@10,0 {
+			compatible = "pci10ec,8125";
 			reg = <0x000000 0 0 0 0>;
-			local-mac-address = [ 00 00 00 00 00 00 ];
+
+			realtek,led-data = <0x4078>;
 		};
 	};
 };
 
-/* ETH1 2.5G*/
+
 &pcie3x2 {
+	num-lanes = <1>;
 	num-viewport = <4>;
-	rockchip,bifurcation;
-	reset-gpios = <&gpio0 RK_PB6 GPIO_ACTIVE_HIGH>;
-    vpcie3v3-supply = <&vcc3v3_pcie>;
+	reset-gpios = <&gpio2 RK_PD6 GPIO_ACTIVE_HIGH>;
+	vpcie3v3-supply = <&vcc3v3_pcie>;
 	status = "okay";
 
 	pcie@20 {
@@ -494,9 +498,11 @@
 		#address-cells = <3>;
 		#size-cells = <2>;
 
-		r8125_1: pcie@20,0 {
+		rtl8125_2: pcie-eth@20,0 {
+			compatible = "pci10ec,8125";
 			reg = <0x000000 0 0 0 0>;
-			local-mac-address = [ 00 00 00 00 00 00 ];
+
+			realtek,led-data = <0x4078>;
 		};
 	};
 };
@@ -537,8 +543,8 @@
 			rockchip,pins = <0 RK_PA6 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
-
-    m2-pins {
+	
+	m2-pins {
 		m2_w_disable_pin: m2-w-disable-pin {
 			rockchip,pins = <2 RK_PD2 RK_FUNC_GPIO &pcfg_output_high>;
 		};
