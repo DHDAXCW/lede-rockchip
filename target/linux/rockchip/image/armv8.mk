@@ -50,7 +50,7 @@ define Device/embedfire_lubancat2
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core
 endef
-#TARGET_DEVICES += embedfire_lubancat2
+TARGET_DEVICES += embedfire_lubancat2
 
 define Device/embedfire_lubancat2n
   DEVICE_VENDOR := EmbedFire

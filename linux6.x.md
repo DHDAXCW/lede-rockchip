@@ -1,4 +1,4 @@
-# 切换6.0来编译rockchip rk356x设备
+# 切换6.1来编译rockchip rk356x设备
 1. 将源码下载 `git clone https://github.com/DHDAXCW/lede-rockchip`
 2. 执行命令来切换6.1内核`sed -i 's/5.4/6.1/g' ./target/linux/rockchip/Makefile`
 3. 删掉文件，拉取上游的 `rm -rf package/kernel/mac80211 && rm -rf package/kernel/rtl8821cu`

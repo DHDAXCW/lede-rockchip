@@ -13,7 +13,7 @@ Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 
 --- a/drivers/crypto/rockchip/rk3288_crypto.h
 +++ b/drivers/crypto/rockchip/rk3288_crypto.h
-@@ -235,7 +235,7 @@ struct rk_ahash_ctx {
+@@ -209,7 +209,7 @@ struct rk_ahash_ctx {
  	struct crypto_ahash		*fallback_tfm;
  };
  

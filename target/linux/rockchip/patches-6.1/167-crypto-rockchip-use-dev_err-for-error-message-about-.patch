@@ -14,7 +14,7 @@ Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 
 --- a/drivers/crypto/rockchip/rk3288_crypto.c
 +++ b/drivers/crypto/rockchip/rk3288_crypto.c
-@@ -371,8 +371,7 @@ static int rk_crypto_probe(struct platfo
+@@ -207,8 +207,7 @@ static int rk_crypto_probe(struct platfo
  
  	crypto_info->irq = platform_get_irq(pdev, 0);
  	if (crypto_info->irq < 0) {

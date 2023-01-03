@@ -13,7 +13,7 @@ Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 
 --- a/drivers/crypto/rockchip/rk3288_crypto.c
 +++ b/drivers/crypto/rockchip/rk3288_crypto.c
-@@ -381,7 +381,7 @@ static int rk_crypto_probe(struct platfo
+@@ -217,7 +217,7 @@ static int rk_crypto_probe(struct platfo
  			       "rk-crypto", pdev);
  
  	if (err) {
