@@ -3,8 +3,6 @@
  * Copyright (c) 2021 FriendlyElec Computer Tech. Co., Ltd.
  * (http://www.friendlyarm.com)
  *
- * Copyright (c) 2022 Marty Jones <mj8263788@gmail.com>
- * Copyright (c) 2022 Tianling Shen <cnsztl@gmail.com>
  */
 
 /dts-v1/;
@@ -58,12 +56,12 @@
 		};
 
 		wan_led: led-1 {
-			gpios = <&gpio3 RK_PA3 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio3 RK_PA4 GPIO_ACTIVE_HIGH>;
 			label = "green:wan";
 		};
 
 		lan_led: led-2 {
-			gpios = <&gpio3 RK_PA4 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio3 RK_PA3 GPIO_ACTIVE_HIGH>;
 			label = "green:lan";
 		};
 
