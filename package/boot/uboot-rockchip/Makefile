@@ -151,6 +151,17 @@ define U-Boot/nanopi-r5s-rk3568
   DDR:=rk3568_ddr_1560MHz_v1.13.bin
 endef
 
+define U-Boot/nanopi-r5c-rk3568
+  BUILD_SUBTARGET:=armv8
+  NAME:=NanoPi R5C
+  BUILD_DEVICES:= \
+    friendlyarm_nanopi-r5c
+  DEPENDS:=+PACKAGE_u-boot-nanopi-r5c-rk3568:arm-trusted-firmware-rk3568
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip-vendor
+  ATF:=rk3568_bl31_v1.28.elf
+  DDR:=rk3568_ddr_1560MHz_v1.13.bin
+endef
+
 define U-Boot/mrkaio-m68s-rk3568
   BUILD_SUBTARGET:=armv8
   NAME:=Mrkaio M68S
@@ -198,7 +209,8 @@ UBOOT_TARGETS := \
   lubancat1-rk3566 \
   lubancat2-rk3568 \
   lubancat1n-rk3566 \
-  lubancat2n-rk3568
+  lubancat2n-rk3568 \
+  nanopi-r5c-rk3568
 
 UBOOT_CONFIGURE_VARS += USE_PRIVATE_LIBGCC=yes
 
