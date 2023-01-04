@@ -12,6 +12,7 @@ friendlyarm_nanopi-r2s
 friendlyarm_nanopi-r4s
 friendlyarm_nanopi-r4se
 friendlyarm_nanopi-r5s
+friendlyarm_nanopi-r5c
 firefly_station-p2
 hinlink_opc-h68k
 ```
