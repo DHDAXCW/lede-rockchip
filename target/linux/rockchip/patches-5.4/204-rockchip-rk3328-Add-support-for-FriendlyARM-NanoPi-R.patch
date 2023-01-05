@@ -59,9 +59,9 @@
 +	label = "nanopi-r2c:red:sys";
 +};
 +
-+&usb_eth {
++/*&usb_eth {
 +	realtek,led-data = <0x78>;
-+};
++};*/
 +
 +&wan_led {
 +	label = "nanopi-r2c:green:wan";
