@@ -61,9 +61,6 @@ Notice:
 
 This set of code is guaranteed to compile successfully. It includes all source codes of R21, including IPK.
 
-You can use it freely, but please indicate my GitHub warehouse link for the second release of source code compilation. Thank you for your cooperation!
-=
-
 Second compilation:
 ```bash
 cd lede
