@@ -48,7 +48,7 @@ define Device/embedfire_lubancat2
   SOC := rk3568
   UBOOT_DEVICE_NAME := lubancat2-rk3568
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
-  DEVICE_PACKAGES := kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core kmod-r8169
 endef
 #TARGET_DEVICES += embedfire_lubancat2
 
@@ -138,6 +138,6 @@ define Device/firefly_station-p2
   DEVICE_DTS := rockchip/rk3568-roc-pc
   UBOOT_DEVICE_NAME := station-p2-rk3568
   IMAGE/sysupgrade.img.gz := boot-common | boot-script-bin | rockchip-gpt-img | gzip | append-metadata
-  DEVICE_PACKAGES := kmod-ikconfig kmod-ata-ahci-platform
+  DEVICE_PACKAGES := kmod-ikconfig kmod-ata-ahci-platform kmod-r8169
 endef
 #TARGET_DEVICES += firefly_station-p2
