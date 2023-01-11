@@ -705,7 +705,7 @@
 
 &pinctrl {
 	leds {
-		user_led_pin: user-status-led-pin {
+		sys_led_pin: sys: user-status-led-pin {
 			rockchip,pins = <0 RK_PC7 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
