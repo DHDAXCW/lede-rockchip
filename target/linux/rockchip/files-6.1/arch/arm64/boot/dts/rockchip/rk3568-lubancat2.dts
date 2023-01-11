@@ -523,10 +523,6 @@
 	};
 };
 
-&gic {
-	mbi-ranges = <94 31>, <229 31>, <289 31>;
-};
-
 &pcie30phy {
 	status = "okay";
 };
