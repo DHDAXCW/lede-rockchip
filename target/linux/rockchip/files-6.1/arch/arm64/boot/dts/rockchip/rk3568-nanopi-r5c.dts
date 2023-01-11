@@ -451,6 +451,8 @@
 };
 
 &pcie2x1 {
+	num-viewport = <4>;
+	pinctrl-0 = <&m2_w_disable_pin>;
 	reset-gpios = <&gpio3 RK_PC1 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_pcie>;
 	status = "okay";
@@ -538,6 +540,12 @@
 	usb {
 		vcc5v0_usb_host_en: vcc5v0_usb_host_en {
 			rockchip,pins = <0 RK_PA6 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+	
+	m2-pins {
+		m2_w_disable_pin: m2-w-disable-pin {
+			rockchip,pins = <2 RK_PD2 RK_FUNC_GPIO &pcfg_output_high>;
 		};
 	};
 };
