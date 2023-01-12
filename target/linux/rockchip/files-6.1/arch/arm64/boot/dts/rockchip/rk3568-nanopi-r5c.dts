@@ -47,7 +47,7 @@
 	leds {
 		compatible = "gpio-leds";
 		pinctrl-0 = <&sys_led_pin>, <&lan_led_pin>,
-			    <&wan_led_pin>, <&wl_led_pin>;
+			    <&wan_led_pin>, <&wlan_led_pin>;
 		pinctrl-names = "default";
 
 		sys_led: led-0 {
