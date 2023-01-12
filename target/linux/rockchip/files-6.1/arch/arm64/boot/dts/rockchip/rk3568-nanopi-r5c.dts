@@ -527,7 +527,7 @@
 			rockchip,pins = <3 RK_PA4 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 
-		wl_led_pin: wl-led-pin {
+		wlan_led_pin: wlan-led-pin {
 			rockchip,pins = <3 RK_PA5 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
