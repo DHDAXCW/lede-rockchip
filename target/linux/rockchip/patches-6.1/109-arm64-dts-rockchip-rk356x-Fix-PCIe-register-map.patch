@@ -38,3 +38,14 @@ Signed-off-by: Andrew Powers-Holmes <aholmes@omnom.net>
  		resets = <&cru SRST_PCIE20_POWERUP>;
  		reset-names = "pipe";
  		#address-cells = <3>;
+
+--- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+@@ -993,6 +993,7 @@ pcie2x1: pcie@fe260000 {
+ 		resets = <&cru SRST_PCIE20_POWERUP>;
+ 		reset-names = "pipe";
+ 		#address-cells = <3>;
++		#interrupt-cells = <1>;
+ 		#size-cells = <2>;
+ 		status = "disabled";
+ 
