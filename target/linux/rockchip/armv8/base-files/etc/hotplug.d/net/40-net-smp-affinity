@@ -44,6 +44,8 @@ embedfire,lubancat1n|\
 embedfire,lubancat2)
 	set_interface_core 2 "eth0"
 	set_interface_core 3 "eth1"
+	/usr/sbin/ethtool -K eth0 tso on sg on tx on
+	/usr/sbin/ethtool -K eth1 tso on sg on tx on
 	;;
 friendlyarm,nanopi-r5c)
 	set_interface_core 1 "eth0-0"
@@ -110,5 +112,9 @@ embedfire,lubancat2n)
 	echo e > /sys/class/net/eth3/queues/rx-0/rps_cpus
 	sysctl net.core.rps_sock_flow_entries=32768
 	echo 32768 > /sys/class/net/eth3/queues/rx-0/rps_flow_cnt
+	/usr/sbin/ethtool -K eth0 tso on sg on tx on
+	/usr/sbin/ethtool -K eth1 tso on sg on tx on
+	/usr/sbin/ethtool -K eth2 tso on sg on tx on
+	/usr/sbin/ethtool -K eth3 tso on sg on tx on
 	;;
 esac
