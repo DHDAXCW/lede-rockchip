@@ -58,13 +58,13 @@ friendlyarm,nanopi-r5c)
 	/usr/sbin/ethtool -K eth1 tso on sg on tx on
 	;;
 friendlyarm,nanopi-r5s)
-	set_interface_core 0 "eth0"
-	set_interface_core 1 "eth1-0"
-	set_interface_core 2 "eth1-16"
-	set_interface_core 2 "eth1-18"
-	set_interface_core 3 "eth2-0"
-	set_interface_core 3 "eth2-18"
-	set_interface_core 1 "eth2-16"
+	set_interface_core "0-3" "eth0"
+	set_interface_core "0-1" "eth1-0"
+	set_interface_core "0-1" "eth1-16"
+	set_interface_core "1-2" "eth1-18"
+	set_interface_core "2-3" "eth2-0"
+	set_interface_core "2-3" "eth2-18"
+	set_interface_core "2-3" "eth2-16"
 	/usr/sbin/ethtool -K eth0 tso on sg on tx on
 	/usr/sbin/ethtool -K eth1 tso on sg on tx on
 	/usr/sbin/ethtool -K eth2 tso on sg on tx on
