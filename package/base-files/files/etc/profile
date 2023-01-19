@@ -13,6 +13,7 @@ export HOME=$(grep -e "^${USER:-root}:" /etc/passwd | cut -d ":" -f 6)
 export HOME=${HOME:-/root}
 export PS1='\u@\h:\w\$ '
 export ENV=/etc/shinit
+ulimit -n 655350
 
 case "$TERM" in
 	xterm*|rxvt*)
