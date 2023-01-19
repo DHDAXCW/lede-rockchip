@@ -26,6 +26,27 @@ set_interface_core() {
 	echo "${core_mask}" > /proc/irq/${irq}/smp_affinity_list
 }
 
+sysctl -w net.core.rmem_max = 26214400
+sysctl -w net.core.rmem_default = 2097152
+sysctl -w net.core.wmem_max = 16214400
+sysctl -w net.core.wmem_default = 524288
+sysctl -w net.ipv4.tcp_mem = 22611 65536 932448
+sysctl -w net.ipv4.tcp_rmem = 65536 524288 8388608
+sysctl -w net.ipv4.tcp_wmem = 65536 524288 8388608
+sysctl -w net.ipv4.tcp_max_syn_backlog = 56384
+sysctl -w net.ipv4.tcp_max_tw_buckets = 6000
+sysctl -w net.ipv4.tcp_max_orphans = 32768
+sysctl -w net.ipv4.tcp_orphan_retries = 3
+sysctl -w net.netfilter.nf_conntrack_max=6553500
+sysctl -w net.netfilter.nf_conntrack_tcp_timeout_established=7440
+sysctl -w net.netfilter.nf_conntrack_udp_timeout=60
+sysctl -w net.netfilter.nf_conntrack_udp_timeout_stream=180
+sysctl -w fs.nr_open = 65535000
+sysctl -w net.core.netdev_budget = 5000
+sysctl -w net.core.netdev_budget_usecs = 50000
+sysctl -w net.netfilter.nf_conntrack_max = 629536
+sysctl -w net.netfilter.nf_conntrack_buckets = 32384
+
 case "$(board_name)" in
 embedfire,doornet1|\
 friendlyarm,nanopi-r2c|\
@@ -59,10 +80,10 @@ friendlyarm,nanopi-r5c)
 	;;
 friendlyarm,nanopi-r5s)
 	set_interface_core "0-3" "eth0"
-	set_interface_core "0-1" "eth1-0"
+	set_interface_core "1" "eth1-0"
 	set_interface_core "0-1" "eth1-16"
 	set_interface_core "1-2" "eth1-18"
-	set_interface_core "2-3" "eth2-0"
+	set_interface_core "3" "eth2-0"
 	set_interface_core "2-3" "eth2-18"
 	set_interface_core "2-3" "eth2-16"
 	/usr/sbin/ethtool -K eth0 tso on sg on tx on
