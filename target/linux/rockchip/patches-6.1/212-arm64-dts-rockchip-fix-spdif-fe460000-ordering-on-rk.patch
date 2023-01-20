@@ -15,7 +15,7 @@ Signed-off-by: Heiko Stuebner <heiko@sntech.de>
 
 --- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-@@ -1057,20 +1057,6 @@
+@@ -1058,20 +1058,6 @@
  		status = "disabled";
  	};
  
@@ -36,7 +36,7 @@ Signed-off-by: Heiko Stuebner <heiko@sntech.de>
  	i2s0_8ch: i2s@fe400000 {
  		compatible = "rockchip,rk3568-i2s-tdm";
  		reg = <0x0 0xfe400000 0x0 0x1000>;
-@@ -1149,6 +1135,20 @@
+@@ -1150,6 +1136,20 @@
  		#sound-dai-cells = <0>;
  		status = "disabled";
  	};
