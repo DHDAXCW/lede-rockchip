@@ -20,6 +20,10 @@ uci_apply_defaults() {
 boot() {
 	[ -f /proc/mounts ] || /sbin/mount_root
 	[ -f /proc/jffs2_bbc ] && echo "S" > /proc/jffs2_bbc
+	have_ro_ext4=$(/bin/cat /proc/mounts |/bin/grep ' / ext4'|/bin/grep 'ro'|/usr/bin/wc -l)
+	if [ "$have_ro_ext4" != "0" ]; then
+		/usr/bin/mount -o remount,rw /
+	fi
 
 	mkdir -p /var/lock
 	chmod 1777 /var/lock
