@@ -1,7 +1,7 @@
 # 切换6.1来编译rockchip rk356x设备
 1. 将源码下载 `git clone https://github.com/DHDAXCW/lede-rockchip`
 2. 执行命令来切换6.1内核`sed -i 's/5.4/6.1/g' ./target/linux/rockchip/Makefile`
-3. 删掉文件，拉取上游的 `rm -rf package/kernel/mac80211 && rm -rf package/kernel/rtl8821cu`
+3. 删掉文件，拉取上游的 `rm -rf package/kernel/mac80211 && rm -rf package/kernel/rtl8821cu && rm -rf package/kernel/mt76`
 4. 下载上游mac80211 `svn export https://github.com/openwrt/openwrt/trunk/package/kernel/mac80211 package/kernel/mac80211`
 5. 下载上游mt76 `svn export https://github.com/openwrt/openwrt/trunk/package/kernel/mt76 package/kernel/mt76`
 6. 将在target/linux/rockchip/image/armv8.mk这个文件夹里，去掉注释#，如下：
