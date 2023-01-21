@@ -1,5 +1,5 @@
 PKG_NAME ?= trusted-firmware-a
-PKG_CPE_ID ?= cpe:/a:arm:trusted_firmware-a
+PKG_CPE_ID ?= cpe:/a:arm:arm_trusted_firmware
 
 ifndef PKG_SOURCE_PROTO
 PKG_SOURCE = trusted-firmware-a-$(PKG_VERSION).tar.gz
@@ -81,7 +81,6 @@ define Build/Compile/Trusted-Firmware-A
 		$(if $(DTC),DTC="$(DTC)") \
 		PLAT=$(PLAT) \
 		BUILD_STRING="OpenWrt v$(PKG_VERSION)-$(PKG_RELEASE) ($(VARIANT))" \
-		$(if $(CONFIG_BINUTILS_VERSION_2_39),LDFLAGS="-no-warn-rwx-segments") \
 		$(TFA_MAKE_FLAGS)
 endef
 
