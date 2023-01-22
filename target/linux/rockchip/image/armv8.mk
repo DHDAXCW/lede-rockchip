@@ -130,7 +130,7 @@ define Device/friendlyarm_nanopi-r5c
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8125
 endef
-TARGET_DEVICES += friendlyarm_nanopi-r5c
+#TARGET_DEVICES += friendlyarm_nanopi-r5c
 
 define Device/firefly_station-p2
   DEVICE_VENDOR := Firefly
