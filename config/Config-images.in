@@ -37,11 +37,9 @@ menu "Target Images"
 				bool "lzma"
 
 			config TARGET_INITRAMFS_COMPRESSION_LZO
-				depends on !TARGET_ROOTFS_INITRAMFS_SEPARATE
 				bool "lzo"
 
 			config TARGET_INITRAMFS_COMPRESSION_LZ4
-				depends on !TARGET_ROOTFS_INITRAMFS_SEPARATE
 				bool "lz4"
 
 			config TARGET_INITRAMFS_COMPRESSION_XZ
@@ -307,7 +305,8 @@ menu "Target Images"
 	config TARGET_ROOTFS_PARTSIZE
 		int "Root filesystem partition size (in MiB)"
 		depends on USES_ROOTFS_PART || TARGET_ROOTFS_EXT4FS
-		default 400
+		default 400 if TARGET_x86
+		default 160
 		help
 		  Select the root filesystem partition size.
 
