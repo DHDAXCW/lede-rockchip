@@ -300,7 +300,7 @@ menu "Target Images"
 		default 8 if TARGET_apm821xx_sata
 		default 64 if TARGET_bcm27xx
 		default 32 if TARGET_rockchip
-    default 32 if TARGET_x86
+		default 32 if TARGET_x86
 		default 16
 
 	config TARGET_ROOTFS_PARTSIZE
