@@ -269,7 +269,7 @@ foreach my $mirror (@ARGV) {
 	} elsif ($mirror =~ /^\@GITHUB\/(.+)$/) {
 		# give github a few more tries (different mirrors)
 		for (1 .. 5) {
-			push @mirrors, "https://ghproxy.com/https://raw.githubusercontent.com/$1";
+			push @mirrors, "https://raw.githubusercontent.com/$1";
 		}
 	} elsif ($mirror =~ /^\@GNU\/(.+)$/) {
 		push @mirrors, "https://mirrors.ustc.edu.cn/gnu/$1";
