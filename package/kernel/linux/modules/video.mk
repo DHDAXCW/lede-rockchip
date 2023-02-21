@@ -54,6 +54,26 @@ endef
 $(eval $(call KernelPackage,backlight-pwm))
 
 
+define KernelPackage/acpi-video
+  SUBMENU:=$(VIDEO_MENU)
+  TITLE:=ACPI Extensions For Display Adapters
+  DEPENDS:=@TARGET_x86 +kmod-backlight
+  HIDDEN:=1
+  KCONFIG:= \
+	CONFIG_ACPI_WMI \
+	CONFIG_ACPI_VIDEO
+  FILES:=$(LINUX_DIR)/drivers/acpi/video.ko \
+	$(LINUX_DIR)/drivers/platform/x86/wmi.ko
+  AUTOLOAD:=$(call AutoProbe,wmi video)
+endef
+
+define KernelPackage/acpi-video/description
+ Kernel support for integrated graphics devices
+endef
+
+$(eval $(call KernelPackage,acpi-video))
+
+
 define KernelPackage/fb
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=Framebuffer and framebuffer console support
@@ -220,7 +240,6 @@ endef
 
 $(eval $(call KernelPackage,fb-tft-ili9486))
 
-
 define KernelPackage/multimedia-input
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=Multimedia input support
@@ -238,7 +257,6 @@ define KernelPackage/multimedia-input/description
 endef
 
 $(eval $(call KernelPackage,multimedia-input))
-
 
 define KernelPackage/drm
   SUBMENU:=$(VIDEO_MENU)
@@ -258,23 +276,6 @@ define KernelPackage/drm/description
 endef
 
 $(eval $(call KernelPackage,drm))
-
-define KernelPackage/drm-ttm
-  SUBMENU:=$(VIDEO_MENU)
-  TITLE:=GPU memory management subsystem
-  DEPENDS:=@DISPLAY_SUPPORT +kmod-drm
-  KCONFIG:=CONFIG_DRM_TTM
-  FILES:=$(LINUX_DIR)/drivers/gpu/drm/ttm/ttm.ko
-  AUTOLOAD:=$(call AutoProbe,ttm)
-endef
-
-define KernelPackage/drm-ttm/description
-  GPU memory management subsystem for devices with multiple GPU memory types.
-  Will be enabled automatically if a device driver uses it.
-endef
-
-$(eval $(call KernelPackage,drm-ttm))
-
 
 define KernelPackage/drm-ttm-helper
   SUBMENU:=$(VIDEO_MENU)
@@ -301,6 +302,21 @@ endef
 
 $(eval $(call KernelPackage,drm-shmem-helper))
 
+define KernelPackage/drm-ttm
+  SUBMENU:=$(VIDEO_MENU)
+  TITLE:=GPU memory management subsystem
+  DEPENDS:=@DISPLAY_SUPPORT +kmod-drm
+  KCONFIG:=CONFIG_DRM_TTM
+  FILES:=$(LINUX_DIR)/drivers/gpu/drm/ttm/ttm.ko
+  AUTOLOAD:=$(call AutoProbe,ttm)
+endef
+
+define KernelPackage/drm-ttm/description
+  GPU memory management subsystem for devices with multiple GPU memory types.
+  Will be enabled automatically if a device driver uses it.
+endef
+
+$(eval $(call KernelPackage,drm-ttm))
 
 define KernelPackage/drm-kms-helper
   SUBMENU:=$(VIDEO_MENU)
@@ -347,7 +363,7 @@ define KernelPackage/drm-imx
   TITLE:=Freescale i.MX DRM support
   DEPENDS:=@TARGET_imx +kmod-drm-kms-helper
   KCONFIG:=CONFIG_DRM_IMX \
-	CONFIG_DRM_FBDEV_EMULATION=y \
+  	CONFIG_DRM_FBDEV_EMULATION=y \
 	CONFIG_DRM_FBDEV_OVERALLOC=100 \
 	CONFIG_IMX_IPUV3_CORE \
 	CONFIG_RESET_CONTROLLER=y \
@@ -471,6 +487,25 @@ define KernelPackage/drm-radeon/description
 endef
 
 $(eval $(call KernelPackage,drm-radeon))
+
+define KernelPackage/drm-nouveau
+  SUBMENU:=$(VIDEO_MENU)
+  TITLE:=nouveau DRM support
+  DEPENDS:=@TARGET_x86 @DISPLAY_SUPPORT +kmod-drm-kms-helper +LINUX_6_1:kmod-acpi-video
+  KCONFIG:=CONFIG_DRM_NOUVEAU \
+	NOUVEAU_DEBUG=5 \
+	NOUVEAU_DEBUG_DEFAULT=3 \
+	NOUVEAU_DEBUG_MMU=n \
+	DRM_NOUVEAU_BACKLIGHT=y
+  FILES:=$(LINUX_DIR)/drivers/gpu/drm/nouveau/nouveau.ko
+  AUTOLOAD:=$(call AutoProbe,nouveau)
+endef
+
+define KernelPackage/drm-nouveau/description
+  Direct Rendering Manager (DRM) support for NVIDIA Cuda Video Cards
+endef
+
+$(eval $(call KernelPackage,drm-nouveau))
 
 #
 # Video Capture
@@ -1114,3 +1149,40 @@ define KernelPackage/video-gspca-konica/description
 endef
 
 $(eval $(call KernelPackage,video-gspca-konica))
+
+define KernelPackage/drm-i915
+  SUBMENU:=$(VIDEO_MENU)
+  TITLE:=Intel GPU drm support
+  DEPENDS:=@TARGET_x86 +kmod-drm-ttm +kmod-drm-kms-helper +i915-firmware \
+	+LINUX_6_1:kmod-drm-display-helper +LINUX_6_1:kmod-acpi-video
+  KCONFIG:= \
+	CONFIG_INTEL_GTT \
+	CONFIG_DRM_I915 \
+	CONFIG_DRM_I915_CAPTURE_ERROR \
+	CONFIG_DRM_I915_COMPRESS_ERROR \
+	CONFIG_DRM_I915_DEBUG=n \
+	CONFIG_DRM_I915_DEBUG_GUC=n \
+	CONFIG_DRM_I915_DEBUG_MMIO=n \
+	CONFIG_DRM_I915_DEBUG_RUNTIME_PM=n \
+	CONFIG_DRM_I915_DEBUG_VBLANK_EVADE=n \
+	CONFIG_DRM_I915_GVT=y \
+	CONFIG_DRM_I915_LOW_LEVEL_TRACEPOINTS=n \
+	CONFIG_DRM_I915_SELFTEST=n \
+	CONFIG_DRM_I915_SW_FENCE_CHECK_DAG=n \
+	CONFIG_DRM_I915_SW_FENCE_DEBUG_OBJECTS=n \
+	CONFIG_DRM_I915_USERPTR=y \
+	CONFIG_DRM_I915_WERROR=n
+  FILES:= \
+      $(LINUX_DIR)/drivers/gpu/drm/i915/i915.ko
+  AUTOLOAD:=$(call AutoProbe,i915)
+endef
+
+define KernelPackage/drm-i915/description
+  Direct Rendering Manager (DRM) support for "Intel Graphics
+  Media Accelerator" or "HD Graphics" integrated graphics,
+  including 830M, 845G, 852GM, 855GM, 865G, 915G, 945G, 965G,
+  G35, G41, G43, G45 chipsets and Celeron, Pentium, Core i3,
+  Core i5, Core i7 as well as Atom CPUs with integrated graphics.
+endef
+
+$(eval $(call KernelPackage,drm-i915))
