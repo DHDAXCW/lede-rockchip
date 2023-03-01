@@ -468,7 +468,6 @@
 &pcie3x1 {
 	bus-range = <0x10 0x1f>;
 	num-lanes = <1>;
-	num-viewport = <4>;
 	reset-gpios = <&gpio0 RK_PA0 GPIO_ACTIVE_HIGH>;
 	status = "okay";
 
@@ -489,10 +488,6 @@
 &pcie3x2 {
 	bus-range = <0x20 0x2f>;
 	num-lanes = <1>;
-	max-link-speed = <2>;
-	num-ib-windows = <8>;
-	num-ob-windows = <8>;
-	num-viewport = <4>;
 	reset-gpios = <&gpio0 RK_PB6 GPIO_ACTIVE_HIGH>;
 	status = "okay";
 

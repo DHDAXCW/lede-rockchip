@@ -1154,7 +1154,7 @@ define KernelPackage/drm-i915
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=Intel GPU drm support
   DEPENDS:=@TARGET_x86 +kmod-drm-ttm +kmod-drm-kms-helper +i915-firmware \
-	+LINUX_6_1:kmod-drm-display-helper +LINUX_6_1:kmod-acpi-video
+	LINUX_6_1:kmod-acpi-video
   KCONFIG:= \
 	CONFIG_INTEL_GTT \
 	CONFIG_DRM_I915 \
