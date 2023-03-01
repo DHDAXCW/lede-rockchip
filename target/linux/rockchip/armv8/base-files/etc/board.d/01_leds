@@ -27,7 +27,7 @@ sharevdi,guangmiao-g4c)
 friendlyarm,nanopi-r5c)
 	ucidef_set_led_netdev "lan" "LAN" "green:lan" "eth1"
 	ucidef_set_led_netdev "wan" "WAN" "green:wan" "eth0"
-	ucidef_set_led_netdev "wlan" "WLAN" "green:wan" "wlan0" "phy-ap0"
+	ucidef_set_led_netdev "wlan" "WLAN" "green:wlan0" "phy-ap0"
 	;;
 friendlyarm,nanopi-r5s)
 	ucidef_set_led_netdev "wan" "WAN" "green:wan" "eth0"
