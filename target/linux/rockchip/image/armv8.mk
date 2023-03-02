@@ -149,7 +149,7 @@ define Device/firefly_roc-cc-rk3328
   DEVICE_VENDOR := Firefly
   DEVICE_MODEL := ROC-RK3328-CC
   SOC := rk3328
-  DEVICE_DTS := rockchip/roc-cc-rk3328
+  DEVICE_DTS := rockchip/rk3328-roc-cc
   UBOOT_DEVICE_NAME := roc-cc-rk3328
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r2s | pine64-bin | gzip | append-metadata
   DEVICE_PACKAGES := kmod-usb-net-rtl8152
