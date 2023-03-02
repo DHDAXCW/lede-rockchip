@@ -144,3 +144,14 @@ define Device/firefly_station-p2
   DEVICE_PACKAGES := kmod-ikconfig kmod-ata-ahci-platform kmod-r8169
 endef
 #TARGET_DEVICES += firefly_station-p2
+
+define Device/firefly_roc-cc-rk3328
+  DEVICE_VENDOR := Firefly
+  DEVICE_MODEL := ROC-RK3328-CC
+  SOC := rk3328
+  DEVICE_DTS := rockchip/roc-cc-rk3328
+  UBOOT_DEVICE_NAME := roc-cc-rk3328
+  IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r2s | pine64-bin | gzip | append-metadata
+  DEVICE_PACKAGES := kmod-usb-net-rtl8152
+endef
+TARGET_DEVICES += friendlyarm_nanopi-r2s

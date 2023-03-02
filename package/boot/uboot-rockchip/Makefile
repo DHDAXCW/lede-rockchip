@@ -196,6 +196,17 @@ define U-Boot/station-p2-rk3568
   OF_PRE_BUILD:=$(1)
 endef
 
+define U-Boot/roc-cc-rk3328
+  BUILD_SUBTARGET:=armv8
+  NAME:=NanoPi R2S
+  BUILD_DEVICES:= \
+	firefly_roc-cc-rk3328
+  DEPENDS:=+PACKAGE_u-boot-roc-cc-rk3328:arm-trusted-firmware-rk3328
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip-vendor
+  ATF:=rk322xh_bl31_v1.49.elf
+  USE_RKBIN:=1
+endef
+
 UBOOT_TARGETS := \
   nanopi-r2c-rk3328 \
   nanopi-r2s-rk3328 \
@@ -210,7 +221,8 @@ UBOOT_TARGETS := \
   lubancat2-rk3568 \
   lubancat1n-rk3566 \
   lubancat2n-rk3568 \
-  nanopi-r5c-rk3568
+  nanopi-r5c-rk3568 \
+  roc-cc-rk3328
 
 UBOOT_CONFIGURE_VARS += USE_PRIVATE_LIBGCC=yes
 
