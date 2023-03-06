@@ -4,6 +4,8 @@ PKG_NAME:=ath10k-ct-firmware
 PKG_VERSION:=2020-11-08
 PKG_RELEASE:=1
 
+DL_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+
 include $(INCLUDE_DIR)/package.mk
 
 CT_FIRMWARE_FILE = $(1)-$($(1)_FIRMWARE_FILE_CT)
@@ -292,7 +294,6 @@ $(Package/ath10k-ct-firmware-default)
   CATEGORY:=Firmware
   PROVIDES:=ath10k-firmware-qca4019
   CONFLICTS:=ath10k-firmware-qca4019
-  DEPENDS:=+ath10k-board-qca4019
 endef
 define Package/ath10k-firmware-qca4019-ct-full-htt
 $(Package/ath10k-ct-firmware-default)
@@ -307,7 +308,6 @@ $(Package/ath10k-ct-firmware-default)
     ath10k-firmware-qca4019-ct \
     ath10k-firmware-qca4019-ct-htt
   DEPENDS:=\
-    +ath10k-board-qca4019 \
     +!PACKAGE_kmod-ath10k-ct-smallbuffers:kmod-ath10k-ct
 endef
 define Package/ath10k-firmware-qca4019-ct-htt
@@ -322,7 +322,6 @@ $(Package/ath10k-firmware-default)
     ath10k-firmware-qca4019 \
     ath10k-firmware-qca4019-ct
   DEPENDS:=\
-    +ath10k-board-qca4019 \
     +!PACKAGE_kmod-ath10k-ct-smallbuffers:kmod-ath10k-ct
 endef
 
