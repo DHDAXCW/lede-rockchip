@@ -29,4 +29,4 @@ Signed-off-by: Heiko Stuebner <heiko@sntech.de>
 +		assigned-clock-parents = <&pmucru CLK_RTC32K_FRAC>;
  		rockchip,grf = <&grf>;
  	};
-
+ 
