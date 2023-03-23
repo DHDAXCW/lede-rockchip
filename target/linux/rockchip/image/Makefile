@@ -24,11 +24,6 @@ define Build/boot-script
 	mkimage -A arm -O linux -T script -C none -a 0 -e 0 -d $(if $(1),$(1),mmc).bootscript $@.boot/boot.scr
 endef
 
-define Build/boot-script-bin
-	# Hack: this boot scr is pre build from bsp uboot
-	cp "$(STAGING_DIR_IMAGE)"/$(UBOOT_DEVICE_NAME)-boot.scr $@.boot/boot.scr
-endef
-
 define Build/pine64-img
 	# Creates the final SD/eMMC images, 
 	# combining boot partition, root partition as well as the u-boot bootloader
@@ -67,17 +62,6 @@ define Build/pine64-bin
 	dd if="$(STAGING_DIR_IMAGE)"/$(SOC)-idbloader.bin of="$@" seek=64 conv=notrunc
 	dd if="$(STAGING_DIR_IMAGE)"/$(UBOOT_DEVICE_NAME)-uboot.img of="$@" seek=16384 conv=notrunc
 	dd if="$(STAGING_DIR_IMAGE)"/$(SOC)-trust.bin of="$@" seek=24576 conv=notrunc
-endef
-
-define Build/rockchip-gpt-img
-	PADDING=1 $(SCRIPT_DIR)/gen_image_gpt.sh \
-		$@ \
-		$(CONFIG_TARGET_KERNEL_PARTSIZE) $@.boot \
-		$(CONFIG_TARGET_ROOTFS_PARTSIZE) $(IMAGE_ROOTFS)
-
-	# Copy the idbloader and the u-boot image to the image at sector 0x40 and 0x4000
-	dd if="$(STAGING_DIR_IMAGE)"/$(UBOOT_DEVICE_NAME)-idbloader.img of="$@" seek=64 conv=notrunc
-	dd if="$(STAGING_DIR_IMAGE)"/$(UBOOT_DEVICE_NAME)-u-boot.itb of="$@" seek=16384 conv=notrunc
 endef
 
 ### Devices ###

@@ -184,18 +184,6 @@ define U-Boot/opc-h68k-rk3568
   DDR:=rk3568_ddr_1560MHz_v1.13.bin
 endef
 
-define U-Boot/station-p2-rk3568
-  BUILD_SUBTARGET:=armv8
-  NAME:=StationP2
-  BUILD_DEVICES:= \
-       firefly_station-p2
-  DEPENDS:=+PACKAGE_u-boot-station-p2-rk3568:arm-trusted-firmware-rk3568
-  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip-vendor
-  ATF:=rk3568_bl31_v1.28.elf
-  DDR:=rk3568_ddr_1560MHz_v1.13.bin
-  OF_PRE_BUILD:=$(1)
-endef
-
 UBOOT_TARGETS := \
   nanopi-r2c-rk3328 \
   nanopi-r2s-rk3328 \
@@ -205,7 +193,6 @@ UBOOT_TARGETS := \
   doornet2-rk3399 \
   nanopi-r5s-rk3568 \
   opc-h68k-rk3568 \
-  station-p2-rk3568 \
   lubancat1-rk3566 \
   lubancat2-rk3568 \
   lubancat1n-rk3566 \
