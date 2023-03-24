@@ -38,9 +38,6 @@ friendlyarm,nanopi-r5s)
 hinlink,opc-h68k)
 	ucidef_set_led_netdev "wan" "WAN" "blue:net" "eth0"
 	;;
-firefly,rk3568-roc-pc)
-	ucidef_set_led_timer "health" "health" "firefly:yellow:user" "200" "800"
-	;;
 esac
 
 board_config_flush
