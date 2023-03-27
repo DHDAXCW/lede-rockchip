@@ -13,7 +13,7 @@ friendlyarm_nanopi-r4s
 friendlyarm_nanopi-r4se
 friendlyarm_nanopi-r5s
 friendlyarm_nanopi-r5c
-firefly_station-p2
+firefly_station-p2 停止支持，已移除
 hinlink_opc-h68k
 ```
 
