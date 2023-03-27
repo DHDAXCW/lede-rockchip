@@ -19,7 +19,8 @@ hinlink_opc-h68k
 
 ### Next plan to add equipment:
 ```
-no
+hinlink_opc-h66k
+hinlink_opc-h69k
 ```
 How to compile the OpenWrt firmware you need
 -
