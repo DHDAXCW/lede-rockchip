@@ -81,3 +81,5 @@ make -j$(($(nproc) + 1)) V=s
 - Output path after compilation is complete：bin/targets
 
 - from upstream source code https://github.com/coolsnowwolf/lede
+
+[![Stargazers over time](https://starchart.cc/bigbugcc/OpenWrts.svg)](https://starchart.cc/bigbugcc/OpenWrts)
