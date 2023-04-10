@@ -201,7 +201,7 @@ Signed-off-by: Paolo Abeni <pabeni@redhat.com>
  
 --- a/drivers/net/ethernet/mediatek/mtk_ppe.c
 +++ b/drivers/net/ethernet/mediatek/mtk_ppe.c
-@@ -729,6 +729,33 @@ int mtk_foe_entry_idle_time(struct mtk_p
+@@ -730,6 +730,33 @@ int mtk_foe_entry_idle_time(struct mtk_p
  	return __mtk_foe_entry_idle_time(ppe, entry->data.ib1);
  }
  
