@@ -6,8 +6,14 @@
 #include <dt-bindings/pinctrl/rockchip.h>
 #include <dt-bindings/soc/rockchip,vop2.h>
 #include "rk3568.dtsi"
+/dts-v1/;
+
+#include "rk3568-hinlink-opc.dtsi"
 
 / {
+	model = "HINLINK OPC-H68K Board";
+	compatible = "hinlink,opc-h68k", "rockchip,rk3568";
+
 	aliases {
 		mmc0 = &sdmmc0;
 		mmc1 = &sdhci;
