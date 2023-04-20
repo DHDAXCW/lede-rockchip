@@ -8,9 +8,9 @@ PKG_LICENSE_FILES:=
 
 PKG_SOURCE_URL:=https://github.com/openwrt/mt76
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-03-01
-PKG_SOURCE_VERSION:=c32d6d849c43792abd8007e13e468b12d6d6e0b7
-PKG_MIRROR_HASH:=b7004bc920ba44cef2f7868d94beb2d288ff9d399af624ce5dad972f953723c8
+PKG_SOURCE_DATE:=2023-04-18
+PKG_SOURCE_VERSION:=cddbd796bbc649debe457f7b34b200bbda4fcc53
+PKG_MIRROR_HASH:=3c9e24863f3e045dbab1d05cf760ef0f4a21106766987558ce4df6c0964df11a
 
 PKG_MAINTAINER:=Felix Fietkau <nbd@nbd.name>
 PKG_USE_NINJA:=0
@@ -254,6 +254,12 @@ endef
 define KernelPackage/mt7921-firmware
   $(KernelPackage/mt76-default)
   TITLE:=MediaTek MT7921 firmware
+endef
+
+define KernelPackage/mt7922-firmware
+  $(KernelPackage/mt76-default)
+  DEPENDS+=+kmod-mt7921-common
+  TITLE:=MediaTek MT7922 firmware
 endef
 
 define KernelPackage/mt7921-common
@@ -518,6 +524,14 @@ define KernelPackage/mt7921-firmware/install
 		$(1)/lib/firmware/mediatek
 endef
 
+define KernelPackage/mt7922-firmware/install
+	$(INSTALL_DIR) $(1)/lib/firmware/mediatek
+	cp \
+		$(PKG_BUILD_DIR)/firmware/WIFI_MT7922_patch_mcu_1_1_hdr.bin \
+		$(PKG_BUILD_DIR)/firmware/WIFI_RAM_CODE_MT7922_1.bin \
+		$(1)/lib/firmware/mediatek
+endef
+
 define Package/mt76-test/install
 	mkdir -p $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/tools/mt76-test $(1)/usr/sbin
@@ -550,6 +564,7 @@ $(eval $(call KernelPackage,mt7915e))
 $(eval $(call KernelPackage,mt7916-firmware))
 $(eval $(call KernelPackage,mt7986-firmware))
 $(eval $(call KernelPackage,mt7921-firmware))
+$(eval $(call KernelPackage,mt7922-firmware))
 $(eval $(call KernelPackage,mt7921-common))
 $(eval $(call KernelPackage,mt7921u))
 $(eval $(call KernelPackage,mt7921s))
