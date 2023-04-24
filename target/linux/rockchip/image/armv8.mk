@@ -51,7 +51,7 @@ define Device/embedfire_lubancat2
   SOC := rk3568
   UBOOT_DEVICE_NAME := lubancat2-rk3568
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
-  DEVICE_PACKAGES := kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core kmod-r8169
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core
 endef
 #TARGET_DEVICES += embedfire_lubancat2
 
@@ -71,9 +71,9 @@ define Device/hinlink_opc-h68k
   SOC := rk3568
   UBOOT_DEVICE_NAME := opc-h68k-rk3568
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
-  DEVICE_PACKAGES := kmod-r8125
+  DEVICE_PACKAGES := kmod-r8125 kmod-mt7921e kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core luci-app-usbmodem minicom fibocom-dial
 endef
-#TARGET_DEVICES += hinlink_opc-h68k
+# TARGET_DEVICES += hinlink_opc-h68k
 
 define Device/friendlyarm_nanopi-r2c
   DEVICE_VENDOR := FriendlyARM
