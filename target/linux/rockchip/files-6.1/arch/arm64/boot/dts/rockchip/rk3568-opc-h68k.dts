@@ -32,8 +32,8 @@
                  &gmac0_rx_bus2
                  &gmac0_rgmii_clk
                  &gmac0_rgmii_bus>;
-        tx_delay = <0x19>;
-        rx_delay = <0x10>;
+	tx_delay = <0x3c>;
+	rx_delay = <0x2f>;
         phy-handle = <&rgmii_phy0>;
         status = "okay";
 };
@@ -53,8 +53,8 @@
                  &gmac1m1_rx_bus2
                  &gmac1m1_rgmii_clk
                  &gmac1m1_rgmii_bus>;
-	    tx_delay = <0x4f>;
-	    rx_delay = <0x26>;
+	tx_delay = <0x4f>;
+	rx_delay = <0x26>;
         phy-handle = <&rgmii_phy1>;
         status = "okay";
 };
