@@ -77,14 +77,14 @@ $(call Device/hinlink_common)
   DEVICE_MODEL := OPC-H66K
   SOC := rk3568
 endef
-TARGET_DEVICES += hinlink_opc-h66k
+#TARGET_DEVICES += hinlink_opc-h66k
 
 define Device/hinlink_opc-h68k
 $(call Device/hinlink_common)
   DEVICE_MODEL := OPC-H68K
   SOC := rk3568
 endef
-TARGET_DEVICES += hinlink_opc-h68k
+#TARGET_DEVICES += hinlink_opc-h68k
 
 define Device/hinlink_opc-h69k
 $(call Device/hinlink_common)
@@ -92,7 +92,7 @@ $(call Device/hinlink_common)
   SOC := rk3568
   DEVICE_PACKAGES += kmod-usb-serial-option uqmi
 endef
-TARGET_DEVICES += hinlink_opc-h69k
+#TARGET_DEVICES += hinlink_opc-h69k
 
 define Device/friendlyarm_nanopi-r2c
   DEVICE_VENDOR := FriendlyARM
