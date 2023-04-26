@@ -134,15 +134,15 @@ define Device/friendlyarm_nanopi-r4se
 endef
 TARGET_DEVICES += friendlyarm_nanopi-r4se
 
-define Device/friendlyarm_rk356x
+define Device/friendlyarm_nanopi-r5s
   DEVICE_VENDOR := FriendlyARM
   DEVICE_MODEL := NanoPi R5S
   SOC := rk3568
-  UBOOT_DEVICE_NAME := rk356x-rk3568
+  UBOOT_DEVICE_NAME := nanopi-r5s-rk3568
   IMAGE/sysupgrade.img.gz := boot-common | boot-script rk356x | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8125 kmod-nvme kmod-scsi-core
 endef
-#TARGET_DEVICES += friendlyarm_rk356x
+#TARGET_DEVICES += friendlyarm_nanopi-r5s
 
 define Device/friendlyarm_nanopi-r5c
   DEVICE_VENDOR := FriendlyARM
