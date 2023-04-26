@@ -12,8 +12,6 @@
 	aliases {
 		ethernet0 = &gmac0;
 		ethernet1 = &gmac1;
-		ethernet2 = &rtl8125_2;
-		ethernet3 = &rtl8125_1;
 	};
 };
 
@@ -71,4 +69,8 @@
 		compatible = "ethernet-phy-ieee802.3-c22";
 		reg = <0x0>;
 	};
+};
+
+&vcc3v3_pcie {
+	gpio = <&gpio2 RK_PD2 GPIO_ACTIVE_HIGH>;
 };

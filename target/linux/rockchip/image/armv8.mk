@@ -65,15 +65,34 @@ define Device/embedfire_lubancat2n
 endef
 #TARGET_DEVICES += embedfire_lubancat2n
 
-define Device/hinlink_opc-h68k
+define Device/hinlink_common
   DEVICE_VENDOR := HINLINK
-  DEVICE_MODEL := OPC-H68K
-  SOC := rk3568
   UBOOT_DEVICE_NAME := opc-h68k-rk3568
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r5s | pine64-img | gzip | append-metadata
-  DEVICE_PACKAGES := kmod-r8125 kmod-mt7921e kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core luci-app-usbmodem minicom fibocom-dial
+  DEVICE_PACKAGES := kmod-ata-ahci-platform kmod-mt7921e kmod-r8125 kmod-usb-serial-cp210x wpad-openssl
 endef
-# TARGET_DEVICES += hinlink_opc-h68k
+
+define Device/hinlink_opc-h66k
+$(call Device/hinlink_common)
+  DEVICE_MODEL := OPC-H66K
+  SOC := rk3568
+endef
+TARGET_DEVICES += hinlink_opc-h66k
+
+define Device/hinlink_opc-h68k
+$(call Device/hinlink_common)
+  DEVICE_MODEL := OPC-H68K
+  SOC := rk3568
+endef
+TARGET_DEVICES += hinlink_opc-h68k
+
+define Device/hinlink_opc-h69k
+$(call Device/hinlink_common)
+  DEVICE_MODEL := OPC-H69K
+  SOC := rk3568
+  DEVICE_PACKAGES += kmod-usb-serial-option uqmi
+endef
+TARGET_DEVICES += hinlink_opc-h69k
 
 define Device/friendlyarm_nanopi-r2c
   DEVICE_VENDOR := FriendlyARM
