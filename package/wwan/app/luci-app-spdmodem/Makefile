@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=SPD Modem Server
-LUCI_DEPENDS:=+luci-compat +kmod-sprd_pcie
+LUCI_DEPENDS:=
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
