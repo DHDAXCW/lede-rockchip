@@ -8,8 +8,8 @@ rm -rf package/network/services/hostapd
 ```
 3.下载openwrt官网部分文件
 ```bash
-svn export https://github.com/DHDAXCW/openwrt-beta/trunk/package/kernel/mac80211 package/kernel/mac80211
-svn export https://github.com/DHDAXCW/openwrt-beta/trunk/package/network/services/hostapd package/network/services/hostapd
+svn export https://github.com/openwrt/openwrt/trunk/package/kernel/mac80211 package/kernel/mac80211
+svn export https://github.com/openwrt/openwrt/trunk/package/network/services/hostapd package/network/services/hostapd
 ```
 4. 将在target/linux/rockchip/image/armv8.mk这个文件夹里，去掉注释#，如下：
 ```patch
