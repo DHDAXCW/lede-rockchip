@@ -270,7 +270,7 @@ Commit-Queue: Yu Zhao <yuzhao@chromium.org>
  
  #include <asm/io.h>
  #include <asm/mmu_context.h>
-@@ -2874,6 +2875,19 @@ void unmap_mapping_range(struct address_
+@@ -2887,6 +2888,19 @@ void unmap_mapping_range(struct address_
  }
  EXPORT_SYMBOL(unmap_mapping_range);
  
@@ -290,7 +290,7 @@ Commit-Queue: Yu Zhao <yuzhao@chromium.org>
  /*
   * We enter with non-exclusive mmap_sem (to exclude vma changes,
   * but allow concurrent faults), and pte mapped but not yet locked.
-@@ -2930,6 +2944,7 @@ vm_fault_t do_swap_page(struct vm_fault
+@@ -2943,6 +2957,7 @@ vm_fault_t do_swap_page(struct vm_fault
  				__SetPageLocked(page);
  				__SetPageSwapBacked(page);
  				set_page_private(page, entry.val);
@@ -298,7 +298,7 @@ Commit-Queue: Yu Zhao <yuzhao@chromium.org>
  				lru_cache_add_anon(page);
  				swap_readpage(page, true);
  			}
-@@ -4152,7 +4167,7 @@ vm_fault_t handle_mm_fault(struct vm_are
+@@ -4174,7 +4189,7 @@ vm_fault_t handle_mm_fault(struct vm_are
  	 * space.  Kernel faults are handled more gracefully.
  	 */
  	if (flags & FAULT_FLAG_USER)
@@ -307,7 +307,7 @@ Commit-Queue: Yu Zhao <yuzhao@chromium.org>
  
  	if (unlikely(is_vm_hugetlb_page(vma)))
  		ret = hugetlb_fault(vma->vm_mm, vma, address, flags);
-@@ -4160,7 +4175,7 @@ vm_fault_t handle_mm_fault(struct vm_are
+@@ -4182,7 +4197,7 @@ vm_fault_t handle_mm_fault(struct vm_are
  		ret = __handle_mm_fault(vma, address, flags);
  
  	if (flags & FAULT_FLAG_USER) {
