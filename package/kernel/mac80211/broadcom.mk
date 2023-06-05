@@ -1,5 +1,5 @@
 PKG_DRIVERS += \
-	b43 b43legacy brcmsmac brcmfmac brcmutil
+	b43 brcmsmac brcmfmac brcmutil
 
 PKG_CONFIG_DEPENDS += \
 	CONFIG_PACKAGE_B43_DEBUG \
@@ -23,9 +23,6 @@ config-$(CONFIG_PACKAGE_B43_PHY_LP) += B43_PHY_LP
 config-$(CONFIG_PACKAGE_B43_PHY_HT) += B43_PHY_HT
 config-$(CONFIG_PACKAGE_B43_PIO) += B43_PIO
 config-$(CONFIG_PACKAGE_B43_DEBUG) += B43_DEBUG
-
-config-$(call config_package,b43legacy) += B43LEGACY
-config-y += B43LEGACY_DMA_MODE
 
 config-$(call config_package,brcmutil) += BRCMUTIL
 config-$(call config_package,brcmsmac) += BRCMSMAC
@@ -209,7 +206,7 @@ config PACKAGE_B43_USE_BCMA
 		default "16,28,29,30" if TARGET_bcm47xx_mips74k
 		default "5,6,7,8,9,10,11,13,15,16,28,29,30"
 		help
-		  This is a comma seperated list of core revision numbers.
+		  This is a comma separated list of core revision numbers.
 
 		  Example (keep files for rev5 only):
 		    5
@@ -224,7 +221,7 @@ config PACKAGE_B43_USE_BCMA
 		default "N,HT" if TARGET_bcm47xx_mips74k
 		default "G,N,LP,HT"
 		help
-		  This is a comma seperated list of PHY types:
+		  This is a comma separated list of PHY types:
 		    A  => A-PHY
 		    AG => Dual A-PHY G-PHY
 		    G  => G-PHY
@@ -248,11 +245,11 @@ config PACKAGE_B43_USE_BCMA
 		  This allows choosing buses that b43 should support.
 
 	config PACKAGE_B43_BUSES_BCMA_AND_SSB
-		depends on !TARGET_bcm47xx_legacy && !TARGET_bcm47xx_mips74k && !TARGET_bcm53xx
+		depends on !TARGET_bcm47xx_legacy && !TARGET_bcm47xx_mips74k && !TARGET_bcm53xx && !TARGET_bmips
 		bool "BCMA and SSB"
 
 	config PACKAGE_B43_BUSES_BCMA
-		depends on !TARGET_bcm47xx_legacy
+		depends on !TARGET_bcm47xx_legacy && !TARGET_bmips_bcm6358 && !TARGET_bmips_bcm6368
 		bool "BCMA only"
 
 	config PACKAGE_B43_BUSES_SSB
@@ -341,23 +338,6 @@ define KernelPackage/b43/description
 Kernel module for Broadcom 43xx wireless support (mac80211 stack) new
 endef
 
-define KernelPackage/b43legacy
-  $(call KernelPackage/mac80211/Default)
-  TITLE:=Broadcom 43xx-legacy wireless support
-  URL:=https://wireless.wiki.kernel.org/en/users/drivers/b43
-  KCONFIG:= \
-  	CONFIG_HW_RANDOM=y
-  DEPENDS+= +kmod-mac80211 +!(TARGET_bcm47xx||TARGET_bcm63xx):kmod-ssb @!TARGET_bcm47xx_mips74k +b43legacy-firmware
-  FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/broadcom/b43legacy/b43legacy.ko
-  AUTOLOAD:=$(call AutoProbe,b43legacy)
-  MENU:=1
-endef
-
-define KernelPackage/b43legacy/description
-Kernel module for Broadcom 43xx-legacy wireless support (mac80211 stack) new
-endef
-
-
 define KernelPackage/brcmutil
   $(call KernelPackage/mac80211/Default)
   TITLE:=Broadcom IEEE802.11n common driver parts
@@ -401,7 +381,7 @@ define KernelPackage/brcmsmac
   $(call KernelPackage/mac80211/Default)
   TITLE:=Broadcom IEEE802.11n PCIe SoftMAC WLAN driver
   URL:=https://wireless.wiki.kernel.org/en/users/drivers/brcm80211
-  DEPENDS+= +kmod-mac80211 +@DRIVER_11N_SUPPORT +!TARGET_bcm47xx:kmod-bcma +kmod-lib-cordic +kmod-lib-crc8 +kmod-brcmutil +!BRCMSMAC_USE_FW_FROM_WL:brcmsmac-firmware
+  DEPENDS+=@!TARGET_bcm47xx_legacy +kmod-mac80211 +!TARGET_bcm47xx:kmod-bcma +kmod-lib-cordic +kmod-lib-crc8 +kmod-brcmutil +!BRCMSMAC_USE_FW_FROM_WL:brcmsmac-firmware
   FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/broadcom/brcm80211/brcmsmac/brcmsmac.ko
   AUTOLOAD:=$(call AutoProbe,brcmsmac)
   MENU:=1
@@ -433,7 +413,7 @@ define KernelPackage/brcmfmac
   $(call KernelPackage/mac80211/Default)
   TITLE:=Broadcom IEEE802.11n USB FullMAC WLAN driver
   URL:=https://wireless.wiki.kernel.org/en/users/drivers/brcm80211
-  DEPENDS+= @USB_SUPPORT +kmod-cfg80211 +@DRIVER_11N_SUPPORT +@DRIVER_11AC_SUPPORT \
+  DEPENDS+= @USB_SUPPORT +kmod-cfg80211 +@DRIVER_11AC_SUPPORT \
   	+kmod-brcmutil +BRCMFMAC_SDIO:kmod-mmc @!TARGET_uml \
 	+BRCMFMAC_USB:kmod-usb-core +BRCMFMAC_USB:brcmfmac-firmware-usb
   FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/broadcom/brcm80211/brcmfmac/brcmfmac.ko
@@ -450,7 +430,7 @@ define KernelPackage/brcmfmac/config
 	config BRCMFMAC_SDIO
 		bool "Enable SDIO bus interface support"
 		default y if TARGET_bcm27xx
-		default y if TARGET_rockchip
+		default y if TARGET_imx_cortexa7
 		default y if TARGET_sunxi
 		default n
 		help

@@ -1,11 +1,7 @@
 PKG_DRIVERS += \
-	rtl8180 rtl8187 \
 	rtlwifi rtlwifi-pci rtlwifi-btcoexist rtlwifi-usb rtl8192c-common \
 	rtl8192ce rtl8192se rtl8192de rtl8192cu rtl8723bs rtl8821ae \
 	rtl8xxxu rtw88
-
-config-$(call config_package,rtl8180) += RTL8180
-config-$(call config_package,rtl8187) += RTL8187
 
 config-$(call config_package,rtlwifi) += RTL_CARDS RTLWIFI
 config-$(call config_package,rtlwifi-pci) += RTLWIFI_PCI
@@ -27,29 +23,8 @@ config-y += STAGING
 
 config-$(call config_package,rtw88) += RTW88 RTW88_CORE RTW88_PCI
 config-y += RTW88_8822BE RTW88_8822CE RTW88_8723DE
-
-define KernelPackage/rtl818x/Default
-  $(call KernelPackage/mac80211/Default)
-  TITLE:=Realtek Drivers for RTL818x devices
-  URL:=https://wireless.wiki.kernel.org/en/users/drivers/rtl8187
-  DEPENDS+= +kmod-eeprom-93cx6 +kmod-mac80211
-endef
-
-define KernelPackage/rtl8180
-  $(call KernelPackage/rtl818x/Default)
-  DEPENDS+= @PCI_SUPPORT
-  TITLE+= (RTL8180 PCI)
-  FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/realtek/rtl818x/rtl8180/rtl818x_pci.ko
-  AUTOLOAD:=$(call AutoProbe,rtl818x_pci)
-endef
-
-define KernelPackage/rtl8187
-$(call KernelPackage/rtl818x/Default)
-  DEPENDS+= @USB_SUPPORT +kmod-usb-core
-  TITLE+= (RTL8187 USB)
-  FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/realtek/rtl818x/rtl8187/rtl8187.ko
-  AUTOLOAD:=$(call AutoProbe,rtl8187)
-endef
+config-$(CONFIG_PACKAGE_RTW88_DEBUG) += RTW88_DEBUG
+config-$(CONFIG_PACKAGE_RTW88_DEBUGFS) += RTW88_DEBUGFS
 
 define KernelPackage/rtlwifi/config
 	config PACKAGE_RTLWIFI_DEBUG
@@ -63,7 +38,7 @@ endef
 define KernelPackage/rtlwifi
   $(call KernelPackage/mac80211/Default)
   TITLE:=Realtek common driver part
-  DEPENDS+= @(PCI_SUPPORT||USB_SUPPORT) +kmod-mac80211 +@DRIVER_11N_SUPPORT
+  DEPENDS+= @(PCI_SUPPORT||USB_SUPPORT) +kmod-mac80211
   FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/realtek/rtlwifi/rtlwifi.ko
   HIDDEN:=1
 endef
@@ -175,10 +150,26 @@ define KernelPackage/rtl8xxxu/description
   Please report your results!
 endef
 
+define KernelPackage/rtw88/config
+	config PACKAGE_RTW88_DEBUG
+		bool "Realtek wireless debugging (rtw88)"
+		depends on PACKAGE_kmod-rtw88
+		help
+		  Enable debugging output for rtw88 devices
+
+	config PACKAGE_RTW88_DEBUGFS
+		bool "Enable rtw88 debugfS support"
+		select KERNEL_DEBUG_FS
+		depends on PACKAGE_kmod-rtw88
+		help
+		  Select this to see extensive information about
+		  the internal state of rtw88 in debugfs.
+endef
+
 define KernelPackage/rtw88
   $(call KernelPackage/mac80211/Default)
   TITLE:=Realtek RTL8822BE/RTL8822CE/RTL8723DE
-  DEPENDS+= @(PCI_SUPPORT) +kmod-mac80211 +@DRIVER_11AC_SUPPORT +@DRIVER_11N_SUPPORT
+  DEPENDS+= @(PCI_SUPPORT) +kmod-mac80211 +@DRIVER_11AC_SUPPORT
   FILES:=\
 	$(PKG_BUILD_DIR)/drivers/net/wireless/realtek/rtw88/rtw88_8822be.ko \
 	$(PKG_BUILD_DIR)/drivers/net/wireless/realtek/rtw88/rtw88_8822b.ko \

@@ -33,7 +33,7 @@ define Device/embedfire_lubancat1
   IMAGE/sysupgrade.img.gz := boot-common | boot-script rk356x | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8125
 endef
-#TARGET_DEVICES += embedfire_lubancat1
+TARGET_DEVICES += embedfire_lubancat1
 
 define Device/embedfire_lubancat1n
   DEVICE_VENDOR := EmbedFire
@@ -43,7 +43,7 @@ define Device/embedfire_lubancat1n
   IMAGE/sysupgrade.img.gz := boot-common | boot-script rk356x | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8169 -urngd kmod-ata-ahci
 endef
-#TARGET_DEVICES += embedfire_lubancat1n
+TARGET_DEVICES += embedfire_lubancat1n
 
 define Device/embedfire_lubancat2
   DEVICE_VENDOR := EmbedFire
@@ -53,7 +53,7 @@ define Device/embedfire_lubancat2
   IMAGE/sysupgrade.img.gz := boot-common | boot-script rk356x | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core
 endef
-#TARGET_DEVICES += embedfire_lubancat2
+TARGET_DEVICES += embedfire_lubancat2
 
 define Device/embedfire_lubancat2n
   DEVICE_VENDOR := EmbedFire
@@ -63,7 +63,7 @@ define Device/embedfire_lubancat2n
   IMAGE/sysupgrade.img.gz := boot-common | boot-script rk356x | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8125 kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core
 endef
-#TARGET_DEVICES += embedfire_lubancat2n
+TARGET_DEVICES += embedfire_lubancat2n
 
 define Device/hinlink_common
   DEVICE_VENDOR := HINLINK
@@ -77,14 +77,14 @@ $(call Device/hinlink_common)
   DEVICE_MODEL := OPC-H66K
   SOC := rk3568
 endef
-#TARGET_DEVICES += hinlink_opc-h66k
+TARGET_DEVICES += hinlink_opc-h66k
 
 define Device/hinlink_opc-h68k
 $(call Device/hinlink_common)
   DEVICE_MODEL := OPC-H68K
   SOC := rk3568
 endef
-#TARGET_DEVICES += hinlink_opc-h68k
+TARGET_DEVICES += hinlink_opc-h68k
 
 define Device/hinlink_opc-h69k
 $(call Device/hinlink_common)
@@ -92,7 +92,7 @@ $(call Device/hinlink_common)
   SOC := rk3568
   DEVICE_PACKAGES += kmod-usb-serial-option uqmi
 endef
-#TARGET_DEVICES += hinlink_opc-h69k
+TARGET_DEVICES += hinlink_opc-h69k
 
 define Device/friendlyarm_nanopi-r2c
   DEVICE_VENDOR := FriendlyARM
@@ -142,7 +142,7 @@ define Device/friendlyarm_nanopi-r5s
   IMAGE/sysupgrade.img.gz := boot-common | boot-script rk356x | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8125 kmod-nvme kmod-scsi-core
 endef
-#TARGET_DEVICES += friendlyarm_nanopi-r5s
+TARGET_DEVICES += friendlyarm_nanopi-r5s
 
 define Device/friendlyarm_nanopi-r5c
   DEVICE_VENDOR := FriendlyARM
@@ -152,4 +152,4 @@ define Device/friendlyarm_nanopi-r5c
   IMAGE/sysupgrade.img.gz := boot-common | boot-script rk356x | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8125
 endef
-#TARGET_DEVICES += friendlyarm_nanopi-r5c
+TARGET_DEVICES += friendlyarm_nanopi-r5c
