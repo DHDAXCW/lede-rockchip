@@ -61,10 +61,6 @@ jobs:
 
       - name: Update feeds
         run: |
-          sed -i 's/5.4/6.1/g' ./target/linux/rockchip/Makefile
-          rm -rf package/kernel/mac80211 && rm -rf package/kernel/rtl8821cu && rm -rf package/kernel/mt76
-          svn export https://github.com/openwrt/openwrt/trunk/package/kernel/mac80211 package/kernel/mac80211
-          svn export https://github.com/openwrt/openwrt/trunk/package/kernel/mt76 package/kernel/mt76
           ./scripts/feeds update -a
           ./scripts/feeds install -a -f
           echo '
@@ -73,10 +69,19 @@ jobs:
           CONFIG_TARGET_MULTI_PROFILE=y
           CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_embedfire_doornet1=y
           CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_embedfire_doornet2=y
+          CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_embedfire_lubancat1=y
+          CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_embedfire_lubancat1n=y
+          CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_embedfire_lubancat2=y
+          CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_embedfire_lubancat2n=y
           CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_friendlyarm_nanopi-r2c=y
           CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_friendlyarm_nanopi-r2s=y
           CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_friendlyarm_nanopi-r4s=y
           CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_friendlyarm_nanopi-r4se=y
+          CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_friendlyarm_nanopi-r5c=y
+          CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_friendlyarm_nanopi-r5s=y
+          CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_hinlink_opc-h66k=y
+          CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_hinlink_opc-h68k=y
+          CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_hinlink_opc-h69k=y
           CONFIG_TARGET_KERNEL_PARTSIZE=64
           CONFIG_TARGET_ROOTFS_PARTSIZE=512
           CONFIG_TARGET_ROOTFS_TARGZ=y
