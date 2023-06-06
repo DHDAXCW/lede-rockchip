@@ -1806,7 +1806,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  static int
 --- a/drivers/net/team/team.c
 +++ b/drivers/net/team/team.c
-@@ -1865,13 +1865,13 @@ team_get_stats64(struct net_device *dev,
+@@ -1866,13 +1866,13 @@ team_get_stats64(struct net_device *dev,
  	for_each_possible_cpu(i) {
  		p = per_cpu_ptr(team->pcpu_stats, i);
  		do {
