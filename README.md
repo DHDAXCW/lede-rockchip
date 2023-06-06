@@ -29,9 +29,6 @@ Notice:
 1. **NOT** compile with **root** user! ! !
 2. Domestic users had better prepare a ladder before compiling
 3. Default login IP 192.168.1.1 password password
-4. **If you need wireless, please use the 5.4 kernel, and the 5.15 kernel opens the wireless conference card kernel. It is recommended not to enable wireless when compiling 5.15**
-5. [Switch 5.15 to compile rk33xx](https://github.com/DHDAXCW/lede-rockchip/blob/stable/linux5.15.md)
-6. [Switch 6.1 kernel to compile rk356x method](https://github.com/DHDAXCW/lede-rockchip/blob/stable/linux6.x.md)
 
 2. Install compilation dependencies
 
