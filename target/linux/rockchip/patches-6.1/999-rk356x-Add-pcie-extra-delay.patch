@@ -1,0 +1,12 @@
+--- a/drivers/pci/controller/dwc/pcie-dw-rockchip.c
++++ b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+@@ -183,6 +183,9 @@ static int rockchip_pcie_start_link(struct dw_pcie *pci)
+ 	msleep(100);
+ 	gpiod_set_value_cansleep(rockchip->rst_gpio, 1);
+ 
++	/* Extra delay before pci_host_probe() */
++	msleep(10);
++	
+ 	return 0;
+ }
+ 
