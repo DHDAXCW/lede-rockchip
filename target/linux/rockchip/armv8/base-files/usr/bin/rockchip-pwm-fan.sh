@@ -2,8 +2,8 @@
 echo -n 4 > /sys/class/thermal/cooling_device0/cur_state
 sleep 5
 echo -n 0 > /sys/class/thermal/cooling_device0/cur_state
-declare -a CpuTemps=(70000 60000 50000 40000 35000)
-declare -a PwmDutyCycles=(4 3 2 1 0)
+declare -a CpuTemps=(65000 60000 50000 40000 20000)
+declare -a CoolState=(4 3 2 1 0)
 declare -a Percents=(100 70 50 20 0)
 DefaultDuty=0
 DefaultPercents=0
@@ -24,7 +24,7 @@ do
 		fi	
 	done
 	if [ ${FOUNDTEMP} == 1 ]; then
-		DUTY=${PwmDutyCycles[$i]}
+		DUTY=${CoolState[$i]}
 		PERCENT=${Percents[$i]}
 	fi
 
