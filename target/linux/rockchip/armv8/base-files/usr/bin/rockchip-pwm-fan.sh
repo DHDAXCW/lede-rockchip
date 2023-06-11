@@ -42,5 +42,5 @@ do
 
 	last_dutu=$DUTY
 	echo "temp: $temp, duty: $DUTY, ${PERCENT}%"
-	sleep 10s;
+	sleep 60s;
 done
