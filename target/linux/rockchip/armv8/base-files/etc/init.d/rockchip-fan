@@ -4,5 +4,5 @@ START=96
  
 start() {
 	echo "fa-pwmfan started"
-	/usr/bin/rockchip-pwm-fan.sh > /dev/null&
+	nohup /usr/bin/rockchip-pwm-fan.sh >/dev/null 2>&1 &
 }
