@@ -104,5 +104,5 @@ board=$(board_name)
 rockchip_setup_interfaces $board
 rockchip_setup_macs $board
 board_config_flush
-
+wifi config && wifi
 exit 0
