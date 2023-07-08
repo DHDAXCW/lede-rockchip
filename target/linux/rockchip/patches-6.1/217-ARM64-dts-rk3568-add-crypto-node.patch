@@ -13,7 +13,7 @@ Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 
 --- a/arch/arm64/boot/dts/rockchip/rk3568.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk3568.dtsi
-@@ -211,6 +211,20 @@
+@@ -213,6 +213,20 @@
  		};
  	};
  
