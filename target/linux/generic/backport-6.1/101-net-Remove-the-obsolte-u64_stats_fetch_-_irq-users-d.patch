@@ -904,7 +904,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	spin_unlock(&adapter->stats64_lock);
 --- a/drivers/net/ethernet/intel/igc/igc_main.c
 +++ b/drivers/net/ethernet/intel/igc/igc_main.c
-@@ -4830,10 +4830,10 @@ void igc_update_stats(struct igc_adapter
+@@ -4835,10 +4835,10 @@ void igc_update_stats(struct igc_adapter
  		}
  
  		do {
@@ -917,7 +917,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  		bytes += _bytes;
  		packets += _packets;
  	}
-@@ -4847,10 +4847,10 @@ void igc_update_stats(struct igc_adapter
+@@ -4852,10 +4852,10 @@ void igc_update_stats(struct igc_adapter
  		struct igc_ring *ring = adapter->tx_ring[i];
  
  		do {
@@ -1173,7 +1173,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  	storage->tx_errors = dev->stats.tx_errors;
  	storage->rx_dropped = dev->stats.rx_dropped;
-@@ -3708,13 +3708,13 @@ static void mtk_get_ethtool_stats(struct
+@@ -3691,13 +3691,13 @@ static void mtk_get_ethtool_stats(struct
  
  	do {
  		data_dst = data;
