@@ -20,7 +20,10 @@ hinlink_opc-h69k
 
 ### Next plan to add equipment:
 ```
-
+friendlyarm_nanopi-r6c
+friendlyarm_nanopi-r6s
+friendlyarm_nanopc-t6
+hinlink_h88k
 ```
 How to compile the OpenWrt firmware you need
 -
