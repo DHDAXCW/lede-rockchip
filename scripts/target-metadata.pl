@@ -179,7 +179,7 @@ EOF
 	print <<EOF;
 choice
 	prompt "Target System"
-	default TARGET_x86
+	default TARGET_rockchip
 	reset if !DEVEL
 	
 EOF
