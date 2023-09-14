@@ -785,7 +785,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	*data += size;
 --- a/drivers/net/ethernet/intel/ice/ice_main.c
 +++ b/drivers/net/ethernet/intel/ice/ice_main.c
-@@ -6406,10 +6406,10 @@ ice_fetch_u64_stats_per_ring(struct u64_
+@@ -6407,10 +6407,10 @@ ice_fetch_u64_stats_per_ring(struct u64_
  	unsigned int start;
  
  	do {
@@ -838,7 +838,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	spin_unlock(&adapter->stats64_lock);
 --- a/drivers/net/ethernet/intel/igb/igb_main.c
 +++ b/drivers/net/ethernet/intel/igb/igb_main.c
-@@ -6656,10 +6656,10 @@ void igb_update_stats(struct igb_adapter
+@@ -6659,10 +6659,10 @@ void igb_update_stats(struct igb_adapter
  		}
  
  		do {
@@ -851,7 +851,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  		bytes += _bytes;
  		packets += _packets;
  	}
-@@ -6672,10 +6672,10 @@ void igb_update_stats(struct igb_adapter
+@@ -6675,10 +6675,10 @@ void igb_update_stats(struct igb_adapter
  	for (i = 0; i < adapter->num_tx_queues; i++) {
  		struct igb_ring *ring = adapter->tx_ring[i];
  		do {
@@ -1709,7 +1709,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	}
 --- a/drivers/net/macsec.c
 +++ b/drivers/net/macsec.c
-@@ -2801,9 +2801,9 @@ static void get_rx_sc_stats(struct net_d
+@@ -2800,9 +2800,9 @@ static void get_rx_sc_stats(struct net_d
  
  		stats = per_cpu_ptr(rx_sc->stats, cpu);
  		do {
@@ -1721,7 +1721,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		sum->InOctetsValidated += tmp.InOctetsValidated;
  		sum->InOctetsDecrypted += tmp.InOctetsDecrypted;
-@@ -2882,9 +2882,9 @@ static void get_tx_sc_stats(struct net_d
+@@ -2881,9 +2881,9 @@ static void get_tx_sc_stats(struct net_d
  
  		stats = per_cpu_ptr(macsec_priv(dev)->secy.tx_sc.stats, cpu);
  		do {
@@ -1733,7 +1733,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		sum->OutPktsProtected   += tmp.OutPktsProtected;
  		sum->OutPktsEncrypted   += tmp.OutPktsEncrypted;
-@@ -2938,9 +2938,9 @@ static void get_secy_stats(struct net_de
+@@ -2937,9 +2937,9 @@ static void get_secy_stats(struct net_de
  
  		stats = per_cpu_ptr(macsec_priv(dev)->stats, cpu);
  		do {
