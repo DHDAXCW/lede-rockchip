@@ -572,7 +572,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  				.value = cpu_to_be64(priv->tx[idx].wake_queue),
 --- a/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
 +++ b/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
-@@ -2488,7 +2488,7 @@ static void hns3_fetch_stats(struct rtnl
+@@ -2496,7 +2496,7 @@ static void hns3_fetch_stats(struct rtnl
  	unsigned int start;
  
  	do {
@@ -581,7 +581,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  		if (is_tx) {
  			stats->tx_bytes += ring->stats.tx_bytes;
  			stats->tx_packets += ring->stats.tx_pkts;
-@@ -2522,7 +2522,7 @@ static void hns3_fetch_stats(struct rtnl
+@@ -2530,7 +2530,7 @@ static void hns3_fetch_stats(struct rtnl
  			stats->multicast += ring->stats.rx_multicast;
  			stats->rx_length_errors += ring->stats.err_pkt_len;
  		}
@@ -838,7 +838,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	spin_unlock(&adapter->stats64_lock);
 --- a/drivers/net/ethernet/intel/igb/igb_main.c
 +++ b/drivers/net/ethernet/intel/igb/igb_main.c
-@@ -6659,10 +6659,10 @@ void igb_update_stats(struct igb_adapter
+@@ -6660,10 +6660,10 @@ void igb_update_stats(struct igb_adapter
  		}
  
  		do {
@@ -851,7 +851,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  		bytes += _bytes;
  		packets += _packets;
  	}
-@@ -6675,10 +6675,10 @@ void igb_update_stats(struct igb_adapter
+@@ -6676,10 +6676,10 @@ void igb_update_stats(struct igb_adapter
  	for (i = 0; i < adapter->num_tx_queues; i++) {
  		struct igb_ring *ring = adapter->tx_ring[i];
  		do {
@@ -1173,7 +1173,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  	storage->tx_errors = dev->stats.tx_errors;
  	storage->rx_dropped = dev->stats.rx_dropped;
-@@ -3691,13 +3691,13 @@ static void mtk_get_ethtool_stats(struct
+@@ -3694,13 +3694,13 @@ static void mtk_get_ethtool_stats(struct
  
  	do {
  		data_dst = data;
@@ -1868,7 +1868,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	}
  }
  
-@@ -379,13 +379,13 @@ static void veth_stats_rx(struct veth_st
+@@ -381,13 +381,13 @@ static void veth_stats_rx(struct veth_st
  		unsigned int start;
  
  		do {
