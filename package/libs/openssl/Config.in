@@ -4,7 +4,7 @@ comment "Build Options"
 
 config OPENSSL_OPTIMIZE_SPEED
 	bool
-	default y if x86_64 || i386
+	default y if (!SMALL_FLASH && !LOW_MEMORY_FOOTPRINT)
 	prompt "Enable optimization for speed instead of size"
 	select OPENSSL_WITH_ASM
 	help
@@ -261,6 +261,7 @@ config OPENSSL_ENGINE
 
 config OPENSSL_ENGINE_BUILTIN
 	bool "Build chosen engines into libcrypto"
+	default y if !SMALL_FLASH
 	depends on OPENSSL_ENGINE
 	help
 		This builds all chosen engines into libcrypto.so, instead of building
@@ -270,6 +271,7 @@ config OPENSSL_ENGINE_BUILTIN
 
 config OPENSSL_ENGINE_BUILTIN_AFALG
 	bool
+	default y if !SMALL_FLASH
 	prompt "Acceleration support through AF_ALG sockets engine"
 	depends on OPENSSL_ENGINE_BUILTIN && KERNEL_AIO
 	select PACKAGE_libopenssl-conf
@@ -279,6 +281,7 @@ config OPENSSL_ENGINE_BUILTIN_AFALG
 
 config OPENSSL_ENGINE_BUILTIN_DEVCRYPTO
 	bool
+	default y if !SMALL_FLASH
 	prompt "Acceleration support through /dev/crypto"
 	depends on OPENSSL_ENGINE_BUILTIN
 	select PACKAGE_libopenssl-conf

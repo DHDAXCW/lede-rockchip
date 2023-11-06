@@ -8,23 +8,26 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=openssl
-PKG_VERSION:=3.0.10
+PKG_VERSION:=3.0.12
 PKG_RELEASE:=1
-PKG_BUILD_FLAGS:=no-mips16 gc-sections no-lto
+PKG_USE_MIPS16:=0
+PKG_BUILD_FLAGS:=gc-sections no-lto
 
 PKG_BUILD_PARALLEL:=1
 
 PKG_BASE:=$(subst $(space),.,$(wordlist 1,2,$(subst .,$(space),$(PKG_VERSION))))
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:= \
-	http://www.openssl.org/source/ \
-	http://www.openssl.org/source/old/$(PKG_BASE)/ \
-	http://ftp.fi.muni.cz/pub/openssl/source/ \
-	http://ftp.fi.muni.cz/pub/openssl/source/old/$(PKG_BASE)/ \
+	https://mirrors.tencent.com/openssl/source/ \
+	https://mirrors.tencent.com/openssl/source/old/$(PKG_BASE)/ \
+	https://www.openssl.org/source/ \
+	https://www.openssl.org/source/old/$(PKG_BASE)/ \
+	https://ftp.fi.muni.cz/pub/openssl/source/ \
+	https://ftp.fi.muni.cz/pub/openssl/source/old/$(PKG_BASE)/ \
 	ftp://ftp.pca.dfn.de/pub/tools/net/openssl/source/ \
 	ftp://ftp.pca.dfn.de/pub/tools/net/openssl/source/old/$(PKG_BASE)/
 
-PKG_HASH:=1761d4f5b13a1028b9b6f3d4b8e17feb0cedc9370f6afe61d7193d2cdce83323
+PKG_HASH:=f93c9e8edde5e9166119de31755fc87b4aa34863662f67ddfcba14d0b6b69b61
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -406,7 +409,7 @@ define Package/libopenssl/install
 	chmod 0700 $(1)/etc/ssl/private
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/libcrypto.so.* $(1)/usr/lib/
-	$(LN) libcrypto.so.3 $(1)/usr/lib/libcrypto.so.1.1
+	$(LN) libcrypto.so.3 $(1)/usr/lib/libcrypto.so.1.1 
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/libssl.so.* $(1)/usr/lib/
 	$(LN) libssl.so.3 $(1)/usr/lib/libssl.so.1.1
 	$(if $(CONFIG_OPENSSL_ENGINE),$(INSTALL_DIR) $(1)/usr/lib/$(ENGINES_DIR))

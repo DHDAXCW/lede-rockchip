@@ -52,7 +52,7 @@
 
 		local user_info = luci.sys.exec("cat /proc/net/arp | grep '0x2' | wc -l") or 0
 		
-		local cpu_usage = (luci.sys.exec("expr 100 - $(top -n 1 | grep 'CPU:' | awk -F '%' '{print$4}' | awk -F ' ' '{print$2}')") or "6") .. "%"
+		local cpu_usage = (luci.sys.exec("expr 100 - $(top -n 1 | grep -E '^CPU:' | awk -F '%' '{print$4}' | awk -F ' ' '{print$2}' | awk '{print int($1 + 0.5)}')") or "6") .. "%"
 
 		local rv = {
 			cpuusage    = cpu_usage,
@@ -518,7 +518,7 @@
 						if (!is_assoc)
 							icon = "<%=resource%>/icons/signal-none.png";
 						else if (net.quality == 0)
-							icon = "<%=resource%>/icons/signal-0.png";
+							icon = "<%=resource%>/icons/signal-75-100.png";
 						else if (net.quality < 25)
 							icon = "<%=resource%>/icons/signal-0-25.png";
 						else if (net.quality < 50)
@@ -538,7 +538,7 @@
 								'<strong><%:Channel%>:</strong> %d (%.3f <%:GHz%>)<br />' +
 								'<strong><%:Bitrate%>:</strong> %s <%:Mbit/s%><br />',
 								icon, net.signal, net.noise,
-								net.quality,
+								(net.quality == 0) ? 100 : net.quality,
 								net.link, net.ssid || '?',
 								net.mode,
 								net.channel, net.frequency,

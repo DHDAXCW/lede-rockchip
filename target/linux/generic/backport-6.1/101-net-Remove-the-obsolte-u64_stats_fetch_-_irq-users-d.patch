@@ -785,7 +785,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	*data += size;
 --- a/drivers/net/ethernet/intel/ice/ice_main.c
 +++ b/drivers/net/ethernet/intel/ice/ice_main.c
-@@ -6407,10 +6407,10 @@ ice_fetch_u64_stats_per_ring(struct u64_
+@@ -6419,10 +6419,10 @@ ice_fetch_u64_stats_per_ring(struct u64_
  	unsigned int start;
  
  	do {
@@ -866,7 +866,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	}
 --- a/drivers/net/ethernet/intel/igc/igc_ethtool.c
 +++ b/drivers/net/ethernet/intel/igc/igc_ethtool.c
-@@ -839,15 +839,15 @@ static void igc_ethtool_get_stats(struct
+@@ -840,15 +840,15 @@ static void igc_ethtool_get_stats(struct
  
  		ring = adapter->tx_ring[j];
  		do {
@@ -886,7 +886,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  		data[i + 2] += restart2;
  
  		i += IGC_TX_QUEUE_STATS_LEN;
-@@ -855,13 +855,13 @@ static void igc_ethtool_get_stats(struct
+@@ -856,13 +856,13 @@ static void igc_ethtool_get_stats(struct
  	for (j = 0; j < adapter->num_rx_queues; j++) {
  		ring = adapter->rx_ring[j];
  		do {
@@ -904,7 +904,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	spin_unlock(&adapter->stats64_lock);
 --- a/drivers/net/ethernet/intel/igc/igc_main.c
 +++ b/drivers/net/ethernet/intel/igc/igc_main.c
-@@ -4865,10 +4865,10 @@ void igc_update_stats(struct igc_adapter
+@@ -4868,10 +4868,10 @@ void igc_update_stats(struct igc_adapter
  		}
  
  		do {
@@ -917,7 +917,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  		bytes += _bytes;
  		packets += _packets;
  	}
-@@ -4882,10 +4882,10 @@ void igc_update_stats(struct igc_adapter
+@@ -4885,10 +4885,10 @@ void igc_update_stats(struct igc_adapter
  		struct igc_ring *ring = adapter->tx_ring[i];
  
  		do {
@@ -1709,7 +1709,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	}
 --- a/drivers/net/macsec.c
 +++ b/drivers/net/macsec.c
-@@ -2800,9 +2800,9 @@ static void get_rx_sc_stats(struct net_d
+@@ -2802,9 +2802,9 @@ static void get_rx_sc_stats(struct net_d
  
  		stats = per_cpu_ptr(rx_sc->stats, cpu);
  		do {
@@ -1721,7 +1721,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		sum->InOctetsValidated += tmp.InOctetsValidated;
  		sum->InOctetsDecrypted += tmp.InOctetsDecrypted;
-@@ -2881,9 +2881,9 @@ static void get_tx_sc_stats(struct net_d
+@@ -2883,9 +2883,9 @@ static void get_tx_sc_stats(struct net_d
  
  		stats = per_cpu_ptr(macsec_priv(dev)->secy.tx_sc.stats, cpu);
  		do {
@@ -1733,7 +1733,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		sum->OutPktsProtected   += tmp.OutPktsProtected;
  		sum->OutPktsEncrypted   += tmp.OutPktsEncrypted;
-@@ -2937,9 +2937,9 @@ static void get_secy_stats(struct net_de
+@@ -2939,9 +2939,9 @@ static void get_secy_stats(struct net_de
  
  		stats = per_cpu_ptr(macsec_priv(dev)->stats, cpu);
  		do {
