@@ -280,7 +280,7 @@ UBOOT_TARGETS := \
 	mt7986_bananapi_bpi-r3-sdmmc \
 	mt7986_bananapi_bpi-r3-snand \
 	mt7986_bananapi_bpi-r3-nor \
-  mt7986_glinet_gl-mt6000 \
+	mt7986_glinet_gl-mt6000 \
 	mt7986_xiaomi_redmi-router-ax6000 \
 	mt7986_rfb
 
