@@ -279,7 +279,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  static void bcm_sysport_netif_start(struct net_device *dev)
 --- a/drivers/net/ethernet/cortina/gemini.c
 +++ b/drivers/net/ethernet/cortina/gemini.c
-@@ -1919,7 +1919,7 @@ static void gmac_get_stats64(struct net_
+@@ -1941,7 +1941,7 @@ static void gmac_get_stats64(struct net_
  
  	/* Racing with RX NAPI */
  	do {
@@ -288,7 +288,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		stats->rx_packets = port->stats.rx_packets;
  		stats->rx_bytes = port->stats.rx_bytes;
-@@ -1931,11 +1931,11 @@ static void gmac_get_stats64(struct net_
+@@ -1953,11 +1953,11 @@ static void gmac_get_stats64(struct net_
  		stats->rx_crc_errors = port->stats.rx_crc_errors;
  		stats->rx_frame_errors = port->stats.rx_frame_errors;
  
@@ -302,7 +302,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		stats->tx_errors = port->stats.tx_errors;
  		stats->tx_packets = port->stats.tx_packets;
-@@ -1945,15 +1945,15 @@ static void gmac_get_stats64(struct net_
+@@ -1967,15 +1967,15 @@ static void gmac_get_stats64(struct net_
  		stats->rx_missed_errors = port->stats.rx_missed_errors;
  		stats->rx_fifo_errors = port->stats.rx_fifo_errors;
  
@@ -321,7 +321,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  	stats->rx_dropped += stats->rx_missed_errors;
  }
-@@ -2031,18 +2031,18 @@ static void gmac_get_ethtool_stats(struc
+@@ -2044,18 +2044,18 @@ static void gmac_get_ethtool_stats(struc
  	/* Racing with MIB interrupt */
  	do {
  		p = values;
@@ -343,7 +343,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		for (i = 0; i < RX_STATUS_NUM; i++)
  			*p++ = port->rx_stats[i];
-@@ -2050,13 +2050,13 @@ static void gmac_get_ethtool_stats(struc
+@@ -2063,13 +2063,13 @@ static void gmac_get_ethtool_stats(struc
  			*p++ = port->rx_csum_stats[i];
  		*p++ = port->rx_napi_exits;
  
@@ -359,7 +359,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		for (i = 0; i < TX_MAX_FRAGS; i++) {
  			*values++ = port->tx_frag_stats[i];
-@@ -2065,7 +2065,7 @@ static void gmac_get_ethtool_stats(struc
+@@ -2078,7 +2078,7 @@ static void gmac_get_ethtool_stats(struc
  		*values++ = port->tx_frags_linearized;
  		*values++ = port->tx_hw_csummed;
  
@@ -1074,7 +1074,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		stats->rx_packets += rx_packets;
  		stats->rx_bytes   += rx_bytes;
-@@ -4762,7 +4762,7 @@ mvneta_ethtool_update_pcpu_stats(struct
+@@ -4765,7 +4765,7 @@ mvneta_ethtool_update_pcpu_stats(struct
  
  		stats = per_cpu_ptr(pp->stats, cpu);
  		do {
@@ -1083,7 +1083,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  			skb_alloc_error = stats->es.skb_alloc_error;
  			refill_error = stats->es.refill_error;
  			xdp_redirect = stats->es.ps.xdp_redirect;
-@@ -4772,7 +4772,7 @@ mvneta_ethtool_update_pcpu_stats(struct
+@@ -4775,7 +4775,7 @@ mvneta_ethtool_update_pcpu_stats(struct
  			xdp_xmit_err = stats->es.ps.xdp_xmit_err;
  			xdp_tx = stats->es.ps.xdp_tx;
  			xdp_tx_err = stats->es.ps.xdp_tx_err;
