@@ -10,7 +10,6 @@ rockchip_setup_interfaces()
 	case "$board" in
 	embedfire,doornet1|\
 	embedfire,doornet2|\
-	embedfire,lubancat1|\
 	embedfire,lubancat1n|\
 	embedfire,lubancat2|\
 	hinlink,opc-h66k|\
