@@ -24,7 +24,7 @@ Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 
 --- a/drivers/mmc/core/core.c
 +++ b/drivers/mmc/core/core.c
-@@ -1368,6 +1368,8 @@ void mmc_power_off(struct mmc_host *host
+@@ -1373,6 +1373,8 @@ void mmc_power_off(struct mmc_host *host
  
  	mmc_set_initial_signal_voltage(host);
  

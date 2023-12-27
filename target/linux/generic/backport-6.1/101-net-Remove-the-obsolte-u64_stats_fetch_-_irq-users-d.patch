@@ -117,7 +117,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  static void ena_queue_stats(struct ena_adapter *adapter, u64 **data)
 --- a/drivers/net/ethernet/amazon/ena/ena_netdev.c
 +++ b/drivers/net/ethernet/amazon/ena/ena_netdev.c
-@@ -3308,10 +3308,10 @@ static void ena_get_stats64(struct net_d
+@@ -3312,10 +3312,10 @@ static void ena_get_stats64(struct net_d
  		tx_ring = &adapter->tx_ring[i];
  
  		do {
@@ -130,7 +130,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		stats->tx_packets += packets;
  		stats->tx_bytes += bytes;
-@@ -3319,20 +3319,20 @@ static void ena_get_stats64(struct net_d
+@@ -3323,20 +3323,20 @@ static void ena_get_stats64(struct net_d
  		rx_ring = &adapter->rx_ring[i];
  
  		do {
@@ -157,7 +157,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	stats->tx_dropped = tx_drops;
 --- a/drivers/net/ethernet/aquantia/atlantic/aq_ring.c
 +++ b/drivers/net/ethernet/aquantia/atlantic/aq_ring.c
-@@ -948,7 +948,7 @@ unsigned int aq_ring_fill_stats_data(str
+@@ -957,7 +957,7 @@ unsigned int aq_ring_fill_stats_data(str
  		/* This data should mimic aq_ethtool_queue_rx_stat_names structure */
  		do {
  			count = 0;
@@ -166,7 +166,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  			data[count] = self->stats.rx.packets;
  			data[++count] = self->stats.rx.jumbo_packets;
  			data[++count] = self->stats.rx.lro_packets;
-@@ -965,15 +965,15 @@ unsigned int aq_ring_fill_stats_data(str
+@@ -974,15 +974,15 @@ unsigned int aq_ring_fill_stats_data(str
  			data[++count] = self->stats.rx.xdp_tx;
  			data[++count] = self->stats.rx.xdp_invalid;
  			data[++count] = self->stats.rx.xdp_redirect;
@@ -1806,7 +1806,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  static int
 --- a/drivers/net/team/team.c
 +++ b/drivers/net/team/team.c
-@@ -1866,13 +1866,13 @@ team_get_stats64(struct net_device *dev,
+@@ -1868,13 +1868,13 @@ team_get_stats64(struct net_device *dev,
  	for_each_possible_cpu(i) {
  		p = per_cpu_ptr(team->pcpu_stats, i);
  		do {

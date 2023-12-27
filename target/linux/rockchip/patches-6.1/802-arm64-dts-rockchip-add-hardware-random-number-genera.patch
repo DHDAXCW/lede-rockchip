@@ -31,7 +31,7 @@ Signed-off-by: wevsty <ty@wevs.org>
  		reg = <0x0 0xff100000 0x0 0x1000>;
 --- a/arch/arm64/boot/dts/rockchip/rk3399.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-@@ -2063,6 +2063,16 @@
+@@ -2065,6 +2065,16 @@
  		};
  	};
  
