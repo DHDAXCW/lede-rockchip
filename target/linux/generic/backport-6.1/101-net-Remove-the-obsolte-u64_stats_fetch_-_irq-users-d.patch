@@ -689,7 +689,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	*data += size;
 --- a/drivers/net/ethernet/intel/i40e/i40e_main.c
 +++ b/drivers/net/ethernet/intel/i40e/i40e_main.c
-@@ -419,10 +419,10 @@ static void i40e_get_netdev_stats_struct
+@@ -425,10 +425,10 @@ static void i40e_get_netdev_stats_struct
  	unsigned int start;
  
  	do {
@@ -702,7 +702,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  	stats->tx_packets += packets;
  	stats->tx_bytes   += bytes;
-@@ -472,10 +472,10 @@ static void i40e_get_netdev_stats_struct
+@@ -478,10 +478,10 @@ static void i40e_get_netdev_stats_struct
  		if (!ring)
  			continue;
  		do {
@@ -715,7 +715,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		stats->rx_packets += packets;
  		stats->rx_bytes   += bytes;
-@@ -897,10 +897,10 @@ static void i40e_update_vsi_stats(struct
+@@ -903,10 +903,10 @@ static void i40e_update_vsi_stats(struct
  			continue;
  
  		do {
@@ -728,7 +728,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  		tx_b += bytes;
  		tx_p += packets;
  		tx_restart += p->tx_stats.restart_queue;
-@@ -915,10 +915,10 @@ static void i40e_update_vsi_stats(struct
+@@ -921,10 +921,10 @@ static void i40e_update_vsi_stats(struct
  			continue;
  
  		do {
@@ -741,7 +741,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  		rx_b += bytes;
  		rx_p += packets;
  		rx_buf += p->rx_stats.alloc_buff_failed;
-@@ -935,10 +935,10 @@ static void i40e_update_vsi_stats(struct
+@@ -941,10 +941,10 @@ static void i40e_update_vsi_stats(struct
  				continue;
  
  			do {

@@ -34,3 +34,23 @@ Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
  	combphy0: phy@fe820000 {
  		compatible = "rockchip,rk3568-naneng-combphy";
  		reg = <0x0 0xfe820000 0x0 0x100>;
+
+--- a/arch/arm64/boot/dts/rockchip/rk3568.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3568.dtsi
+@@ -227,6 +227,16 @@
+ 		status = "okay";
+ 	};
+ 
++	rng: rng@fe388000 {
++		compatible = "rockchip,cryptov2-rng";
++		reg = <0x0 0xfe388000 0x0 0x2000>;
++		clocks = <&cru CLK_TRNG_NS>, <&cru HCLK_TRNG_NS>;
++		clock-names = "clk_trng", "hclk_trng";
++		resets = <&cru SRST_TRNG_NS>;
++		reset-names = "reset";
++		status = "disabled";
++	};
++
+ 	combphy0: phy@fe820000 {
+ 		compatible = "rockchip,rk3568-naneng-combphy";
+ 		reg = <0x0 0xfe820000 0x0 0x100>;
