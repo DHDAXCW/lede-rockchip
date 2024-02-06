@@ -10,8 +10,8 @@ rockchip_setup_interfaces()
 	case "$board" in
 	embedfire,doornet1|\
 	embedfire,doornet2|\
-	embedfire,lubancat1n|\
-	embedfire,lubancat2|\
+	embedfire,lubancat-1n|\
+	embedfire,lubancat-2|\
 	hinlink,opc-h66k|\
 	friendlyarm,nanopi-r2c|\
 	friendlyarm,nanopi-r2s|\
@@ -28,7 +28,7 @@ rockchip_setup_interfaces()
 		;;
 	hinlink,opc-h68k|\
 	hinlink,opc-h69k|\
-	embedfire,lubancat2n)
+	embedfire,lubancat-2n)
 		ucidef_set_interfaces_lan_wan "eth1 eth2 eth3" "eth0"
 		;;
 	*)
@@ -75,10 +75,10 @@ rockchip_setup_macs()
 	case "$board" in
 	embedfire,doornet1|\
 	embedfire,doornet2|\
-	embedfire,lubancat1|\
-	embedfire,lubancat1n|\
-	embedfire,lubancat2|\
-	embedfire,lubancat2n|\
+	embedfire,lubancat-1|\
+	embedfire,lubancat-1n|\
+	embedfire,lubancat-2|\
+	embedfire,lubancat-2n|\
 	hinlink,opc-h66k|\
 	hinlink,opc-h68k|\
 	hinlink,opc-h69k|\

@@ -29,7 +29,7 @@ define Device/embedfire_lubancat-1
   DEVICE_VENDOR := EmbedFire
   DEVICE_MODEL := LubanCat-1
   SOC := rk3566
-  UBOOT_DEVICE_NAME := lubancat1-rk3566
+  UBOOT_DEVICE_NAME := lubancat-1-rk3566
   IMAGE/sysupgrade.img.gz := boot-common | boot-script rk356x | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8125
 endef
@@ -39,7 +39,7 @@ define Device/embedfire_lubancat-1n
   DEVICE_VENDOR := EmbedFire
   DEVICE_MODEL := LubanCat-1N
   SOC := rk3566
-  UBOOT_DEVICE_NAME := lubancat1n-rk3566
+  UBOOT_DEVICE_NAME := lubancat-1n-rk3566
   IMAGE/sysupgrade.img.gz := boot-common | boot-script rk356x | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8169 -urngd kmod-ata-ahci
 endef
@@ -49,7 +49,7 @@ define Device/embedfire_lubancat-2
   DEVICE_VENDOR := EmbedFire
   DEVICE_MODEL := LubanCat-2
   SOC := rk3568
-  UBOOT_DEVICE_NAME := lubancat2-rk3568
+  UBOOT_DEVICE_NAME := lubancat-2-rk3568
   IMAGE/sysupgrade.img.gz := boot-common | boot-script rk356x | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core
 endef
@@ -59,7 +59,7 @@ define Device/embedfire_lubancat-2n
   DEVICE_VENDOR := EmbedFire
   DEVICE_MODEL := LubanCat-2N
   SOC := rk3568
-  UBOOT_DEVICE_NAME := lubancat2n-rk3568
+  UBOOT_DEVICE_NAME := lubancat-2n-rk3568
   IMAGE/sysupgrade.img.gz := boot-common | boot-script rk356x | pine64-img | gzip | append-metadata
   DEVICE_PACKAGES := kmod-r8125 kmod-ata-ahci kmod-ata-ahci-platform kmod-ata-core
 endef

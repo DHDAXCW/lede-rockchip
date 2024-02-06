@@ -90,8 +90,8 @@ friendlyarm,nanopi-r4se)
 	/usr/sbin/ethtool -K eth0 tso on sg on tx on
 	/usr/sbin/ethtool -K eth1 tso on sg on tx on
 	;;
-embedfire,lubancat1n|\
-embedfire,lubancat2)
+embedfire,lubancat-1n|\
+embedfire,lubancat-2)
 	set_interface_core "0-1" "eth0"
 	set_interface_core "2-3" "eth1"
 	/usr/sbin/ethtool -K eth0 tso on sg on tx on
@@ -165,7 +165,7 @@ friendlyarm,nanopi-r5s)
 	;;
 hinlink,opc-h68k|\
 hinlink,opc-h69k|\
-embedfire,lubancat2n)
+embedfire,lubancat-2n)
 	set_interface_core "0-3" "eth0"
 	set_interface_core "1" "eth1"
 	set_interface_core "2" "eth2-0"

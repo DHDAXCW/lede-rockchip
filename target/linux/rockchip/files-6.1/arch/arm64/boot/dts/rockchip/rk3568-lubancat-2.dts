@@ -13,7 +13,7 @@
 
 / {
 	model = "EmbedFire LubanCat 2";
-	compatible = "embedfire,lubancat2", "rockchip,rk3568";
+	compatible = "embedfire,lubancat-2", "rockchip,rk3568";
 
 	aliases {
 		ethernet0 = &gmac0;
