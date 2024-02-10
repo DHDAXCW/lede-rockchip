@@ -87,14 +87,14 @@ Signed-off-by: Marty Jones <mj8263788@gmail.com>
  config TARGET_QUARTZ64_A_RK3566
  	bool "Quartz64 Model A RK3566 development board"
  	help
-@@ -39,6 +44,7 @@ config SYS_MALLOC_F_LEN
+@@ -34,6 +39,7 @@ config SYS_MALLOC_F_LEN
  
  source "board/rockchip/bpi-r2-pro-rk3568/Kconfig"
  source "board/rockchip/evb_rk3568/Kconfig"
 +source "board/friendlyelec/nanopi-r5s-rk3568/Kconfig"
  source "board/pine64/quartz64-a-rk3566/Kconfig"
- source "board/radxa/rock-3a-rk3568/Kconfig"
  
+ endif
 --- /dev/null
 +++ b/board/friendlyelec/nanopi-r5s-rk3568/Kconfig
 @@ -0,0 +1,15 @@

@@ -1,6 +1,6 @@
 --- a/arch/arm/dts/Makefile
 +++ b/arch/arm/dts/Makefile
-@@ -175,9 +175,10 @@ dtb-$(CONFIG_ROCKCHIP_RK3568) += \
+@@ -175,6 +175,7 @@ dtb-$(CONFIG_ROCKCHIP_RK3568) += \
  	rk3568-opc-h68k.dtb \
  	rk3568-mrkaio-m68s.dtb \
  	rk3568-nanopi-r5s.dtb \
@@ -8,9 +8,6 @@
  	rk3566-quartz64-a.dtb \
  	rk3568-rock-3a.dtb
  
- dtb-$(CONFIG_ROCKCHIP_RV1108) += \
- 	rv1108-elgin-r1.dtb \
- 	rv1108-evb.dtb
 --- /dev/null
 +++ b/arch/arm/dts/rk3568-nanopi-r5c-u-boot.dtsi
 @@ -0,0 +1,25 @@
@@ -39,12 +36,24 @@
 +	u-boot,dm-spl;
 +	status = "okay";
 +};
+--- /dev/null
++++ b/arch/arm/dts/rk3568-nanopi-r5c.dts
+@@ -0,0 +1,9 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++
++/dts-v1/;
++#include "rk3568-evb.dts"
++
++/ {
++	model = "FriendlyElec NanoPi R5C";
++	compatible = "friendlyelec,nanopi-r5c", "rockchip,rk3568";
++};
 --- a/arch/arm/mach-rockchip/rk3568/Kconfig
 +++ b/arch/arm/mach-rockchip/rk3568/Kconfig
 @@ -18,6 +18,11 @@ config TARGET_NANOPI_R5S_RK3568
  	help
  	  NanoPi R5S FriendlyElec is a board for Rockchp RK3568.
-
+ 
 +config TARGET_NANOPI_R5C_RK3568
 +	bool "NanoPi R5C board"
 +	help
@@ -59,7 +68,7 @@
  source "board/friendlyelec/nanopi-r5s-rk3568/Kconfig"
 +source "board/friendlyelec/nanopi-r5c-rk3568/Kconfig"
  source "board/pine64/quartz64-a-rk3566/Kconfig"
-
+ 
  endif
 --- /dev/null
 +++ b/board/friendlyelec/nanopi-r5c-rk3568/Kconfig
@@ -211,15 +220,3 @@
 +			"stderr=serial,vidconsole\0"
 +
 +#endif
---- /dev/null
-+++ b/arch/arm/dts/rk3568-nanopi-r5c.dts
-@@ -0,0 +1,9 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+
-+/dts-v1/;
-+#include "rk3568-evb.dts"
-+
-+/ {
-+	model = "FriendlyElec NanoPi R5C";
-+	compatible = "friendlyelec,nanopi-r5c", "rockchip,rk3568";
-+};

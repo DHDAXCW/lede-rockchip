@@ -1,6 +1,6 @@
 --- a/arch/arm/dts/Makefile
 +++ b/arch/arm/dts/Makefile
-@@ -121,6 +121,7 @@ dtb-$(CONFIG_ROCKCHIP_RK3368) += \
+@@ -140,6 +140,7 @@ dtb-$(CONFIG_ROCKCHIP_RK3368) += \
  	rk3368-px5-evb.dtb \
  
  dtb-$(CONFIG_ROCKCHIP_RK3399) += \

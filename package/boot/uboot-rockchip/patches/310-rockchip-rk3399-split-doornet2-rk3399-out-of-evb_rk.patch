@@ -1,9 +1,136 @@
+--- a/arch/arm/dts/rk3399-sdram-ddr3-1333.dtsi
++++ b/arch/arm/dts/rk3399-sdram-ddr3-1333.dtsi
+@@ -4,7 +4,9 @@
+  */
+ 
+ &dmc {
+-        rockchip,sdram-params = <
++	ddr3-1333 {
++	u-boot,dm-pre-reloc;
++	rockchip,sdram-params = <
+ 		0x1
+ 		0xa
+ 		0x3
+@@ -1536,5 +1538,5 @@
+ 		0x01010000
+ 		0x00000000
+ 	>;
++	};
+ };
+-
+--- a/arch/arm/dts/rk3399-sdram-ddr3-1600.dtsi
++++ b/arch/arm/dts/rk3399-sdram-ddr3-1600.dtsi
+@@ -4,7 +4,9 @@
+  */
+ 
+ &dmc {
+-        rockchip,sdram-params = <
++	ddr3-1600 {
++	u-boot,dm-pre-reloc;
++	rockchip,sdram-params = <
+ 		0x1
+ 		0xa
+ 		0x3
+@@ -1536,4 +1538,5 @@
+ 		0x01010000
+ 		0x00000000
+ 	>;
++	};
+ };
+--- a/arch/arm/dts/rk3399-sdram-ddr3-1866.dtsi
++++ b/arch/arm/dts/rk3399-sdram-ddr3-1866.dtsi
+@@ -4,7 +4,9 @@
+  */
+ 
+ &dmc {
+-        rockchip,sdram-params = <
++	ddr3-1866 {
++	u-boot,dm-pre-reloc;
++	rockchip,sdram-params = <
+ 		0x1
+ 		0xa
+ 		0x3
+@@ -1536,5 +1538,5 @@
+ 		0x01010000
+ 		0x00000000
+ 	>;
++	};
+ };
+-
+--- a/arch/arm/dts/rk3399-sdram-lpddr3-2GB-1600.dtsi
++++ b/arch/arm/dts/rk3399-sdram-lpddr3-2GB-1600.dtsi
+@@ -5,6 +5,8 @@
+  */
+ 
+ &dmc {
++	lpddr3-2GB-1600 {
++	u-boot,dm-pre-reloc;
+ 	rockchip,sdram-params = <
+ 		0x1
+ 		0xa
+@@ -1537,4 +1539,5 @@
+ 		0x01010000
+ 		0x00000000
+ 	>;
++	};
+ };
+--- a/arch/arm/dts/rk3399-sdram-lpddr3-4GB-1600.dtsi
++++ b/arch/arm/dts/rk3399-sdram-lpddr3-4GB-1600.dtsi
+@@ -4,6 +4,8 @@
+  */
+ 
+ &dmc {
++	lpddr3-4GB-1600 {
++	u-boot,dm-pre-reloc;
+ 	rockchip,sdram-params = <
+ 		0x2
+ 		0xa
+@@ -1536,4 +1538,5 @@
+ 		0x01010000
+ 		0x00000000
+ 	>;
++	};
+ };
+--- a/arch/arm/dts/rk3399-sdram-lpddr3-samsung-4GB-1866.dtsi
++++ b/arch/arm/dts/rk3399-sdram-lpddr3-samsung-4GB-1866.dtsi
+@@ -4,6 +4,8 @@
+  */
+ 
+ &dmc {
++	lpddr3-samsung-4GB-1866 {
++	u-boot,dm-pre-reloc;
+ 	rockchip,sdram-params = <
+ 		0x2
+ 		0xa
+@@ -1543,4 +1545,5 @@
+ 		0x01010000	/* DENALI_PHY_957_DATA */
+ 		0x00000000	/* DENALI_PHY_958_DATA */
+ 	>;
++	};
+ };
+--- a/arch/arm/dts/rk3399-sdram-lpddr4-100.dtsi
++++ b/arch/arm/dts/rk3399-sdram-lpddr4-100.dtsi
+@@ -6,6 +6,8 @@
+  */
+ 
+ &dmc {
++	lpddr4-100 {
++	u-boot,dm-pre-reloc;
+ 	rockchip,sdram-params = <
+ 		0x2
+ 		0xa
+@@ -1538,4 +1540,5 @@
+ 		0x01010000
+ 		0x00000000
+ 	>;
++	};
+ };
 --- a/arch/arm/mach-rockchip/rk3399/Kconfig
 +++ b/arch/arm/mach-rockchip/rk3399/Kconfig
-@@ -109,6 +109,21 @@ config TARGET_ROC_PC_RK3399
+@@ -120,6 +120,21 @@ config TARGET_ROC_PC_RK3399
  	   * wide voltage input(5V-15V), dual cell battery
  	   * Wifi/BT accessible via expansion board M.2
-
+ 
 +config TARGET_DOORNET2_RK3399
 +	bool "EmbedFire DoorNet2 board"
 +	help
@@ -20,12 +147,12 @@
 +	   * USB 2.0 Wifi module
 +
  endchoice
-
+ 
  config ROCKCHIP_BOOT_MODE_REG
-@@ -151,6 +166,7 @@ config SYS_BOOTCOUNT_ADDR
-
+@@ -165,6 +180,7 @@ config SYS_BOOTCOUNT_ADDR
+ 
  endif # BOOTCOUNT_LIMIT
-
+ 
 +source "board/embedfire/doornet2/Kconfig"
  source "board/firefly/roc-pc-rk3399/Kconfig"
  source "board/google/gru/Kconfig"
@@ -48,6 +175,14 @@
 +	def_bool y
 +
 +endif
+--- /dev/null
++++ b/board/embedfire/doornet2/MAINTAINERS
+@@ -0,0 +1,5 @@
++DoorNet2 Series
++M:      embedfire <support@embedfire.com>
++S:      Maintained
++F:      board/embedfire/doornet2/
++F:      include/configs/doornet2.h
 --- /dev/null
 +++ b/board/embedfire/doornet2/Makefile
 @@ -0,0 +1,6 @@
@@ -381,14 +516,6 @@
 +
 +
 --- /dev/null
-+++ b/board/embedfire/doornet2/MAINTAINERS
-@@ -0,0 +1,5 @@
-+DoorNet2 Series
-+M:      embedfire <support@embedfire.com>
-+S:      Maintained
-+F:      board/embedfire/doornet2/
-+F:      include/configs/doornet2.h
---- /dev/null
 +++ b/board/embedfire/doornet2/hwrev.h
 @@ -0,0 +1,25 @@
 +/*
@@ -425,166 +552,11 @@
 +
 +	rk3399_saradc_set_clk(cru, 1000000);
  }
-
+ 
  static int rk3399_clk_probe(struct udevice *dev)
---- /dev/null
-+++ b/include/configs/doornet2.h
-@@ -0,0 +1,25 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * Copyright (C) Guangzhou FriendlyELEC Computer Tech. Co., Ltd.
-+ * (http://www.friendlyarm.com)
-+ *
-+ * (C) Copyright 2016 Rockchip Electronics Co., Ltd
-+ */
-+
-+#ifndef __CONFIG_DOORNET2_H__
-+#define __CONFIG_DOORNET2_H__
-+
-+#define ROCKCHIP_DEVICE_SETTINGS \
-+		"stdin=serial,usbkbd\0" \
-+		"stdout=serial,vidconsole\0" \
-+		"stderr=serial,vidconsole\0"
-+
-+#include <configs/rk3399_common.h>
-+
-+#define SDRAM_BANK_SIZE			(2UL << 30)
-+
-+#define CONFIG_SERIAL_TAG
-+#define CONFIG_REVISION_TAG
-+
-+#endif
-+
---- a/arch/arm/dts/rk3399-sdram-ddr3-1333.dtsi
-+++ b/arch/arm/dts/rk3399-sdram-ddr3-1333.dtsi
-@@ -4,7 +4,9 @@
-  */
-
- &dmc {
--        rockchip,sdram-params = <
-+	ddr3-1333 {
-+	u-boot,dm-pre-reloc;
-+	rockchip,sdram-params = <
- 		0x1
- 		0xa
- 		0x3
-@@ -1536,5 +1538,5 @@
- 		0x01010000
- 		0x00000000
- 	>;
-+	};
- };
--
---- a/arch/arm/dts/rk3399-sdram-ddr3-1600.dtsi
-+++ b/arch/arm/dts/rk3399-sdram-ddr3-1600.dtsi
-@@ -4,7 +4,9 @@
-  */
-
- &dmc {
--        rockchip,sdram-params = <
-+	ddr3-1600 {
-+	u-boot,dm-pre-reloc;
-+	rockchip,sdram-params = <
- 		0x1
- 		0xa
- 		0x3
-@@ -1536,4 +1538,5 @@
- 		0x01010000
- 		0x00000000
- 	>;
-+	};
- };
---- a/arch/arm/dts/rk3399-sdram-ddr3-1866.dtsi
-+++ b/arch/arm/dts/rk3399-sdram-ddr3-1866.dtsi
-@@ -4,7 +4,9 @@
-  */
-
- &dmc {
--        rockchip,sdram-params = <
-+	ddr3-1866 {
-+	u-boot,dm-pre-reloc;
-+	rockchip,sdram-params = <
- 		0x1
- 		0xa
- 		0x3
-@@ -1536,5 +1538,5 @@
- 		0x01010000
- 		0x00000000
- 	>;
-+	};
- };
--
---- a/arch/arm/dts/rk3399-sdram-lpddr3-2GB-1600.dtsi
-+++ b/arch/arm/dts/rk3399-sdram-lpddr3-2GB-1600.dtsi
-@@ -5,6 +5,8 @@
-  */
-
- &dmc {
-+	lpddr3-2GB-1600 {
-+	u-boot,dm-pre-reloc;
- 	rockchip,sdram-params = <
- 		0x1
- 		0xa
-@@ -1537,4 +1539,5 @@
- 		0x01010000
- 		0x00000000
- 	>;
-+	};
- };
---- a/arch/arm/dts/rk3399-sdram-lpddr3-4GB-1600.dtsi
-+++ b/arch/arm/dts/rk3399-sdram-lpddr3-4GB-1600.dtsi
-@@ -4,6 +4,8 @@
-  */
-
- &dmc {
-+	lpddr3-4GB-1600 {
-+	u-boot,dm-pre-reloc;
- 	rockchip,sdram-params = <
- 		0x2
- 		0xa
-@@ -1536,4 +1538,5 @@
- 		0x01010000
- 		0x00000000
- 	>;
-+	};
- };
---- a/arch/arm/dts/rk3399-sdram-lpddr3-samsung-4GB-1866.dtsi
-+++ b/arch/arm/dts/rk3399-sdram-lpddr3-samsung-4GB-1866.dtsi
-@@ -4,6 +4,8 @@
-  */
-
- &dmc {
-+	lpddr3-samsung-4GB-1866 {
-+	u-boot,dm-pre-reloc;
- 	rockchip,sdram-params = <
- 		0x2
- 		0xa
-@@ -1543,4 +1545,5 @@
- 		0x01010000	/* DENALI_PHY_957_DATA */
- 		0x00000000	/* DENALI_PHY_958_DATA */
- 	>;
-+	};
- };
---- a/arch/arm/dts/rk3399-sdram-lpddr4-100.dtsi
-+++ b/arch/arm/dts/rk3399-sdram-lpddr4-100.dtsi
-@@ -6,6 +6,8 @@
-  */
-
- &dmc {
-+	lpddr4-100 {
-+	u-boot,dm-pre-reloc;
- 	rockchip,sdram-params = <
- 		0x2
- 		0xa
-@@ -1538,4 +1540,5 @@
- 		0x01010000
- 		0x00000000
- 	>;
-+	};
- };
 --- a/drivers/ram/rockchip/sdram_rk3399.c
 +++ b/drivers/ram/rockchip/sdram_rk3399.c
-@@ -1625,7 +1625,6 @@ static void set_ddr_stride(struct rk3399_pmusgrf_regs *pmusgrf, u32 stride)
+@@ -1625,7 +1625,6 @@ static void set_ddr_stride(struct rk3399
  	rk_clrsetreg(&pmusgrf->soc_con4, 0x1f << 10, stride << 10);
  }
  
@@ -592,7 +564,7 @@
  static int data_training_first(struct dram_info *dram, u32 channel, u8 rank,
  			       struct rk3399_sdram_params *params)
  {
-@@ -1715,8 +1714,8 @@ void modify_param(const struct chan_info *chan,
+@@ -1715,8 +1714,8 @@ void modify_param(const struct chan_info
  	clrsetbits_le32(&denali_pi_params[76], 0x1 << 24, 0x1 << 24);
  	clrsetbits_le32(&denali_pi_params[77], 0x1, 0x1);
  }
@@ -602,7 +574,7 @@
  struct rk3399_sdram_params dfs_cfgs_lpddr4[] = {
  #include "sdram-rk3399-lpddr4-400.inc"
  #include "sdram-rk3399-lpddr4-800.inc"
-@@ -3011,22 +3010,43 @@ static int sdram_init(struct dram_info *dram,
+@@ -3011,22 +3010,43 @@ static int sdram_init(struct dram_info *
  	return 0;
  }
  
@@ -649,7 +621,7 @@
  	ret = regmap_init_mem(dev_ofnode(dev), &plat->map);
  	if (ret)
  		printf("%s: regmap failed %d\n", __func__, ret);
-@@ -3051,18 +3071,21 @@ static int conv_of_plat(struct udevice *dev)
+@@ -3051,18 +3071,21 @@ static int conv_of_plat(struct udevice *
  #endif
  
  static const struct sdram_rk3399_ops rk3399_ops = {
@@ -675,7 +647,7 @@
  
  static int rk3399_dmc_init(struct udevice *dev)
  {
-@@ -3081,7 +3104,17 @@ static int rk3399_dmc_init(struct udevice *dev)
+@@ -3081,7 +3104,17 @@ static int rk3399_dmc_init(struct udevic
  		return ret;
  #endif
  
@@ -694,3 +666,31 @@
  	priv->cic = syscon_get_first_range(ROCKCHIP_SYSCON_CIC);
  	priv->grf = syscon_get_first_range(ROCKCHIP_SYSCON_GRF);
  	priv->pmu = syscon_get_first_range(ROCKCHIP_SYSCON_PMU);
+--- /dev/null
++++ b/include/configs/doornet2.h
+@@ -0,0 +1,25 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * Copyright (C) Guangzhou FriendlyELEC Computer Tech. Co., Ltd.
++ * (http://www.friendlyarm.com)
++ *
++ * (C) Copyright 2016 Rockchip Electronics Co., Ltd
++ */
++
++#ifndef __CONFIG_DOORNET2_H__
++#define __CONFIG_DOORNET2_H__
++
++#define ROCKCHIP_DEVICE_SETTINGS \
++		"stdin=serial,usbkbd\0" \
++		"stdout=serial,vidconsole\0" \
++		"stderr=serial,vidconsole\0"
++
++#include <configs/rk3399_common.h>
++
++#define SDRAM_BANK_SIZE			(2UL << 30)
++
++#define CONFIG_SERIAL_TAG
++#define CONFIG_REVISION_TAG
++
++#endif
++
