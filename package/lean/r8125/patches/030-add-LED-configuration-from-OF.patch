@@ -1,7 +1,5 @@
-diff --git a/r8125_n.c b/r8125_n.c
-index 6079c6c..e1e97db 100644
---- a/r8125_n.c
-+++ b/r8125_n.c
+--- a/src/r8125_n.c
++++ b/src/r8125_n.c
 @@ -43,6 +43,7 @@
  #include <linux/etherdevice.h>
  #include <linux/delay.h>
@@ -10,7 +8,7 @@ index 6079c6c..e1e97db 100644
  #include <linux/if_vlan.h>
  #include <linux/crc32.h>
  #include <linux/interrupt.h>
-@@ -11479,6 +11480,23 @@ rtl8125_setup_mqs_reg(struct rtl8125_private *tp)
+@@ -14818,6 +14819,23 @@ rtl8125_setup_mqs_reg(struct rtl8125_pri
          }
  }
  
@@ -34,7 +32,7 @@ index 6079c6c..e1e97db 100644
  static void
  rtl8125_init_software_variable(struct net_device *dev)
  {
-@@ -11957,6 +11975,8 @@ rtl8125_init_software_variable(struct net_device *dev)
+@@ -15384,6 +15402,8 @@ rtl8125_init_software_variable(struct ne
          if (tp->InitRxDescType == RX_DESC_RING_TYPE_3)
                  tp->rtl8125_rx_config |= EnableRxDescV3;
  

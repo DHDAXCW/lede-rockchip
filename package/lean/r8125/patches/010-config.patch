@@ -1,7 +1,5 @@
-diff --git a/Makefile b/Makefile
-index 10a002a..4949577 100644
---- a/Makefile
-+++ b/Makefile
+--- a/src/Makefile
++++ b/src/Makefile
 @@ -35,16 +35,16 @@ ENABLE_REALWOW_SUPPORT = n
  ENABLE_DASH_SUPPORT = n
  ENABLE_DASH_PRINTER_SUPPORT = n
@@ -21,4 +19,4 @@ index 10a002a..4949577 100644
 +ENABLE_RSS_SUPPORT = y
  ENABLE_LIB_SUPPORT = n
  ENABLE_USE_FIRMWARE_FILE = n
- DISABLE_PM_SUPPORT = n
+ DISABLE_WOL_SUPPORT = n
