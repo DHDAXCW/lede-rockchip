@@ -93,8 +93,8 @@ define KernelPackage/vxlan
 	+IPV6:kmod-udptunnel6
   KCONFIG:=CONFIG_VXLAN
   FILES:= \
-	$(LINUX_DIR)/drivers/net/vxlan.ko@lt5.18 \
-	$(LINUX_DIR)/drivers/net/vxlan/vxlan.ko@ge5.18
+	$(LINUX_DIR)/drivers/net/vxlan.ko@lt5.5 \
+	$(LINUX_DIR)/drivers/net/vxlan/vxlan.ko@ge5.6
   AUTOLOAD:=$(call AutoLoad,13,vxlan)
 endef
 
@@ -715,7 +715,6 @@ define KernelPackage/sched-core
 	CONFIG_NET_ACT_GACT \
 	CONFIG_NET_ACT_MIRRED \
 	CONFIG_NET_ACT_SKBEDIT \
-  CONFIG_NET_ACT_SKBMOD \
 	CONFIG_NET_CLS_MATCHALL \
 	CONFIG_NET_EMATCH=y \
 	CONFIG_NET_EMATCH_U32
@@ -908,7 +907,6 @@ endef
 
 $(eval $(call KernelPackage,sched-ipset))
 
-
 define KernelPackage/sched-mqprio-common
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
   TITLE:=mqprio queue common dependencies support
@@ -923,7 +921,6 @@ define KernelPackage/sched-mqprio-common/description
 endef
 
 $(eval $(call KernelPackage,sched-mqprio-common))
-
 
 define KernelPackage/sched-mqprio
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
@@ -999,7 +996,7 @@ endef
 $(eval $(call KernelPackage,bpf-test))
 
 
-SCHED_MODULES_EXTRA = sch_codel sch_dsmark sch_gred sch_multiq sch_sfq sch_teql sch_fq act_pedit act_simple act_skbmod act_csum em_cmp em_nbyte em_meta em_text
+SCHED_MODULES_EXTRA = sch_codel sch_gred sch_multiq sch_sfq sch_teql sch_fq act_pedit act_simple act_skbmod act_csum em_cmp em_nbyte em_meta em_text
 SCHED_FILES_EXTRA = $(foreach mod,$(SCHED_MODULES_EXTRA),$(LINUX_DIR)/net/sched/$(mod).ko)
 
 define KernelPackage/sched
@@ -1016,7 +1013,7 @@ define KernelPackage/sched
 	CONFIG_NET_SCH_FQ \
 	CONFIG_NET_ACT_PEDIT \
 	CONFIG_NET_ACT_SIMP \
-  CONFIG_NET_ACT_SKBMOD \
+	CONFIG_NET_ACT_SKBMOD \
 	CONFIG_NET_ACT_CSUM \
 	CONFIG_NET_EMATCH_CMP \
 	CONFIG_NET_EMATCH_NBYTE \
@@ -1330,17 +1327,13 @@ $(eval $(call KernelPackage,mpls))
 define KernelPackage/9pnet
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
   TITLE:=Plan 9 Resource Sharing Support (9P2000)
-  DEPENDS:=@VIRTIO_SUPPORT
   KCONFIG:= \
 	CONFIG_NET_9P \
 	CONFIG_NET_9P_DEBUG=n \
-	CONFIG_NET_9P_XEN=n \
-	CONFIG_NET_9P_VIRTIO \
 	CONFIG_NET_9P_FD=n@ge5.17
   FILES:= \
-	$(LINUX_DIR)/net/9p/9pnet.ko \
-	$(LINUX_DIR)/net/9p/9pnet_virtio.ko
-  AUTOLOAD:=$(call AutoLoad,29,9pnet 9pnet_virtio)
+	$(LINUX_DIR)/net/9p/9pnet.ko
+  AUTOLOAD:=$(call AutoLoad,29,9pnet)
 endef
 
 define KernelPackage/9pnet/description
@@ -1349,6 +1342,25 @@ define KernelPackage/9pnet/description
 endef
 
 $(eval $(call KernelPackage,9pnet))
+
+define KernelPackage/9pvirtio
+  SUBMENU:=$(NETWORK_SUPPORT_MENU)
+  TITLE:=Plan 9 Virtio Support
+  DEPENDS:=+kmod-9pnet @VIRTIO_SUPPORT
+  KCONFIG:= \
+	CONFIG_NET_9P_XEN=n \
+	CONFIG_NET_9P_VIRTIO
+  FILES:= \
+	$(LINUX_DIR)/net/9p/9pnet_virtio.ko
+  AUTOLOAD:=$(call AutoLoad,29,9pnet_virtio)
+endef
+
+define KernelPackage/9pvirtio/description
+  Kernel support support for
+  Plan 9 resource sharing for virtio.
+endef
+
+$(eval $(call KernelPackage,9pvirtio))
 
 
 define KernelPackage/nlmon
@@ -1473,6 +1485,7 @@ define KernelPackage/wireguard
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
   TITLE:=WireGuard secure network tunnel
   DEPENDS:= \
+    +kmod-crypto-lib-blake2s \
 	  +kmod-crypto-lib-chacha20poly1305 \
 	  +kmod-crypto-lib-curve25519 \
 	  +kmod-udptunnel4 \
@@ -1547,7 +1560,7 @@ $(eval $(call KernelPackage,qrtr-tun))
 define KernelPackage/qrtr-smd
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
   TITLE:=SMD IPC Router channels
-  DEPENDS:=+kmod-qrtr @(TARGET_ipq60xx||TARGET_ipq807x)
+  DEPENDS:=+kmod-qrtr @TARGET_qualcommax
   KCONFIG:=CONFIG_QRTR_SMD
   FILES:= $(LINUX_DIR)/net/qrtr/qrtr-smd.ko
   AUTOLOAD:=$(call AutoProbe,qrtr-smd)
@@ -1573,19 +1586,3 @@ define KernelPackage/qrtr-mhi/description
 endef
 
 $(eval $(call KernelPackage,qrtr-mhi))
-
-define KernelPackage/xdp-sockets-diag
-  SUBMENU:=$(NETWORK_SUPPORT_MENU)
-  TITLE:=PF_XDP sockets monitoring interface support for ss utility
-  KCONFIG:= \
-	CONFIG_XDP_SOCKETS=y \
-	CONFIG_XDP_SOCKETS_DIAG
-  FILES:=$(LINUX_DIR)/net/xdp/xsk_diag.ko
-  AUTOLOAD:=$(call AutoLoad,31,xsk_diag)
-endef
-
-define KernelPackage/xdp-sockets-diag/description
- Support for PF_XDP sockets monitoring interface used by the ss tool
-endef
-
-$(eval $(call KernelPackage,xdp-sockets-diag))

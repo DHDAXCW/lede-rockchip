@@ -120,7 +120,6 @@ define KernelPackage/fs-cifs
 	$(LINUX_DIR)/fs/smb/client/cifs.ko@ge6.1
   AUTOLOAD:=$(call AutoLoad,30,cifs)
   $(call AddDepends/nls)
-  DEPENDS:=+LINUX_6_6:kmod-nls-ucs2-utils
   DEPENDS+= \
     +kmod-fs-smbfs-common \
     +kmod-crypto-md5 \
@@ -351,6 +350,7 @@ define KernelPackage/fs-jfs
   FILES:=$(LINUX_DIR)/fs/jfs/jfs.ko
   AUTOLOAD:=$(call AutoLoad,30,jfs,1)
   $(call AddDepends/nls)
+  DEPENDS:=+LINUX_6_6:kmod-nls-ucs2-utils
 endef
 
 define KernelPackage/fs-jfs/description
