@@ -147,7 +147,7 @@ Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
  	usb2phy3_grf: syscon@fd5dc000 {
  		compatible = "rockchip,rk3588-usb2phy-grf", "syscon", "simple-mfd";
  		reg = <0x0 0xfd5dc000 0x0 0x4000>;
-@@ -2218,6 +2260,37 @@
+@@ -2219,6 +2261,37 @@
  		#dma-cells = <1>;
  	};
  

@@ -9,7 +9,7 @@
  #define RK3568_GRF_SOC_STATUS0	0x580
  
  enum rk3568_pmu_plls {
-@@ -247,13 +249,13 @@ PNAME(dpll_gpll_cpll_p)			= { "dpll", "g
+@@ -248,13 +250,13 @@ PNAME(dpll_gpll_cpll_p)			= { "dpll", "g
  PNAME(clk_ddr1x_p)			= { "clk_ddrphy1x_src", "dpll" };
  PNAME(gpll200_gpll150_gpll100_xin24m_p)	= { "gpll_200m", "gpll_150m", "gpll_100m", "xin24m" };
  PNAME(gpll100_gpll75_gpll50_p)		= { "gpll_100m", "gpll_75m", "cpll_50m" };
@@ -30,7 +30,7 @@
  PNAME(mclk_pdm_p)			= { "gpll_300m", "cpll_250m", "gpll_200m", "gpll_100m" };
  PNAME(clk_i2c_p)			= { "gpll_200m", "gpll_100m", "xin24m", "cpll_100m" };
  PNAME(gpll200_gpll150_gpll100_p)	= { "gpll_200m", "gpll_150m", "gpll_100m" };
-@@ -307,6 +309,12 @@ PNAME(clk_mac_2top_p)			= { "cpll_125m",
+@@ -308,6 +310,12 @@ PNAME(clk_mac_2top_p)			= { "cpll_125m",
  PNAME(clk_pwm0_p)			= { "xin24m", "clk_pdpmu" };
  PNAME(aclk_rkvdec_pre_p)		= { "gpll", "cpll" };
  PNAME(clk_rkvdec_core_p)		= { "gpll", "cpll", "dummy_npll", "dummy_vpll" };
@@ -43,7 +43,7 @@
  
  static struct rockchip_pll_clock rk3568_pmu_pll_clks[] __initdata = {
  	[ppll] = PLL(pll_rk3328, PLL_PPLL, "ppll",  mux_pll_p,
-@@ -704,6 +712,19 @@ static struct rockchip_clk_branch rk3568
+@@ -705,6 +713,19 @@ static struct rockchip_clk_branch rk3568
  			RK3568_CLKSEL_CON(83), 15, 1, MFLAGS,
  			RK3568_CLKGATE_CON(7), 11, GFLAGS),
  

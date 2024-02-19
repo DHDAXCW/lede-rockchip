@@ -16,8 +16,8 @@
 	compatible = "embedfire,lubancat-2", "rockchip,rk3568";
 
 	aliases {
-		ethernet0 = &gmac0;
-		ethernet1 = &gmac1;
+		ethernet0 = &gmac1;
+		ethernet1 = &gmac0;
 		mmc0 = &sdmmc0;
 		mmc1 = &sdhci;
 	};
@@ -179,10 +179,6 @@
 
 &gpu {
 	mali-supply = <&vdd_gpu>;
-	status = "okay";
-};
-
-&rng {
 	status = "okay";
 };
 
@@ -487,13 +483,6 @@
 	status = "okay";
 };
 
-&mdio0 {
-	rgmii_phy0: phy@0 {
-		compatible = "ethernet-phy-ieee802.3-c22";
-		reg = <0x0>;
-	};
-};
-
 &gmac1 {
 	phy-mode = "rgmii";
 	clock_in_out = "output";
@@ -518,13 +507,6 @@
 
 	phy-handle = <&rgmii_phy1>;
 	status = "okay";
-};
-
-&mdio1 {
-	rgmii_phy1: phy@0 {
-		compatible = "ethernet-phy-ieee802.3-c22";
-		reg = <0x0>;
-	};
 };
 
 &pcie30phy {
@@ -623,6 +605,20 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&sdmmc0_bus4 &sdmmc0_clk &sdmmc0_cmd &sdmmc0_det>;
 	status = "okay";
+};
+
+&mdio0 {
+	rgmii_phy0: phy@0 {
+		compatible = "ethernet-phy-ieee802.3-c22";
+		reg = <0x0>;
+	};
+};
+
+&mdio1 {
+	rgmii_phy1: phy@0 {
+		compatible = "ethernet-phy-ieee802.3-c22";
+		reg = <0x0>;
+	};
 };
 
 /* USB OTG/USB Host_1 USB 2.0 Comb */

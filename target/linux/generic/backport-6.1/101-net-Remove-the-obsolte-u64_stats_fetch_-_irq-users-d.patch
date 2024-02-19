@@ -157,7 +157,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	stats->tx_dropped = tx_drops;
 --- a/drivers/net/ethernet/aquantia/atlantic/aq_ring.c
 +++ b/drivers/net/ethernet/aquantia/atlantic/aq_ring.c
-@@ -957,7 +957,7 @@ unsigned int aq_ring_fill_stats_data(str
+@@ -941,7 +941,7 @@ unsigned int aq_ring_fill_stats_data(str
  		/* This data should mimic aq_ethtool_queue_rx_stat_names structure */
  		do {
  			count = 0;
@@ -166,7 +166,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  			data[count] = self->stats.rx.packets;
  			data[++count] = self->stats.rx.jumbo_packets;
  			data[++count] = self->stats.rx.lro_packets;
-@@ -974,15 +974,15 @@ unsigned int aq_ring_fill_stats_data(str
+@@ -958,15 +958,15 @@ unsigned int aq_ring_fill_stats_data(str
  			data[++count] = self->stats.rx.xdp_tx;
  			data[++count] = self->stats.rx.xdp_invalid;
  			data[++count] = self->stats.rx.xdp_redirect;
@@ -960,7 +960,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
 --- a/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
 +++ b/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
-@@ -9051,10 +9051,10 @@ static void ixgbe_get_ring_stats64(struc
+@@ -9047,10 +9047,10 @@ static void ixgbe_get_ring_stats64(struc
  
  	if (ring) {
  		do {
@@ -973,7 +973,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  		stats->tx_packets += packets;
  		stats->tx_bytes   += bytes;
  	}
-@@ -9074,10 +9074,10 @@ static void ixgbe_get_stats64(struct net
+@@ -9070,10 +9070,10 @@ static void ixgbe_get_stats64(struct net
  
  		if (ring) {
  			do {
@@ -1094,7 +1094,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  		es->refill_error += refill_error;
 --- a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
 +++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-@@ -2008,7 +2008,7 @@ mvpp2_get_xdp_stats(struct mvpp2_port *p
+@@ -2033,7 +2033,7 @@ mvpp2_get_xdp_stats(struct mvpp2_port *p
  
  		cpu_stats = per_cpu_ptr(port->stats, cpu);
  		do {
@@ -1103,7 +1103,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  			xdp_redirect = cpu_stats->xdp_redirect;
  			xdp_pass   = cpu_stats->xdp_pass;
  			xdp_drop = cpu_stats->xdp_drop;
-@@ -2016,7 +2016,7 @@ mvpp2_get_xdp_stats(struct mvpp2_port *p
+@@ -2041,7 +2041,7 @@ mvpp2_get_xdp_stats(struct mvpp2_port *p
  			xdp_xmit_err   = cpu_stats->xdp_xmit_err;
  			xdp_tx   = cpu_stats->xdp_tx;
  			xdp_tx_err   = cpu_stats->xdp_tx_err;
@@ -1112,7 +1112,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		xdp_stats->xdp_redirect += xdp_redirect;
  		xdp_stats->xdp_pass   += xdp_pass;
-@@ -5115,12 +5115,12 @@ mvpp2_get_stats64(struct net_device *dev
+@@ -5140,12 +5140,12 @@ mvpp2_get_stats64(struct net_device *dev
  
  		cpu_stats = per_cpu_ptr(port->stats, cpu);
  		do {

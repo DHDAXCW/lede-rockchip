@@ -11,7 +11,7 @@ Signed-off-by: wevsty <ty@wevs.org>
 
 --- a/arch/arm64/boot/dts/rockchip/rk3328.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
-@@ -279,6 +279,17 @@
+@@ -281,6 +281,17 @@
  		status = "disabled";
  	};
  
@@ -31,7 +31,7 @@ Signed-off-by: wevsty <ty@wevs.org>
  		reg = <0x0 0xff100000 0x0 0x1000>;
 --- a/arch/arm64/boot/dts/rockchip/rk3399.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-@@ -2065,6 +2065,16 @@
+@@ -2106,6 +2106,16 @@
  		};
  	};
  
@@ -50,8 +50,8 @@ Signed-off-by: wevsty <ty@wevs.org>
  		reg = <0x0 0xff9a0000 0x0 0x10000>;
 --- a/arch/arm64/boot/dts/rockchip/rk3568.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk3568.dtsi
-@@ -227,6 +227,16 @@
- 		status = "okay";
+@@ -237,6 +237,16 @@
+ 		status = "disabled";
  	};
  
 +	rng: rng@fe388000 {
