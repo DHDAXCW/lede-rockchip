@@ -1524,7 +1524,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  static const struct net_device_ops axienet_netdev_ops = {
 --- a/drivers/net/hyperv/netvsc_drv.c
 +++ b/drivers/net/hyperv/netvsc_drv.c
-@@ -1264,12 +1264,12 @@ static void netvsc_get_vf_stats(struct n
+@@ -1268,12 +1268,12 @@ static void netvsc_get_vf_stats(struct n
  		unsigned int start;
  
  		do {
@@ -1539,7 +1539,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		tot->rx_packets += rx_packets;
  		tot->tx_packets += tx_packets;
-@@ -1294,12 +1294,12 @@ static void netvsc_get_pcpu_stats(struct
+@@ -1298,12 +1298,12 @@ static void netvsc_get_pcpu_stats(struct
  		unsigned int start;
  
  		do {
@@ -1554,7 +1554,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  		this_tot->rx_packets = this_tot->vf_rx_packets;
  		this_tot->tx_packets = this_tot->vf_tx_packets;
  		this_tot->rx_bytes   = this_tot->vf_rx_bytes;
-@@ -1318,20 +1318,20 @@ static void netvsc_get_pcpu_stats(struct
+@@ -1322,20 +1322,20 @@ static void netvsc_get_pcpu_stats(struct
  
  		tx_stats = &nvchan->tx_stats;
  		do {
@@ -1579,7 +1579,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		this_tot->rx_bytes	+= bytes;
  		this_tot->rx_packets	+= packets;
-@@ -1370,21 +1370,21 @@ static void netvsc_get_stats64(struct ne
+@@ -1374,21 +1374,21 @@ static void netvsc_get_stats64(struct ne
  
  		tx_stats = &nvchan->tx_stats;
  		do {
@@ -1605,7 +1605,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  
  		t->rx_bytes	+= bytes;
  		t->rx_packets	+= packets;
-@@ -1527,24 +1527,24 @@ static void netvsc_get_ethtool_stats(str
+@@ -1531,24 +1531,24 @@ static void netvsc_get_ethtool_stats(str
  		tx_stats = &nvdev->chan_table[j].tx_stats;
  
  		do {

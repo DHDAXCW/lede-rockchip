@@ -140,3 +140,30 @@ define Device/friendlyarm_nanopi-r5c
   DEVICE_PACKAGES := kmod-r8125
 endef
 TARGET_DEVICES += friendlyarm_nanopi-r5c
+
+define Device/friendlyarm_nanopc-t6
+  DEVICE_VENDOR := FriendlyARM
+  DEVICE_MODEL := NanoPC T6
+  SOC := rk3588
+  BOOT_FLOW := pine64-img
+  DEVICE_PACKAGES := kmod-hwmon-pwmfan kmod-mt7921e kmod-r8125 wpad-openssl
+endef
+TARGET_DEVICES += friendlyarm_nanopc-t6
+
+define Device/friendlyarm_nanopi-r6s
+  DEVICE_VENDOR := FriendlyARM
+  DEVICE_MODEL := NanoPi R6S
+  SOC := rk3588s
+  BOOT_FLOW := pine64-img
+  DEVICE_PACKAGES := kmod-hwmon-pwmfan kmod-mt7921e kmod-r8125 wpad-openssl
+endef
+TARGET_DEVICES += friendlyarm_nanopi-r6s
+
+define Device/friendlyarm_nanopi-r6c
+  DEVICE_VENDOR := FriendlyARM
+  DEVICE_MODEL := NanoPi R6C
+  SOC := rk3588s
+  BOOT_FLOW := pine64-img
+  DEVICE_PACKAGES := kmod-hwmon-pwmfan kmod-mt7921e kmod-r8125 wpad-openssl
+endef
+TARGET_DEVICES += friendlyarm_nanopi-r6c

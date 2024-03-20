@@ -24,7 +24,7 @@ Signed-off-by: Tianling Shen <cnsztl@immortalwrt.org>
 +		};
 +		opp07 {
 +			opp-hz = /bits/ 64 <1800000000>;
-+			opp-microvolt = <1300000>;
++			opp-microvolt = <1275000>;
 +		};
  	};
  
@@ -35,11 +35,11 @@ Signed-off-by: Tianling Shen <cnsztl@immortalwrt.org>
  		};
 +		opp08 {
 +			opp-hz = /bits/ 64 <2016000000>;
-+			opp-microvolt = <1300000>;
++			opp-microvolt = <1250000>;
 +		};
 +		opp09 {
 +			opp-hz = /bits/ 64 <2208000000>;
-+			opp-microvolt = <1350000>;
++			opp-microvolt = <1325000>;
 +		};
  	};
  
