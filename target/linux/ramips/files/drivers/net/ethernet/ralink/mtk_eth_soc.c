@@ -889,8 +889,6 @@ static int fe_poll_rx(struct napi_struct *napi, int budget,
 	struct fe_rx_dma *rxd, trxd;
 	int done = 0, pad;
 
-	fe_reg_w32(rx_intr, FE_REG_FE_INT_STATUS);
-
 	if (netdev->features & NETIF_F_RXCSUM)
 		checksum_bit = soc->checksum_bit;
 	else
@@ -983,6 +981,9 @@ release_desc:
 		done++;
 	}
 
+	if (done < budget)
+		fe_reg_w32(rx_intr, FE_REG_FE_INT_STATUS);
+
 	return done;
 }
 
@@ -996,8 +997,6 @@ static int fe_poll_tx(struct fe_priv *priv, int budget, u32 tx_intr,
 	int done = 0;
 	u32 idx, hwidx;
 	struct fe_tx_ring *ring = &priv->tx_ring;
-
-	fe_reg_w32(tx_intr, FE_REG_FE_INT_STATUS);
 
 	idx = ring->tx_free_idx;
 	hwidx = fe_reg_r32(FE_REG_TX_DTX_IDX0);
@@ -1022,7 +1021,9 @@ static int fe_poll_tx(struct fe_priv *priv, int budget, u32 tx_intr,
 	if (idx == hwidx) {
 		/* read hw index again make sure no new tx packet */
 		hwidx = fe_reg_r32(FE_REG_TX_DTX_IDX0);
-		if (idx != hwidx)
+		if (idx == hwidx)
+			fe_reg_w32(tx_intr, FE_REG_FE_INT_STATUS);
+		else
 			*tx_again = 1;
 	} else {
 		*tx_again = 1;
@@ -1402,9 +1403,7 @@ static int __init fe_init(struct net_device *dev)
 
 	fe_reset_phy(priv);
 
-	mac_addr = of_get_mac_address(priv->dev->of_node);
-	if (!IS_ERR_OR_NULL(mac_addr))
-		ether_addr_copy(dev->dev_addr, mac_addr);
+	of_get_mac_address(priv->dev->of_node, dev->dev_addr);
 
 	/* If the mac address is invalid, use random mac address  */
 	if (!is_valid_ether_addr(dev->dev_addr)) {

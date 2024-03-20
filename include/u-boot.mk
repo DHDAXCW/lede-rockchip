@@ -1,5 +1,3 @@
-include $(INCLUDE_DIR)/prereq.mk
-
 PKG_NAME ?= u-boot
 
 ifndef PKG_SOURCE_PROTO
@@ -19,31 +17,6 @@ PKG_LICENSE:=GPL-2.0 GPL-2.0+
 PKG_LICENSE_FILES:=Licenses/README
 
 PKG_BUILD_PARALLEL ?= 1
-
-ifdef UBOOT_USE_BINMAN
-  $(eval $(call TestHostCommand,python3-pyelftools, \
-    Please install the Python3 elftools module, \
-    $(STAGING_DIR_HOST)/bin/python3 -c 'import elftools'))
-endif
-
-ifdef UBOOT_USE_INTREE_DTC
-  $(eval $(call TestHostCommand,python3-dev, \
-    Please install the python3-dev package, \
-    python3.11-config --includes 2>&1 | grep 'python3', \
-    python3.10-config --includes 2>&1 | grep 'python3', \
-    python3.9-config --includes 2>&1 | grep 'python3', \
-    python3.8-config --includes 2>&1 | grep 'python3', \
-    python3.7-config --includes 2>&1 | grep 'python3', \
-    python3-config --includes 2>&1 | grep -E 'python3\.([7-9]|[0-9][0-9])\.?'))
-
-  $(eval $(call TestHostCommand,python3-setuptools, \
-    Please install the Python3 setuptools module, \
-    $(STAGING_DIR_HOST)/bin/python3 -c 'import setuptools'))
-
-  $(eval $(call TestHostCommand,swig, \
-    Please install the swig package, \
-    swig -version))
-endif
 
 export GCC_HONOUR_COPTS=s
 
@@ -69,7 +42,6 @@ endef
 TARGET_DEP = TARGET_$(BUILD_TARGET)$(if $(BUILD_SUBTARGET),_$(BUILD_SUBTARGET))
 
 UBOOT_MAKE_FLAGS = \
-	PATH=$(STAGING_DIR_HOST)/bin:$(PATH) \
 	HOSTCC="$(HOSTCC)" \
 	HOSTCFLAGS="$(HOST_CFLAGS) $(HOST_CPPFLAGS) -std=gnu11" \
 	HOSTLDFLAGS="$(HOST_LDFLAGS)" \
@@ -111,14 +83,9 @@ endef
 
 define Build/Configure/U-Boot
 	+$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR) $(UBOOT_CONFIGURE_VARS) $(UBOOT_CONFIG)_config
-	$(if $(strip $(UBOOT_CUSTOMIZE_CONFIG)),
-		$(PKG_BUILD_DIR)/scripts/config --file $(PKG_BUILD_DIR)/.config $(UBOOT_CUSTOMIZE_CONFIG)
-		+$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR) $(UBOOT_CONFIGURE_VARS) oldconfig)
 endef
 
-ifndef UBOOT_USE_INTREE_DTC
-  DTC=$(wildcard $(LINUX_DIR)/scripts/dtc/dtc)
-endif
+DTC=$(wildcard $(LINUX_DIR)/scripts/dtc/dtc)
 
 define Build/Compile/U-Boot
 	+$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR) \

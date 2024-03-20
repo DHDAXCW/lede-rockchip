@@ -76,3 +76,4 @@ endef
 define Package/openssl/add-provider
   $(call Package/openssl/add-module,provider,$(1),/usr/lib/ossl-modules,$(2))
 endef
+
