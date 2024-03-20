@@ -114,8 +114,8 @@ embedfire,lubancat-2)
 	;;
 hinlink,opc-h66k|\
 friendlyarm,nanopi-r5c|\
-friendlyarm_nanopc-t6|\
-friendlyarm_nanopi-r6c)
+friendlyarm,nanopc-t6|\
+friendlyarm,nanopi-r6c)
 	set_interface_core "0-3" "eth0-0"
 	set_interface_core "0" "eth0-16"
 	set_interface_core "1" "eth0-18"
@@ -138,7 +138,7 @@ friendlyarm_nanopi-r6c)
 	/usr/sbin/ethtool -K eth0 tso on sg on tx on
 	/usr/sbin/ethtool -K eth1 tso on sg on tx on
 	;;
-friendlyarm_nanopi-r6s|\
+friendlyarm,nanopi-r6s|\
 friendlyarm,nanopi-r5s)
 	set_interface_core "0-3" "eth0"
 	set_interface_core "1" "eth1-0"

@@ -18,11 +18,11 @@ rockchip_setup_interfaces()
 	friendlyarm,nanopi-r4s|\
 	friendlyarm,nanopi-r4se|\
 	friendlyarm,nanopi-r5c|\
-	friendlyarm_nanopc-t6|\
-	friendlyarm_nanopi-r6c)
+	friendlyarm,nanopc-t6|\
+	friendlyarm,nanopi-r6c)
 		ucidef_set_interfaces_lan_wan 'eth1' 'eth0'
 		;;
-	friendlyarm_nanopi-r6s|\
+	friendlyarm,nanopi-r6s|\
 	friendlyarm,nanopi-r5s)
 		ucidef_set_interfaces_lan_wan "eth1 eth2" "eth0"
 		;;
@@ -89,9 +89,9 @@ rockchip_setup_macs()
 	friendlyarm,nanopi-r2s|\
 	friendlyarm,nanopi-r5c|\
 	friendlyarm,nanopi-r5s|\
-	friendlyarm_nanopc-t6|\
-	friendlyarm_nanopi-r6s|\
-	friendlyarm_nanopi-r6c)
+	friendlyarm,nanopc-t6|\
+	friendlyarm,nanopi-r6s|\
+	friendlyarm,nanopi-r6c)
 		wan_mac=$(generate_mac_from_mmc_cid)
 		lan_mac=$(macaddr_add "$wan_mac" +1)
 		;;
