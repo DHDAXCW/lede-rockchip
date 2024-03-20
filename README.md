@@ -13,6 +13,9 @@ friendlyarm_nanopi-r4s
 friendlyarm_nanopi-r4se
 friendlyarm_nanopi-r5s
 friendlyarm_nanopi-r5c
+friendlyarm_nanopi-r6c
+friendlyarm_nanopi-r6s
+friendlyarm_nanopc-t6
 hinlink_opc-h66k
 hinlink_opc-h68k
 hinlink_opc-h69k
@@ -20,9 +23,6 @@ hinlink_opc-h69k
 
 ### Next plan to add equipment:
 ```
-friendlyarm_nanopi-r6c
-friendlyarm_nanopi-r6s
-friendlyarm_nanopc-t6
 hinlink_h88k
 ```
 How to compile the OpenWrt firmware you need
