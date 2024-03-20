@@ -212,7 +212,7 @@ Signed-off-by: David Bauer <mail@david-bauer.net>
 +
 +		rtl8125_2: pcie@20,0 {
 +			reg = <0x000000 0 0 0 0>;
-+			label = "eth2";
++			label = "eth1";
 +		};
 +	};
  };
@@ -230,7 +230,7 @@ Signed-off-by: David Bauer <mail@david-bauer.net>
 +
 +		rtl8125_1: pcie@40,0 {
 +			reg = <0x000000 0 0 0 0>;
-+			label = "eth1";
++			label = "eth0";
 +		};
 +	};
  };
