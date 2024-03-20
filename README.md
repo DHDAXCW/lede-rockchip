@@ -33,7 +33,8 @@ Notice:
 2. Domestic users had better prepare a ladder before compiling
 3. Default login IP 192.168.1.1 password password
 
-2. Install compilation dependencies
+2. First install the Linux system, Debian 11 or Ubuntu LTS is recommended
+3. Install compilation dependencies
 
    ```bash
    sudo apt update -y
