@@ -188,6 +188,13 @@ define U-Boot/lubancat-5-rk3588
     embedfire_lubancat-5
 endef
 
+define U-Boot/h88k-rk3588
+  $(U-Boot/Default/rk3588)
+  NAME:=HINLINK H88K
+  BUILD_DEVICES:= \
+    hinlink_h88k
+endef
+
 # RK3588S boards
 
 define U-Boot/nanopi-r6c-rk3588s
@@ -231,7 +238,8 @@ UBOOT_TARGETS := \
   lubancat-1n-rk3566 \
   lubancat-2n-rk3568 \
   lubancat-4-rk3588s \
-  lubancat-5-rk3588
+  lubancat-5-rk3588 \
+  h88k-rk3588
 
 UBOOT_CONFIGURE_VARS += USE_PRIVATE_LIBGCC=yes
 

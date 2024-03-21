@@ -87,6 +87,15 @@ $(call Device/hinlink_common)
 endef
 TARGET_DEVICES += hinlink_opc-h69k
 
+define Device/hinlink_h88k
+  DEVICE_VENDOR := HINLINK
+  DEVICE_MODEL := H88K
+  SOC := rk3588
+  BOOT_FLOW := pine64-img
+  DEVICE_PACKAGES := kmod-ata-ahci-platform kmod-hwmon-pwmfan kmod-mt7921e kmod-r8125 wpad-openssl
+endef
+TARGET_DEVICES += hinlink_h88k
+
 define Device/friendlyarm_nanopi-r2c
   DEVICE_VENDOR := FriendlyARM
   DEVICE_MODEL := NanoPi R2C
