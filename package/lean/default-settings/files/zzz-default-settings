@@ -41,7 +41,6 @@ sed -i '/REDIRECT --to-ports 53/d' /etc/firewall.user
 # echo 'iptables -A OUTPUT -m string --string "api.installer.xiaomi.cn" --algo bm --to 65535 -j DROP' >> /etc/firewall.user
 
 sed -i '/option disabled/d' /etc/config/wireless
-sed -i '/set wireless.radio${devidx}.disabled/d' /lib/wifi/mac80211.sh
 
 sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
 echo "DISTRIB_REVISION='R24.03.20-D'" >> /etc/openwrt_release
