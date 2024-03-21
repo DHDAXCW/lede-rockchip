@@ -12,6 +12,7 @@ rockchip_setup_interfaces()
 	embedfire,doornet2|\
 	embedfire,lubancat-1n|\
 	embedfire,lubancat-2|\
+	embedfire,lubancat-5|\
 	hinlink,opc-h66k|\
 	friendlyarm,nanopi-r2c|\
 	friendlyarm,nanopi-r2s|\
@@ -85,6 +86,7 @@ rockchip_setup_macs()
 	embedfire,lubancat-1n|\
 	embedfire,lubancat-2|\
 	embedfire,lubancat-2n|\
+	embedfire,lubancat-5|\
 	hinlink,opc-h66k|\
 	hinlink,opc-h68k|\
 	hinlink,opc-h69k|\

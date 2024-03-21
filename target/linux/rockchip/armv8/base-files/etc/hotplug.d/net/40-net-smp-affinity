@@ -91,6 +91,7 @@ friendlyarm,nanopi-r4se)
 	/usr/sbin/ethtool -K eth1 tso on sg on tx on
 	;;
 embedfire,lubancat-1n|\
+embedfire,lubancat-5|\
 embedfire,lubancat-2)
 	set_interface_core "0-1" "eth0"
 	set_interface_core "2-3" "eth1"

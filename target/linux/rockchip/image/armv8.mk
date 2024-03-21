@@ -68,6 +68,15 @@ define Device/embedfire_lubancat-4
 endef
 TARGET_DEVICES += embedfire_lubancat-4
 
+define Device/embedfire_lubancat-5
+  DEVICE_VENDOR := EmbedFire
+  DEVICE_MODEL := LubanCat-5
+  SOC := rk3588
+  BOOT_FLOW := pine64-img
+  DEVICE_PACKAGES := kmod-ata-ahci-platform kmod-hwmon-pwmfan kmod-mt7921e kmod-r8125 wpad-openssl
+endef
+TARGET_DEVICES += embedfire_lubancat-5
+
 define Device/hinlink_common
   DEVICE_VENDOR := HINLINK
   BOOT_FLOW := pine64-img
