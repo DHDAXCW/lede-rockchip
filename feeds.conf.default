@@ -2,3 +2,4 @@ src-git packages https://github.com/DHDAXCW/packages
 src-git luci https://github.com/DHDAXCW/luci
 src-git routing https://github.com/coolsnowwolf/routing
 src-git telephony https://git.openwrt.org/feed/telephony.git
+src-git istore https://github.com/linkease/istore;main
