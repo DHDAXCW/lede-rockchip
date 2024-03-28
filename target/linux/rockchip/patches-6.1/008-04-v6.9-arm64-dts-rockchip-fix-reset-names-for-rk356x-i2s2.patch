@@ -28,7 +28,7 @@ Link: https://lore.kernel.org/r/20240227173526.710056-2-heiko@sntech.de
 
 --- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-@@ -1119,7 +1119,7 @@
+@@ -1120,7 +1120,7 @@
  		dmas = <&dmac1 4>, <&dmac1 5>;
  		dma-names = "tx", "rx";
  		resets = <&cru SRST_M_I2S2_2CH>;

@@ -23,10 +23,9 @@
  obj-$(CONFIG_LSI_ET1011C_PHY)	+= et1011c.o
  obj-$(CONFIG_LXT_PHY)		+= lxt.o
  obj-$(CONFIG_MARVELL_10G_PHY)	+= marvell10g.o
-
 --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-@@ -1730,7 +1730,7 @@ static int gmac_clk_enable(struct rk_priv_data *bsp_priv, bool enable)
+@@ -1730,7 +1730,7 @@ static int gmac_clk_enable(struct rk_pri
  				bsp_priv->ops->set_clock_selection(bsp_priv,
  					       bsp_priv->clock_input, true);
  
@@ -35,11 +34,9 @@
  			bsp_priv->clk_enabled = true;
  		}
  	} else {
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c b/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c
-index 7c26394f6..3b9e4db37 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c
-@@ -22,7 +22,7 @@ int dwmac4_dma_reset(void __iomem *ioaddr)
+@@ -22,7 +22,7 @@ int dwmac4_dma_reset(void __iomem *ioadd
  
  	return readl_poll_timeout(ioaddr + DMA_BUS_MODE, value,
  				 !(value & DMA_BUS_MODE_SFT_RESET),
@@ -48,4 +45,3 @@ index 7c26394f6..3b9e4db37 100644
  }
  
  void dwmac4_set_rx_tail_ptr(void __iomem *ioaddr, u32 tail_ptr, u32 chan)
- 

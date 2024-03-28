@@ -14,7 +14,7 @@ Signed-off-by: Mark Brown <broonie@kernel.org>
 
 --- a/sound/soc/rockchip/rockchip_i2s_tdm.c
 +++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
-@@ -1318,6 +1318,7 @@ static const struct of_device_id rockchi
+@@ -1019,6 +1019,7 @@ static const struct of_device_id rockchi
  	{ .compatible = "rockchip,rk1808-i2s-tdm", .data = &rk1808_i2s_soc_data },
  	{ .compatible = "rockchip,rk3308-i2s-tdm", .data = &rk3308_i2s_soc_data },
  	{ .compatible = "rockchip,rk3568-i2s-tdm", .data = &rk3568_i2s_soc_data },
@@ -22,7 +22,7 @@ Signed-off-by: Mark Brown <broonie@kernel.org>
  	{ .compatible = "rockchip,rv1126-i2s-tdm", .data = &rv1126_i2s_soc_data },
  	{},
  };
-@@ -1556,7 +1557,7 @@ static int rockchip_i2s_tdm_probe(struct
+@@ -1228,7 +1229,7 @@ static int rockchip_i2s_tdm_probe(struct
  	i2s_tdm->dev = &pdev->dev;
  
  	of_id = of_match_device(rockchip_i2s_tdm_match, &pdev->dev);
