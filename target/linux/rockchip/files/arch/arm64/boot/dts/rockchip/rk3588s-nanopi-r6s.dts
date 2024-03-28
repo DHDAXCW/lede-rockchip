@@ -183,7 +183,7 @@
 
 &gmac1 {
 	clock_in_out = "output";
-	label = "eth0";
+	label = "eth2";
 	phy-handle = <&rgmii_phy1>;
 	phy-mode = "rgmii-rxid";
 	pinctrl-names = "default";
@@ -277,7 +277,7 @@
 
 		rtl8125_2: pcie@30,0 {
 			reg = <0x000000 0 0 0 0>;
-			label = "eth2";
+			label = "eth0";
 		};
 	};
 };
