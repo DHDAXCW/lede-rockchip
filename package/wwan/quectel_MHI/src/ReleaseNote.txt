@@ -1,4 +1,10 @@
 Release Notes
+[V1.3.8]
+Date:   27/06/2024
+enhancement:
+  1. support SDX7x's PID/VID
+
+Release Notes
 [V1.3.7]
 Date:   27/03/2024
 enhancement:

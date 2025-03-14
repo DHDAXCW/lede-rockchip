@@ -24,8 +24,10 @@ LUCI_DEPENDS:=+luci-compat \
 		+kmod-pcie_mhi \
 		+pciutils \
 		+quectel-CM-5G \
+		+modemmanager \
+		+luci-proto-modemmanager \
 		+sms-tool \
-		+jq
+		+bc +jq
 
 define Package/luci-app-modem/conffiles
 /etc/config/modem

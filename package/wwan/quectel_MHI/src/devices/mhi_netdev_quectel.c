@@ -206,6 +206,8 @@ static void qmap_hex_dump(const char *tag, unsigned char *data, unsigned len) {
 }
 #endif
 
+#define MBIM_MUX_ID_SDX7X	112	//sdx7x is 112-126, others is 0-14
+
 static uint __read_mostly mhi_mbim_enabled = 0;
 module_param(mhi_mbim_enabled, uint, S_IRUGO);
 int mhi_netdev_mbin_enabled(void) { return mhi_mbim_enabled; }
@@ -341,6 +343,7 @@ struct mhi_netdev {
 #endif
 
 	MHI_MBIM_CTX mbim_ctx;
+	u32 mbim_mux_id;
 
 	u32 mru;
 	u32 max_mtu;
@@ -652,7 +655,7 @@ static struct sk_buff * add_mbim_hdr(struct sk_buff *skb, u8 mux_id) {
 	struct mhi_mbim_hdr *mhdr;
 	__le32 sign;
 	u8 *c;
-	u16 tci = mux_id - QUECTEL_QMAP_MUX_ID;
+	u16 tci = mux_id;
 	unsigned int skb_len = skb->len;
 
 	if (qmap_mode > 1)
@@ -1305,12 +1308,12 @@ static void rmnet_mbim_rx_handler(void *dev, struct sk_buff *skb_in)
 			goto error;
 		}
 
-		if ((qmap_mode == 1 && tci != 0) || (qmap_mode > 1 && tci > qmap_mode)) {
+		if ((qmap_mode == 1 && tci != mhi_netdev->mbim_mux_id) || (qmap_mode > 1 && (tci - mhi_netdev->mbim_mux_id) > qmap_mode)){
 			MSG_ERR("unsupported tci %d by now\n", tci);
 			goto error;
 		}
 		tci = abs(tci);
-		qmap_net = pQmapDev->mpQmapNetDev[qmap_mode == 1 ? 0 : tci - 1];
+		qmap_net = pQmapDev->mpQmapNetDev[qmap_mode == 1 ? 0 : tci - 1 - mhi_netdev->mbim_mux_id];
 
 		dpe16 = ndp16->dpe16;
 
@@ -2389,7 +2392,7 @@ static netdev_tx_t mhi_netdev_xmit(struct sk_buff *skb, struct net_device *dev)
 	}
 
 	if (mhi_netdev->net_type == MHI_NET_MBIM) {
-		if (add_mbim_hdr(skb, QUECTEL_QMAP_MUX_ID) == NULL) {
+		if (add_mbim_hdr(skb, mhi_netdev->mbim_mux_id) == NULL) {
 			dev_kfree_skb_any (skb);
 			return NETDEV_TX_OK;
 		}
@@ -2587,8 +2590,8 @@ static void mhi_netdev_get_drvinfo (struct net_device *ndev, struct ethtool_drvi
 {
 	//struct mhi_netdev *mhi_netdev = ndev_to_mhi(ndev);
 
-	strlcpy (info->driver, "pcie_mhi", sizeof info->driver);
-	strlcpy (info->version, PCIE_MHI_DRIVER_VERSION, sizeof info->version);
+	strscpy (info->driver, "pcie_mhi", sizeof info->driver);
+	strscpy (info->version, PCIE_MHI_DRIVER_VERSION, sizeof info->version);
 }
 
 static const struct ethtool_ops mhi_netdev_ethtool_ops = {
@@ -3162,10 +3165,12 @@ static void mhi_netdev_remove(struct mhi_device *mhi_dev)
 {
 	struct mhi_netdev *mhi_netdev = mhi_device_get_devdata(mhi_dev);
 	struct sk_buff *skb;
-	unsigned i;
 
 	MSG_LOG("Remove notification received\n");
+#ifndef MHI_NETDEV_ONE_CARD_MODE
+#ifndef	CONFIG_USE_RMNET_DATA_FOR_SKIP_MEMCPY
 
+	unsigned i;
 	write_lock_irq(&mhi_netdev->pm_lock);
 	mhi_netdev->enabled = false;
 	write_unlock_irq(&mhi_netdev->pm_lock);
@@ -3183,7 +3188,8 @@ static void mhi_netdev_remove(struct mhi_device *mhi_dev)
 		&& rtnl_dereference(mhi_netdev->ndev->rx_handler) == rmnet_rx_handler)
 		netdev_rx_handler_unregister(mhi_netdev->ndev);
 	rtnl_unlock();
-
+#endif
+#endif
 	while ((skb = skb_dequeue (&mhi_netdev->skb_chain)))
 		dev_kfree_skb_any(skb);
 	while ((skb = skb_dequeue (&mhi_netdev->qmap_chain)))
@@ -3274,6 +3280,7 @@ static int mhi_netdev_probe(struct mhi_device *mhi_dev,
 		|| (mhi_dev->vendor == 0x1eac && mhi_dev->dev_id == 0x1004)
 		|| (mhi_dev->vendor == 0x17cb && mhi_dev->dev_id == 0x011a)
 		|| (mhi_dev->vendor == 0x1eac && mhi_dev->dev_id == 0x100b)
+		|| (mhi_dev->vendor == 0x17cb && mhi_dev->dev_id == 0x0309)
 	) {
 		mhi_netdev->qmap_version = 9;
 	}
@@ -3281,6 +3288,11 @@ static int mhi_netdev_probe(struct mhi_device *mhi_dev,
 		mhi_netdev->qmap_mode = 1;
 		mhi_netdev->qmap_version = 0; 
 		mhi_netdev->use_rmnet_usb = 0;
+	}
+
+	mhi_netdev->mbim_mux_id = 0;
+	if (mhi_dev->vendor == 0x17cb && mhi_dev->dev_id == 0x0309) {
+		mhi_netdev->mbim_mux_id = MBIM_MUX_ID_SDX7X;
 	}
 	rmnet_info_set(mhi_netdev, &mhi_netdev->rmnet_info);
 
@@ -3314,8 +3326,12 @@ static int mhi_netdev_probe(struct mhi_device *mhi_dev,
 		mhi_netdev->mpQmapNetDev[0] = mhi_netdev->ndev;
 		strcpy(mhi_netdev->rmnet_info.ifname[0], mhi_netdev->mpQmapNetDev[0]->name);
 		mhi_netdev->rmnet_info.mux_id[0] = QUECTEL_QMAP_MUX_ID;
+		if (mhi_mbim_enabled) {
+			mhi_netdev->rmnet_info.mux_id[0] = mhi_netdev->mbim_mux_id;
+		}
 	}
-#endif
+#else
+
 #ifdef CONFIG_USE_RMNET_DATA_FOR_SKIP_MEMCPY
 	else if (1) {
 		BUG_ON(mhi_netdev->net_type != MHI_NET_RMNET);
@@ -3327,7 +3343,10 @@ static int mhi_netdev_probe(struct mhi_device *mhi_dev,
 #endif
 	else if (mhi_netdev->use_rmnet_usb) {
 		for (i = 0; i < mhi_netdev->qmap_mode; i++) {
-			u8 mux_id = QUECTEL_QMAP_MUX_ID+i;
+			u8 mux_id = QUECTEL_QMAP_MUX_ID + i;
+			if (mhi_mbim_enabled) {
+				mux_id = mhi_netdev->mbim_mux_id + i;
+			}			
 			mhi_netdev->mpQmapNetDev[i] = rmnet_vnd_register_device(mhi_netdev, i, mux_id);
 			if (mhi_netdev->mpQmapNetDev[i]) {
 				strcpy(mhi_netdev->rmnet_info.ifname[i], mhi_netdev->mpQmapNetDev[i]->name);
@@ -3344,6 +3363,7 @@ static int mhi_netdev_probe(struct mhi_device *mhi_dev,
 
 #if defined(CONFIG_IPQ5018_RATE_CONTROL)
 	mhi_netdev->mhi_rate_control = 1;
+#endif
 #endif
 
 	return 0;
